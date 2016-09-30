@@ -2,26 +2,48 @@ package model;
 
 import java.time.LocalDate;
 import java.util.Collections;
-
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class Comment {
 
-	private User user;
+	private long id;
+	private String user;
+	private String videoName;
 	private String text;
 	private LocalDate date;
-	private TreeSet<Comment> replies ;
-	public Comment(User user, String text, LocalDate date) {
+	private HashSet<String> likes ;//username
+	public Comment(long id,String user, String text, LocalDate date,String videoName) {
 		this.user = user;
+		this.id = id;
 		this.text = text;
 		this.date = date;
-		this.replies = new TreeSet<Comment>((v1,v2)->v1.getDate().compareTo(v2.getDate()));
+		this.videoName = videoName;
+		this.likes = new HashSet<>();
 	}
-	public User getUser() {
+	
+	
+	public long getId() {
+		return id;
+	}
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+	public String getVideoName() {
+		return videoName;
+	}
+
+
+	public String getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(String user) {
 		this.user = user;
 	}
 	public String getText() {
@@ -37,15 +59,23 @@ public class Comment {
 		this.date = date;
 	}
 	
-	public void addComment(Comment com){
-		this.replies.add(com);
+	public boolean isLikeComment(String username){
+		if(likes.contains(username)){
+			return true;
+		}
+		return false;
 	}
 	
-	public void removeComment(Comment com ){
-		this.replies.remove(com);
+	
+	public void removeUserFromLikesComment(String username){
+		likes.remove(username);
 	}
-	public Set<Comment> showReplies(){
-		return (Set<Comment>) Collections.unmodifiableSet(replies);
+	public void addUserInLikesComment(String username ){
+		likes.add(username);
+	}
+	
+	public int likesOnComment(){
+		return likes.size();
 	}
 	
 	

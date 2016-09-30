@@ -12,11 +12,12 @@ import exception.CreateUserException;
 
 public class User {
 	public static final String DEFAULT_PROFILE_PICTURE = "..WebContent\\image\\profile-pic.jpg";
+	
 	private String name;
 	private String password;
 	private String profilePic;
 	private String email;
-	private String myChannel;
+	private Channel myChannel;
 	private List<Channel> subscriptions;
 	private TreeSet<History> history;
 	private List<Video> likedVideos;
@@ -69,7 +70,7 @@ public class User {
 		return Collections.unmodifiableList(this.subscriptions);
 	}
 
-	public String getMyChannel() {
+	public Channel getMyChannel() {
 		return myChannel;
 	}
 
@@ -85,8 +86,8 @@ public class User {
 		this.playList = playList;
 	}
 
-	public void setMyChannel(String myChannel) {
-		this.myChannel = myChannel;
+	public void setChannel(Channel ch){
+		this.myChannel = ch;
 	}
 
 	public String getName() {

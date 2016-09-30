@@ -1,41 +1,82 @@
 package model;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class Video {
 
 	private String name; 
-	private User uploader;
+	private String uploader;
 	private String category;
 	private TreeSet<Comment> comments;
-	private	HashMap<String, User> likes; //username ->User
-	private HashMap<String,User> dislikes ; 
+	private String description;
+	private	HashSet<String> likes; //username ->User
+	private HashSet<String> dislikes ; 
 	private int view;
-	public Video(String name, User uploader, String category, int view) {
-		super();
+	private String address;
+	private LocalDate date;
+	public Video(String name, String uploader, String category, int view,LocalDate date,String description,String address) {
 		this.name = name;
 		this.uploader = uploader;
+		this.address = address;
 		this.category = category;
 		this.view = view;
-		this.likes = new HashMap<>();
-		this.dislikes = new HashMap<>();
-		this.comments = new TreeSet<>();
+		this.date = date;
+		this.description = description;
+		this.likes = new HashSet<>();
+		this.dislikes = new HashSet<>();
+		this.comments = new TreeSet<Comment>((v1,v2)-> v1.getDate().compareTo(v2.getDate()));
 	}
+	
+	
+	
+	public String getAddress() {
+		return address;
+	}
+
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public User getUploader() {
+	public String getUploader() {
 		return uploader;
 	}
-	public void setUploader(User uploader) {
-		this.uploader = uploader;
-	}
+	
 	public String getCategory() {
 		return category;
 	}
@@ -60,19 +101,19 @@ public class Video {
 	public int commentsCount(){
 		return comments.size();
 	}
-	public void likeVideo(User user){
-		if(!likes.containsKey(user.getName())){
-			likes.put(user.getName(), user);
-			if(dislikes.containsKey(user.getName())){
-				dislikes.remove(user.getName());
+	public void likeVideo(String user){
+		if(!likes.contains(user)){
+			likes.add( user);
+			if(dislikes.contains(user)){
+				dislikes.remove(user);
 			}
 		}
 	}
-	public void dislikeVideo(User user){
-		if(!this.dislikes.containsKey(user.getName())){
-			this.dislikes.put(user.getName(), user);
-			if(likes.containsKey(user.getName())){
-				likes.remove(user.getName());
+	public void dislikeVideo(String user){
+		if(!this.dislikes.contains(user)){
+			this.dislikes.add(user);
+			if(likes.contains(user)){
+				likes.remove(user);
 			}
 		}
 	}

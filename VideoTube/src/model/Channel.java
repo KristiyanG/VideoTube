@@ -2,29 +2,37 @@ package model;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 
 public class Channel {
 
-	private User user ;
+	private String user ;
 	private String description;
-	private HashMap<String,User> subscribes;//username ->user
-	private HashMap<String,Video> videos;//title -> video
+	private HashSet<String> subscribes;//username ->user
+	private HashSet<String> videos;//title -> video
 	
-	
-	
-	public Channel(User user, String description) {
-		this.user = user;
+	public Channel(String user,String description) {
 		this.description = description;
-		this.videos= new HashMap<>();
-		this.subscribes= new HashMap<>();
+		this.user = user;
+		this.videos= new HashSet<>();
+		this.subscribes= new HashSet<>();
 		
 	}
-	public User getUser() {
+	
+	
+	
+	public Channel(String user) {
+		this.user = user;
+		this.videos= new HashSet<>();
+		this.subscribes= new HashSet<>();
+		
+	}
+	public String getName() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setName(String user) {
 		this.user = user;
 	}
 	public String getDescription() {
@@ -33,31 +41,31 @@ public class Channel {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public void addVideoInChannel(Video video){
-		this.videos.put(video.getName(), video);
+	public void addVideoInChannel(String videoName){
+		this.videos.add( videoName);
 	}
-	public void removeVideoFromChannel(Video video){
-		this.videos.remove(video.getName());
+	public void removeVideoFromChannel(String videoName){
+		this.videos.remove(videoName);
 	}
-	public List<Video> allVideosInChannel(){
-		return Collections.unmodifiableList((List<Video>) videos.values());
+	public List<String> allVideosInChannel(){
+		return Collections.unmodifiableList( (List<String>) videos);
 	}
-	public void addUserInChannel(User user){
-		this.subscribes.put(user.getName(), user);
+	public void addUserInChannel(String username){
+		this.subscribes.add( username);
 	}
-	public void removeUserFromChannel(User user){
-		this.subscribes.remove(user.getName());
+	public void removeUserFromChannel(String username){
+		this.subscribes.remove(username);
 	}
-	public User getUserByNameFromChannel(String name){
-		User u = null;
-		if(subscribes.containsKey(name)){
-			u =subscribes.get(name);
-		}
-		
-		return u;
-	}
-	public List<User> getAllUsersInChannel(){
-		return Collections.unmodifiableList((List<User>)subscribes.values());
+//	public User getUserByNameFromChannel(String name){
+//		User u = null;
+//		if(subscribes.contains(name)){
+//			u =subscribes.get(name);
+//		}
+//		
+//		return u;
+//	}
+	public List<String> getAllUsersInChannel(){
+		return Collections.unmodifiableList((List<String>)subscribes);
 	}
 	
 	public int usersInChannel(){
