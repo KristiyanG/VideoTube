@@ -122,6 +122,7 @@ public class UserDAO {
 		} else if (addInCollection(name, password, email)) {
 			return addInDB(name, password, email);
 		}
+
 		return false;
 	}
 
@@ -144,7 +145,6 @@ public class UserDAO {
 		} catch (SQLException e) {
 			System.out.println(e.getStackTrace());
 			return false;
-			
 		} finally {
 			try {
 				if (connection != null) {
@@ -154,6 +154,7 @@ public class UserDAO {
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	private boolean addInCollection(String name, String password, String email) throws CreateUserException {
@@ -165,4 +166,7 @@ public class UserDAO {
 	public boolean login(String username , String password){
 		return true;
 	}
+	
+
+	
 }
