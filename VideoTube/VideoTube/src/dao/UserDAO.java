@@ -114,8 +114,11 @@ public class UserDAO {
 	}
 
 	public boolean registerUser(String name, String password, String email) throws CreateUserException {
+		if(name.length()>12||name.length()<4){
+			throw new CreateUserException("Username must be >4 and < 12");
+		}
 		if (users.containsKey(name)) {
-			return false;
+			throw new CreateUserException("User with this username already exist !");
 		} else if (addInCollection(name, password, email)) {
 			return addInDB(name, password, email);
 		}
@@ -159,6 +162,11 @@ public class UserDAO {
 		users.put(name, user);
 		return true;
 	}
+	
+	public boolean login(String username , String password){
+		return true;
+	}
+	
 
 	
 }
