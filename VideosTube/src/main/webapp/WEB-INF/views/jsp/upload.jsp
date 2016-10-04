@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -33,13 +34,13 @@
 		</div>
 		<div class="buttons">
 			<button type="button" class="register-but">
-				<a style="color: white;" href="registerForm.html">Register</a>
+				<a style="color: white;" href="register">Register</a>
 			</button>
 			<button type="button" class="login-but">
-				<a href="loginForm.html">Login</a>
+				<a href="login">Login</a>
 			</button>
 			<button type="button" class="upload-but">
-				<a href="uploadVideo.html">Upload</a>
+				<a href="upload">Upload</a>
 			</button>
 		</div>
 
@@ -67,7 +68,7 @@
 		<div class="content">
 
 
-		<div class="panel panel-default">
+		<div class="panel panel-default">		 
 			<div class="panel-heading">
 				<h1>Upload Files</h1>
 			</div>
@@ -75,25 +76,51 @@
 
 				<!-- Standar Form -->
 				<h4>Select files from your computer</h4>
-				<form id="js-upload-form" enctype="multipart/form-data">
+				<form id="js-upload-form" enctype="multipart/form-data" method="POST">
 					<div class="form-inline">
 						<div class="form-group">
 							<input type="file" name="video" id="js-upload-files" 
 								accept="video/mp4" value="select file">
 						</div>
-						<input type="text">
+												
+						<div class="video-upload-name">
+						      <label for="comment" id="video-name-label">Video name:</label>
+						      <input class="form-control" rows="5" id="comment" maxlength="30" 
+						      		id="videoName" onblur="validateName(this)" name="videoName" placeholder="Type here..."></input>
+    					</div>
 						
-						</input><br>
+						<div class="video-category-drop">
+							<label>Category</label>
+							<select name="category">
+								<option>Autos and Vehicles</option>
+								<option>Comedy</option>
+								<option>Education</option>
+								<option>Film & Animation</option>
+								<option>Gaming</option>
+								<option>Howto & Style</option>
+								<option>Music</option>
+								<option>News & Politics</option>
+								<option>Nonprofits & Activism</option>
+								<option>People & Blogs</option>
+								<option>Pets & Animals</option>
+								<option>Science & Technology</option>
+								<option>Sports</option>
+								<option>Travel & Events</option>
+							</select>
+						</div><br>
+						<div class="video-upload-description">
+						      <label for="comment">Description:</label>
+						      <textarea class="form-control" rows="5" id="comment" name="description" maxlength="255" placeholder="Type here..."></textarea>
+    					</div>						
 						
-						
-						<button type="submit" name="submit" class="btn btn-sm btn-primary"
-							onclick="uploadByButton(this.form.video.value)"
+						<button type="submit" name="submit" class="btn btn-sm btn-primary"							
 							id="js-upload-submit">Upload files</button>
 					</div>
 				</form>
-
-
-
+				<br>
+				<h1 style="color:red;">${status}</h1>
+				
+				
 				<!-- Drop Zone
 				<h4>Or drag and drop files below</h4>
 				<div class="upload-drop-zone" id="drop-zone">Just drag and
@@ -115,8 +142,6 @@
 				</div>
 				-->
 				
-				
-				
 			</div>
 		</div>
 		</div>
@@ -124,6 +149,23 @@
 	</div>
 	<!----End-wrap---->
 	<script>
+		function validateName(input){
+
+			var regex = new RegExp("[^a-zA-Z_\n\r.0-9]+");
+			var status = document.getElementById("video-name-label")
+			
+			if(regex.test(input.value)){
+				input.style.backgroundColor = "#ff6666";
+				status.innerText = " Invalid video name";
+				status.style.color = "#ff6666";
+				
+			}else{
+				input.style.backgroundColor = "#66cc66";
+				status.innerText = "Video name";
+				status.style.color = "black";
+			}
+		}
+	
 		window.onload = function() {
 			var dropbox = document.getElementById("drop-zone");
 			dropbox.addEventListener("dragenter", noop, false);

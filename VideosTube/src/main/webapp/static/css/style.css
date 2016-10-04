@@ -1047,6 +1047,49 @@ ul.dc_paginationA03 li a:hover, ul.dc_paginationA03 li a.current {
 .copy-right p a:hover{
 	color:#fff;
 }
+/*  UPLOAD VIDEO  PAGE  */
+.video-upload-name label{
+	display:block;
+	color:black;
+	width: 200px;
+}
+.video-upload-name input{
+	display:block;
+	width: 200px;
+	height: 20px;
+	border-radius: 5px;
+}
+.video-category-drop{
+	top: 70px;
+	left: 230px;
+	position: absolute;
+}
+
+.video-category-drop label{
+	display:block;
+	color:black;
+}
+.video-category-drop select{
+	display:block;
+	height: 28px;
+	border-radius: 5px;
+}
+
+.video-upload-description{
+
+}
+.video-upload-description label{
+	display:block;
+	color: black;
+}
+
+.video-upload-description textarea{
+	display:block;
+	width: 360px;	
+	height: 100px;
+}
+
+
 
 /***** Media Quries *****/
 @media only screen and (max-width: 1024px) {

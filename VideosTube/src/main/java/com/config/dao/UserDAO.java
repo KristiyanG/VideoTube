@@ -14,8 +14,7 @@ import com.config.model.User;
 public class UserDAO {
 
 	private static HashMap<String, User> users = new HashMap<String, User>();// username -> user
-																			// -
-																				
+																																			
 	private static UserDAO instance;
 
 	private Connection connection;
@@ -32,15 +31,13 @@ public class UserDAO {
 		}
 		return instance;
 	}
-	
-	
 
 	private void loadUsers() {
 		try {
 
 			this.connection = DBManager.getInstance().getConnection();
 			Statement st = DBManager.getInstance().getConnection().createStatement();
-			ResultSet resultSet = st.executeQuery("SELECT username,password,profilePic,email FROM users;");
+			ResultSet resultSet = st.executeQuery("SELECT username, password, profilePic, email FROM users;");
 			while (resultSet.next()) {
 				User user = new User(resultSet.getString("username"),
 						resultSet.getString("password"), resultSet.getString("email"));
@@ -53,6 +50,7 @@ public class UserDAO {
 			}
 		} catch (SQLException e) {
 			System.out.println("Oops, cannot make statement.");
+			System.out.println(e.getMessage());
 
 		} catch (CreateUserException e) {
 			System.out.println(e.getMessage() + " error in loading users from DB ");
