@@ -38,8 +38,8 @@ body, html{
 }
 .panel{
 	position: relative;
-	top: -440px;
-	left: 250px
+	top: 0px;
+	left: 10px;
 	
 }
 
@@ -67,9 +67,9 @@ body, html{
     border: 1px solid #e1e8ed;
     border-radius: 6px;
     height: 200px;
-	width: 900px;
-	left: 230px;
-	top: -500px;
+	width: 840px;
+	left: 50px;
+	top: 10px;
 }
 .twPc-bg {
     background-image: url("https://pbs.twimg.com/profile_banners/50988711/1384539792/600x200");
@@ -158,16 +158,31 @@ ul.twPc-Arrange {
 }
 
 /* Channel end */
-.register-but{
-	position: relative;
-	float:right;
-	top: -540px;
-	left: 550px;
+div.buttons{
+	position: absolute;
+	right: 0;
+	left: 820px;
+	width: 500px;
+	top: 5px;
+	cursor: pointer;
+	
+}
+.upload-but{
 	height: 45px;
-	width: 163px;
+	width: 100px;
+	border-radius: 7px;
+	background-color: #FB8C00;
+	    cursor: pointer;
+	
+}
+.register-but{
+	height: 45px;
+	width: 100px;
 	border-radius: 7px;
 	background-color:  rgb(30, 93, 173);
 	color: white;
+	    cursor: pointer;
+	
 }
 .reg-butt-channel{
 	position: relative;
@@ -181,13 +196,11 @@ ul.twPc-Arrange {
 	color: white;
 }
 .login-but{
-	position: relative;
-	top: -540px;
-	left: 920px;
 	height: 45px;
-	width: 163px;
+	width: 100px;
 	border-radius: 7px;
 	background-color: #40D626;
+	    cursor: pointer;
 	
 }
 
@@ -314,7 +327,6 @@ input::-webkit-input-placeholder {
 	font-size: 0.9em;
 }
 .top-nav ul li:first-child{
-	border:none;
 }
 .top-nav ul li a{
 	color: #FFF;
@@ -329,10 +341,11 @@ input::-webkit-input-placeholder {
 	padding-top: 4px;
 }
 /*----content-----*/
+/* DIV BOX */
 .left-content{
 	position: relative;
-	top: -500px;
-	left: -120px;
+	top: 0px;
+	left: -350px;
 	width:70%;
 	float:right;
 	height: 70px;
@@ -444,8 +457,11 @@ input::-webkit-input-placeholder {
 }
 /*-----right-content-----*/
 .right-content{
+	position: relative;
 	float:right;
-	width: 29%;
+	right: 270px;
+	top: 10px;
+	width: 20%;
 }
 .popular h3{
 	text-align:left;
@@ -530,7 +546,12 @@ input::-webkit-input-placeholder {
 .r-all a:hover{
 	color:#555;
 }
-.content {
+/* DIV CONTENT */
+.content {  
+	width: 1175px;
+	top: -460px;
+	position: relative;
+	left: 240px;
 	padding-bottom: 30px;
 }
 .time{
@@ -610,7 +631,9 @@ input::-webkit-input-placeholder {
 	display:inline-block;
 }
 .views-count{
+	position: relative;
 	float:right;
+	right:200px;
 }
 .view-links h4,.views-count p{
 	color: rgb(155, 155, 155);

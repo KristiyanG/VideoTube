@@ -114,6 +114,7 @@ public class UserDAO {
 	}
 
 	public boolean registerUser(String name, String password, String email) throws CreateUserException {
+		System.out.println("Registe user in DAO");
 		if(name.length()>12||name.length()<4){
 			throw new CreateUserException("Username must be >4 and < 12");
 		}
@@ -131,7 +132,7 @@ public class UserDAO {
 		try {
 			this.connection = DBManager.getInstance().getConnection();
 
-			String sql = "insert into users(name,password,email) values(?,?,?);";
+			String sql = "insert into users(username,password,email) values(?,?,?);";
 			PreparedStatement stm = connection.prepareStatement(sql);
 			stm.setString(1, name);
 			stm.setString(2, password);
@@ -143,7 +144,7 @@ public class UserDAO {
 			return true;
 
 		} catch (SQLException e) {
-			System.out.println(e.getStackTrace());
+			System.out.println(e.getMessage());
 			return false;
 		} finally {
 			try {
@@ -164,7 +165,12 @@ public class UserDAO {
 	}
 	
 	public boolean login(String username , String password){
-		return true;
+		if(users.containsKey(username)){
+			if(users.get(username).isValidPassword(password)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 

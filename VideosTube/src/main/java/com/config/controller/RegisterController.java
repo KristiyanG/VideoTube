@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.config.dao.UserDAO;
+import com.config.exception.CreateUserException;
 import com.config.model.User;
 
 
@@ -20,11 +22,20 @@ public class RegisterController {
 	}
 
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String addReadyAddress(@ModelAttribute User user, Model model){
-		System.out.println(user.getUsername());
-		model.addAttribute("greeting", "Address created successfully");
-		return "hello";
+	public String addReadyAddress(@ModelAttribute("user") User user, Model model){
+		try {
+			UserDAO.getInstance().registerUser(user.getUsername(), user.getPassword(), user.getEmail());
+			
+		} catch (CreateUserException e) {
+			model.addAttribute("msg", e.getMessage());
+			return "register";
+		}
+		
+		return "home";
 	}
+	
+	
+	
 	
 	
 }

@@ -43,7 +43,7 @@
 			<!----start-Logo---->
 			
 <div class="logo">
-				<a href="index.html"><img src="web/images/logo.png" title="logo" /></a>
+				<a href="index.html"><img src="img/logo.png" title="logo" /></a>
 			</div>
 			<!----End-Logo---->
 			<!----start-top-nav---->
@@ -72,7 +72,7 @@
 		
 				<div class="main-login main-center">
 				
-					<sf:form class="form-horizontal" commandName="user">
+					<sf:form  class="form-horizontal" commandName="user">
 						
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">Username</label>
@@ -85,10 +85,6 @@
 								</div>
 							</div>
 							<div id="errLast"></div>
-						</div>
-
-		
-				<div class="form-group">
 							<label for="email" class="cols-sm-2 control-label">Your Email</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
@@ -98,41 +94,42 @@
 										placeholder="Enter your Email"/>
 								</div>
 							</div>
+							<!--  -->
 							<div class="status" id="status"></div>
-						</div>
-
-						<div class="form-group">
 							<label for="password" class="cols-sm-2 control-label">Password</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<sf:input type="password" path="password" class="form-control"    
+									<sf:input type="password" path="password" class="form-control"   id="pass" 
 											minlength="4" maxlength="16"  
-											  placeholder="Enter your Password"/>
+											 placeholder="Enter your Password"/>
 											
 								</div>
 							</div>
-						</div>
-
-						<div class="form-group">
+							
+							  
 							<label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" path="playlist" class="form-control" name="confirm" id="confirm"
+									<input type="password" class="form-control" name="confirm" id="confirm"
 										 minlength="4" maxlength="16" placeholder="Enter again to validate"  
 										 id="pass2" onkeyup="checkPass(); return false;"
 										 placeholder="Confirm your Password"/>
 								</div>
 							</div>
+							 
 						</div>
+
+		
+				
 							<span id="confirmMessage" class="confirmMessage"></span>
 						
 						<div class="form-group ">
 							<button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
 						</div>
 						<div class="login-register">
-				            <a  href="loginForm.html">Login</a>
+				            <a  href="login">Login</a>
 				         </div>
 					</sf:form>
 				</div>
