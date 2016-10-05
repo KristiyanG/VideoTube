@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
        <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="msg" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com
@@ -12,6 +14,11 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 <!DOCTYPE HTML>
 <html>
 	<head>
+	<%
+response.addHeader("Cache-Control", "no-cache,no-store,private,must-revalidate,max-stale=0,post-check=0,pre-check=0"); 
+response.addHeader("Pragma", "no-cache"); 
+response.addDateHeader ("Expires", 0);
+%>
 		<title>Videostube Website Template | Home :: W3layouts</title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
@@ -38,6 +45,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 
 		<title>Admin</title>
 	
+	
 </head>
 	<body>
 	<!----start-wrap---->
@@ -49,20 +57,50 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 				<div class="logo">
 					<a href="index.html"><img src="img/logo.png" title="logo" /></a>
 				</div>
+				<div class="searchbar">
+                    <div class="search-left">
+                        <p>Latest Video Form VideosTube</p>
+                    </div>
+                    <div class="search-right">
+                        <form>
+                            <input type="text" placeholder="Search videos"><input type="submit" value="" />
+                        </form>
+                    </div>
+                    <div class="clear"> </div>
+                </div>
+                 <div class="buttons">
+                 <c:if test="${sessionScope.user == null}" > 
+               
+                    <button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
+                    <button type="button" class="login-but"><a href="login">Login</a></button>
+                    </c:if>
+                    <c:if test="${sessionScope.user != null}">
+                    <button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
+                    <button type="button" class="login-but"><a href="myChannel"><c:out value="${sessionScope.user.getUsername() }"></c:out></a></button>
+                    </c:if>
+                    <button type="button" class="upload-but"><a href="upload">Upload</a></button>
+                </div>
 					<!----End-Logo---->
 					<!----start-top-nav---->
 				<div class="top-nav">
-					<ul>
-						<li><a href="index.html">Home</a><p>My Forntpage</p></li>
-						<li><a href="#">About</a><p>About this blog</p></li>
-						<li><a href="categories.html">Categories</a><p>Be Ur Self</p></li>
-						<li><a href="#">Economics</a><p>Human Needs</p></li>
-						<li><a href="#">Health</a><p>Take A Trip</p></li>
-						<li><a href="contact.html">Contact</a><p>Leave Messages</p></li>
-					</ul>
+					 <ul>
+                	
+                    <li><a href="home">Home</a><p>My Forntpage</p></li>
+                    <c:if test="${sessionScope.user != null}" >
+                    <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
+                    </c:if>
+                    <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
+                    <c:if test="${sessionScope.user != null}" >
+                    <li><a href="likedVideos">Liked Videos</a></li>
+                    <li><a href="history">History</a><p>Watched videos</p></li>
+                    <li><a href="myPlaylist">My Playlist</a></li>
+                    <li><a href="abonatetChannel">Abonated Channel</a></li>
+                    </c:if> <li><a href="#">Search</a><p>Search users or videos</p></li>
+                </ul>
 				</div>
 				<div class="clear"> </div>
 				<!----End-top-nav---->
+			</div>
 			</div>
 			<!----End-Header---->
 			<div class="clear"> </div>
@@ -71,12 +109,12 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 		
 			<!---reg Form start --->
 			<div class="container">
-				<div class="row main">
+				
 		
 					<div class="main-login main-center">
 						<form class="form-horizontal" method = "POST"  >
 		
-							<div class="login-txt" align="center" style="color:#FFFFFF;"> Login</div><br>
+							<div class="login-txt" align="center" style="color:#FFFFFF;"> Login <c:out value="${msg}"></c:out></div><br>
 					
 							<div class="form-group">
 								<label for="email" class="cols-sm-2 control-label">Username</label>
@@ -109,7 +147,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 						</form>
 					</div>
 				
-			</div>
+		
 		</div>
 
 			<script type="text/javascript" src="assets/js/bootstrap.js"></script>

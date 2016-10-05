@@ -1,5 +1,6 @@
 package com.config.model;
 
+import java.security.CryptoPrimitive;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,7 +43,7 @@ public class User {
 	}
 
 	public User() {
-		// TODO Auto-generated constructor stub
+		this.profilePic = DEFAULT_PROFILE_PICTURE;
 	}
 
 	public void addVideoInLikedVideos(Video video) {
@@ -112,7 +113,7 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = CryptWithMD5.cryptWithMD5(password);;
 	}
 
 	public String getProfilePic() {
@@ -128,7 +129,7 @@ public class User {
 	}
 
 	public boolean isValidPassword(String password){
-		return this.password.equals(password);
+		return this.password.equals(CryptWithMD5.cryptWithMD5(password));
 	}
 
 	public static boolean isValidEmail(String enteredEmail) {

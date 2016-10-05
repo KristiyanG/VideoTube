@@ -68,8 +68,8 @@ body, html{
     border-radius: 6px;
     height: 200px;
 	width: 840px;
-	left: 50px;
-	top: 10px;
+	left:224px;
+	top: -550px;
 }
 .twPc-bg {
     background-image: url("https://pbs.twimg.com/profile_banners/50988711/1384539792/600x200");
@@ -255,7 +255,7 @@ input::-webkit-input-placeholder {
     -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 	position: relative;
-	top: -470px;
+	top: -200px;
 }
 
 .main-center{
