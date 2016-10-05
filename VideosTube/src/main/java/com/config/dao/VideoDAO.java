@@ -26,7 +26,25 @@ public class VideoDAO {
 	private VideoDAO() {
 	}
 
-	public synchronized static VideoDAO getInstance() {
+	public boolean uploadVideo(
+			String name, 
+			String category, 
+			String description, 
+			String uploader, 
+			String address) {
+		
+		LocalDate localDate = LocalDate.now();
+		Date date = Date.valueOf(localDate);
+		
+		if (videos.containsKey(name)) {
+			return false;
+		} else if (addVideoInCollection(name, category, description, uploader, address, localDate)) {
+			return saveVideoInDB(name, category, description, uploader, address, date);
+		}
+		return false;
+	}
+
+	public synchronized static VideoDAO getInstance(){
 		if (instance == null) {
 
 			instance = new VideoDAO();
@@ -37,6 +55,24 @@ public class VideoDAO {
 		return instance;
 	}
 
+	public List<Video> getUserVideos(String userName){
+		List<Video> userVideos = new ArrayList<Video>();
+		for(Video v : videos.values()){
+			if(v.getUploader().equals(userName)){
+				userVideos.add(v);
+			}
+		}
+		return userVideos;
+	}
+	
+	public Video getVideoByName(String videoName){
+		Video video = null;
+		if(videos.containsKey(videoName)){
+			video = videos.get(videoName);
+		}
+		return video;
+	}
+	
 	private void loadVideos() {
 		try {
 
@@ -113,32 +149,33 @@ public class VideoDAO {
 		
 	}
 
-	public boolean uploadVideo(String name, String category, String description, String uploader, String address) {
-		LocalDate localDate = LocalDate.now();
-		Date date = (Date) Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-		if (videos.containsKey(name)) {
-			return false;
-		} else if (addVideoInCollection(name, category, description, uploader, address, date)) {
-			return saveVideoInDB(name, category, description, uploader, address, date);
-
-		}
-		return false;
-	}
-
-	private boolean saveVideoInDB(String name, String category, String description, String uploader, String address,
+	private boolean saveVideoInDB(
+			String name, 
+			String category, 
+			String description, 
+			String uploader, 
+			String address,
 			Date date) {
+		
 		try {
 			this.connection = DBManager.getInstance().getConnection();
-
-			String sql = "insert into users(name,category,description,uploader,address,date) values(?,?,?,?,?,?);";
+//			insert into youtube.videos(name, views, likes, dislikes, date_upload, description, video_address, category, channel_name, user_name) 
+//			insert into youtube.videos(name, category, description, user_name, video_address, date_upload, channel_name) 
+			String sql = "insert into videos(name, views, likes, dislikes, "
+					+ "date_upload, description, video_address, category, "
+					+ "channel_name, user_name) "
+					+ "values(?,?,?,?,?,?,?,?,?,?);";
 			PreparedStatement stm = connection.prepareStatement(sql);
 			stm.setString(1, name);
-			stm.setString(2, category);
-			stm.setString(3, description);
-			stm.setString(4, uploader);
-			stm.setString(5, address);
-			stm.setDate(6 , date);
+			stm.setInt(2, 0);
+			stm.setInt(3, 0);
+			stm.setInt(4, 0);
+			stm.setDate(5, date);
+			stm.setString(6, description);
+			stm.setString(7, address);
+			stm.setString(8, category);
+			stm.setString(9, uploader);
+			stm.setString(10, uploader);
 
 			stm.executeUpdate();
 
@@ -160,30 +197,17 @@ public class VideoDAO {
 		
 	}
 
-	private boolean addVideoInCollection(String name, String category, String description, String uploader,
-			String address, Date date) {
-		LocalDate localdate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		Video video = new Video(name, uploader, category, 0, localdate, description, address);
+	private boolean addVideoInCollection(
+			String name, 
+			String category, 
+			String description, 
+			String uploader,
+			String address, 
+			LocalDate date) {
+		
+		Video video = new Video(name, uploader, category, 0, date, description, address);
 		videos.put(name, video);
 		return true;
 	}
-	public List<Video> getUserVideos(String userName){
-		List<Video> userVideos = new ArrayList<Video>();
-		for(Video v : videos.values()){
-			if(v.getUploader().equals(userName)){
-				userVideos.add(v);
-			}
-		}
-		return userVideos;
-	}
 	
-	public Video getVideoByName(String videoName){
-		Video video = null;
-		if(videos.containsKey(videoName)){
-			video = videos.get(videoName);
-		}
-		return video;
-	}
-	
-
 }

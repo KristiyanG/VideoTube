@@ -20,7 +20,7 @@ public class Video {
 	private int view;
 	private String address;
 	private LocalDate date;
-	public Video(String name, String uploader, String category, int view,LocalDate date,String description,String address) {
+	public Video(String name, String uploader, String category, int view, LocalDate date, String description,String address) {
 		this.name = name;
 		this.uploader = uploader;
 		this.address = address;

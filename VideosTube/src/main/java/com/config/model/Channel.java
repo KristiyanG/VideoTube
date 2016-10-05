@@ -18,44 +18,50 @@ public class Channel {
 		this.user = user;
 		this.videos= new HashSet<>();
 		this.subscribes= new HashSet<>();
-		
 	}
-	
-	
-	
+
 	public Channel(String user) {
 		this.user = user;
 		this.videos= new HashSet<>();
 		this.subscribes= new HashSet<>();
-		
 	}
+	
 	public String getName() {
 		return user;
 	}
+	
 	public void setName(String user) {
 		this.user = user;
 	}
+	
 	public String getDescription() {
 		return description;
 	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 	public void addVideoInChannel(String videoName){
 		this.videos.add( videoName);
 	}
+	
 	public void removeVideoFromChannel(String videoName){
 		this.videos.remove(videoName);
 	}
+	
 	public List<String> allVideosInChannel(){
 		return Collections.unmodifiableList( (List<String>) videos);
 	}
+	
 	public void addUserInChannel(String username){
 		this.subscribes.add( username);
 	}
+	
 	public void removeUserFromChannel(String username){
 		this.subscribes.remove(username);
 	}
+	
 //	public User getUserByNameFromChannel(String name){
 //		User u = null;
 //		if(subscribes.contains(name)){
@@ -64,6 +70,7 @@ public class Channel {
 //		
 //		return u;
 //	}
+	
 	public List<String> getAllUsersInChannel(){
 		return Collections.unmodifiableList((List<String>)subscribes);
 	}

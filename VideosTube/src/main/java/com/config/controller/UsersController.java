@@ -14,8 +14,13 @@ import com.config.dao.UserDAO;
 public class UsersController {
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(Model model,HttpSession ses,@RequestParam("username") String username,@RequestParam("password") String password){
-		System.out.println("User login controller 6666666666666666666666666666666666666");
+	public String login(
+			Model model, 
+			HttpSession ses, 
+			@RequestParam("username") String username,
+			@RequestParam("password") String password){
+		
+
 		if(UserDAO.getInstance().login(username, password)){
 			System.out.println("User exist");
 			
