@@ -33,39 +33,29 @@ public class Video {
 		this.comments = new TreeSet<Comment>((v1,v2)-> v1.getDate().compareTo(v2.getDate()));
 	}
 	
-	
-	
 	public String getAddress() {
 		return address;
 	}
-
-
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-
-
 	public String getDescription() {
 		return description;
 	}
-
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-
 	public LocalDate getDate() {
 		return date;
 	}
 
-
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-
 
 	public String getName() {
 		return name;

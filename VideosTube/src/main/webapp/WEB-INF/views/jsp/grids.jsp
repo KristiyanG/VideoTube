@@ -75,82 +75,40 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
             <div class="left-content">            
                 <div class="box">
                 	<div class="grids">
-					<div class="grid">
-						<h3>Consectetur adipisicing elit</h3>
-						<a href="single.html"><img src="img/g1 copy.png" title="video-name" /></a>
-						<div class="time">
-							<span>00:10</span>
+                	
+                	<c:forEach items="${videos}" var="video">
+						<div class="grid">
+							<h3> ${video.name}</h3>
+							<a href="video/${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
+							<div class="time">
+								<span>00:10</span>
+							</div>
+							<div class="grid-info">
+								<div class="video-share">
+									<ul>
+										<li><a href="#"><img src="img/likes.png" title="links" /></a></li>
+										<li><a href="#"><img src="img/link.png" title="Link" /></a></li>
+										<li><a href="#"><img src="img/views.png" title="Views" /></a></li>
+									</ul>
+								</div>
+								<div class="video-watch">
+									<a href="single.html">Watch Now</a>
+								</div>
+								<div class="clear"> </div>
+								<div class="lables">
+									<p>Labels:<a href="categories.html">${video.uploader}</a></p>
+								</div>
+							</div>
 						</div>
-						<div class="grid-info">
-							<div class="video-share">
-								<ul>
-									<li><a href="#"><img src="img/likes.png" title="links" /></a></li>
-									<li><a href="#"><img src="img/link.png" title="Link" /></a></li>
-									<li><a href="#"><img src="img/views.png" title="Views" /></a></li>
-								</ul>
-							</div>
-							<div class="video-watch">
-								<a href="single.html">Watch Now</a>
-							</div>
-							<div class="clear"> </div>
-							<div class="lables">
-								<p>Labels:<a href="categories.html">Lorem</a></p>
-							</div>
-						</div>
+					</c:forEach>
+						
 					</div>
-					<div class="grid">
-						<h3>Consectetur adipisicing elit</h3>
-						<a href="single.html"><img src="img/g2 copy.png" title="video-name" /></a>
-						<div class="time">
-							<span>2:10</span>
-						</div>
-						<div class="grid-info">
-							<div class="video-share">
-								<ul>
-									<li><a href="#"><img src="img/likes.png" title="links" /></a></li>
-									<li><a href="#"><img src="img/link.png" title="Link" /></a></li>
-									<li><a href="#"><img src="img/views.png" title="Views" /></a></li>
-								</ul>
-							</div>
-							<div class="video-watch">
-								<a href="single.html">Watch Now</a>
-							</div>
-							<div class="clear"> </div>
-							<div class="lables">
-								<p>Labels:<a href="categories.html">Lorem</a></p>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<h3>Consectetur adipisicing elit</h3>
-						<a href="single.html"><img src="img/g4.jpg" title="video-name" /></a>
-						<div class="time">
-							<span>10:10</span>
-						</div>
-						<div class="grid-info">
-							<div class="video-share">
-								<ul>
-									<li><a href="#"><img src="img/likes.png" title="links" /></a></li>
-									<li><a href="#"><img src="img/link.png" title="Link" /></a></li>
-									<li><a href="#"><img src="img/views.png" title="Views" /></a></li>
-								</ul>
-							</div>
-							<div class="video-watch">
-								<a href="single.html">Watch Now</a>
-							</div>
-							<div class="clear"> </div>
-							<div class="lables">
-								<p>Labels:<a href="categories.html">Lorem</a></p>
-							</div>
-						</div>
-					</div>
-				</div>
                 </div>
-                <div class="clear"> </div>
-            </div>
-            <div class="clear"> </div>
             <div class="clear"> </div>
         </div>
+        <div class="clear"> </div>
+        <div class="clear"> </div>
+    </div>
    
         
    

@@ -24,6 +24,15 @@ public class MyController {
 		return "home";
 	}
 	
+	@RequestMapping(value="/home", method=RequestMethod.GET)
+	public String homePage(Model viewModel) {
+		// talk with model
+		
+		viewModel.addAttribute("Text","Hello");
+		
+		return "home";
+	}
+	
 	@RequestMapping(value="/mindex", method=RequestMethod.GET)
 	public String sayBye(Model viewModel) {
 		// talk with model

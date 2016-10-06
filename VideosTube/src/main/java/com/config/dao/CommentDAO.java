@@ -158,6 +158,9 @@ public class CommentDAO {
 
 	}
 	public List<Comment> getCommentsForVideo(String videoName){
+		if(!comments.containsKey(videoName)){
+			comments.put(videoName, new ArrayList<>());
+		}
 		return Collections.unmodifiableList(comments.get(videoName));
 	}
 }

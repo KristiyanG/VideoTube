@@ -15,10 +15,10 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 <html>
 	<head>
 	<%
-response.addHeader("Cache-Control", "no-cache,no-store,private,must-revalidate,max-stale=0,post-check=0,pre-check=0"); 
-response.addHeader("Pragma", "no-cache"); 
-response.addDateHeader ("Expires", 0);
-%>
+		response.addHeader("Cache-Control", "no-cache,no-store,private,must-revalidate,max-stale=0,post-check=0,pre-check=0"); 
+		response.addHeader("Pragma", "no-cache"); 
+		response.addDateHeader ("Expires", 0);
+	%>
 		<title>Videostube Website Template | Home :: W3layouts</title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
@@ -55,7 +55,7 @@ response.addDateHeader ("Expires", 0);
 			<!----start-Logo---->
 			
 				<div class="logo">
-					<a href="index.html"><img src="img/logo.png" title="logo" /></a>
+					<a href="home"><img src="img/logo.png" title="logo" /></a>
 				</div>
 				<div class="searchbar">
                     <div class="search-left">

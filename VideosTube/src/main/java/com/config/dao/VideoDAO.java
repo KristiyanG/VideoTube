@@ -67,6 +67,10 @@ public class VideoDAO {
 	
 	public Video getVideoByName(String videoName){
 		Video video = null;
+		System.out.println("Videos size "+ videos.size());
+		for(String s : videos.keySet()){
+			System.out.println(s);
+		}
 		if(videos.containsKey(videoName)){
 			video = videos.get(videoName);
 		}
@@ -79,11 +83,12 @@ public class VideoDAO {
 			this.connection = DBManager.getInstance().getConnection();
 			Statement st = DBManager.getInstance().getConnection().createStatement();
 			ResultSet resultSet = st
-					.executeQuery("SELECT name,views,category,description,video_address,user_name,date_upload"
-							+ "FROM videos join users where videos.user_name=users.username ;");
+					.executeQuery(
+							"SELECT name, views, category, description, video_address, user_name, date_upload FROM videos;");
 			while (resultSet.next()) {
 				Date input = resultSet.getDate("date_upload");
-				LocalDate date = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				
+				LocalDate date = input.toLocalDate();
 				Video video = new Video(resultSet.getString("name"), resultSet.getString("user_name"),
 						resultSet.getString("category"), resultSet.getInt("views"), date,
 						resultSet.getString("description"), resultSet.getString("video_address"));
@@ -95,7 +100,7 @@ public class VideoDAO {
 			}
 		} catch (SQLException e) {
 			System.out.println("Oops, cannot make statement.");
-
+			System.out.println(e.getMessage());
 		}
 
 	}
