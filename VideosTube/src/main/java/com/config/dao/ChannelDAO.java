@@ -56,7 +56,7 @@ public class ChannelDAO {
 
 	private void loadSubscribes(Channel channel) {
 		this.connection = DBManager.getInstance().getConnection();
-		String sql = "Select user_name from subscribes where channel_name = ?";
+		String sql = "Select user_name from subscribes where channel_name = ? ;";
 		PreparedStatement stm;
 		try {
 			stm = connection.prepareStatement(sql);
@@ -66,12 +66,7 @@ public class ChannelDAO {
 				channel.addUserInChannel(rs.getString("user_name"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-		
-		
-			
-			
 		
 	}
 	public Channel getUserChannel(String username){
@@ -87,5 +82,28 @@ public class ChannelDAO {
 		for(Video v :videoInChannel){
 			channel.addVideoInChannel(v.getName());
 		}
+	}
+	
+	public void createChannel(String username){
+		
+		addInCollection(username);
+		addInDB(username);
+	}
+
+	private void addInDB(String username) {
+		try {
+			PreparedStatement stm = connection.prepareStatement("INSERT INTO channels(name,user_name) VALUES (?,?);");
+			stm.setString(1, username);
+			stm.setString(2, username);
+			stm.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
+	private void addInCollection(String username) {
+		Channel channel = new Channel(username);
+		channels.put(username, channel);
 	}
 }

@@ -46,11 +46,8 @@ public class VideoDAO {
 
 	public synchronized static VideoDAO getInstance(){
 		if (instance == null) {
-
 			instance = new VideoDAO();
 			instance.loadVideos();
-			
-
 		}
 		return instance;
 	}
@@ -67,10 +64,7 @@ public class VideoDAO {
 	
 	public Video getVideoByName(String videoName){
 		Video video = null;
-		System.out.println("Videos size "+ videos.size());
-		for(String s : videos.keySet()){
-			System.out.println(s);
-		}
+		
 		if(videos.containsKey(videoName)){
 			video = videos.get(videoName);
 		}
@@ -81,7 +75,7 @@ public class VideoDAO {
 		try {
 
 			this.connection = DBManager.getInstance().getConnection();
-			Statement st = DBManager.getInstance().getConnection().createStatement();
+			Statement st = connection.createStatement();
 			ResultSet resultSet = st
 					.executeQuery(
 							"SELECT name, views, category, description, video_address, user_name, date_upload FROM videos;");
@@ -95,11 +89,10 @@ public class VideoDAO {
 				loadVideoLikes(video);
 				loadVideoDislikes(video);
 				loadVideoComments(video);
-				videos.put(resultSet.getString("name"), video);
+				videos.put(video.getName(), video);
 
 			}
 		} catch (SQLException e) {
-			System.out.println("Oops, cannot make statement.");
 			System.out.println(e.getMessage());
 		}
 
@@ -128,7 +121,7 @@ public class VideoDAO {
 				video.dislikeVideo(userName);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Load video dislikes method in VIDEODAO " +e.getMessage());
 		}
 		
 	}
@@ -148,7 +141,7 @@ public class VideoDAO {
 				video.likeVideo(userName);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("LOAD VIDEOS LIKES INT VIDEO DAO " +e.getMessage());
 		}
 	
 		
@@ -188,7 +181,7 @@ public class VideoDAO {
 			return true;
 
 		} catch (SQLException e) {
-			System.out.println(e.getStackTrace());
+			System.out.println(e.getMessage());
 			return false;
 		} finally {
 			try {
@@ -196,7 +189,7 @@ public class VideoDAO {
 					connection.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			}
 		}
 		
@@ -213,6 +206,47 @@ public class VideoDAO {
 		Video video = new Video(name, uploader, category, 0, date, description, address);
 		videos.put(name, video);
 		return true;
+	}
+	
+	public void viewVideo(Video video){
+		video.viewVideo();
+		saveViewsInDB(video);
+	}
+
+	private void saveViewsInDB(Video video) {
+		try {
+			PreparedStatement stm = connection.prepareStatement("UPDATE videos set views=? where name=?;");
+			
+			stm.setInt(1, video.getView());
+			stm.setString(2, video.getName());
+			stm.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	
+		
+	}
+	
+	public List<Video> getRandomVideos(){
+		ArrayList<Video> randomVideos = new ArrayList<>();
+		randomVideos.addAll(videos.values());
+		return randomVideos;
+	}
+	public Video likeVideo(String videoName,String username){
+		Video video = VideoDAO.getInstance().getVideoByName(videoName);
+		if(video==null){
+			System.out.println("Like video return null video");
+			return null;
+		}
+		
+		video.likeVideo(username);
+		saveLikeVideoInDB(video.getName(),username);
+		return video;
+	}
+
+	private void saveLikeVideoInDB(String name, String username) {
+		
+		
 	}
 	
 }

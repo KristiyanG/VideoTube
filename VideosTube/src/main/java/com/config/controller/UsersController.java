@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
+import com.config.model.User;
 import com.config.model.Video;
 
 @Controller
@@ -50,16 +52,18 @@ public class UsersController {
 		return "login";
 	}
 
-	@RequestMapping(value="/video", method=RequestMethod.GET)
-	public String displayVideo(){
-		return "video";
-	}
+//	@RequestMapping(value="/video", method=RequestMethod.GET)
+//	public String displayVideo(){
+//		return "video";
+//	}
 	
-	@RequestMapping(value="/video/{videoname}", method=RequestMethod.GET)
-	public String video(@PathVariable("videoname") String videoname, HttpServletResponse resp, Model model) throws IOException{
+	@RequestMapping(value="/video", method=RequestMethod.GET)
+	public String video(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
 		
+		String videoname = req.getParameter("name");
 		System.out.println("Search video - - " + videoname);
 		Video video = VideoDAO.getInstance().getVideoByName(videoname);
+		VideoDAO.getInstance().viewVideo(video);
 		model.addAttribute("video", video);
 		
 		System.out.println("--------------" + video.getAddress() + " " + video.getName());
@@ -70,15 +74,34 @@ public class UsersController {
 		return "video";
 	}
 	
-	@RequestMapping(value="/video/address/{video}", method=RequestMethod.GET)
+	@RequestMapping(value="video/like", method=RequestMethod.GET)
+	@ResponseBody
+	public int likeVideo(HttpSession ses,HttpServletRequest req){
+		String videoName =req.getParameter("videoName");
+		int likes = Integer.parseInt(req.getParameter("likes"));
+//		if(ses.getAttribute("user")==null){
+//			return likes;
+//		}
+//		User user = (User)ses.getAttribute("user");
+		Video video = VideoDAO.getInstance().likeVideo(videoName, "asen");
+		if(video==null){
+			return likes;
+		}
+		System.out.println("Video likes before print "+video.getLikes());
+		return video.getLikes();
+	}
+	
+	@RequestMapping(value="/video/{video}", method=RequestMethod.GET)
 	@ResponseBody
 	public void videoAddress(@PathVariable("video") String videoName, HttpServletResponse resp, Model model){
 	
-		System.out.println("@@@@@@@@@@@@@@@@@@@@v Video Addres " + videoName);
+		System.out.println("SEARCH VIDEO WITH NAME " +videoName);
 		Video video = VideoDAO.getInstance().getVideoByName(videoName);
 		if(video == null){
+			System.out.println("NO SUCH VIDEO ");
 			return;
 		}
+		
 		File file = new File(video.getAddress());
 		
 		
@@ -90,22 +113,21 @@ public class UsersController {
 		
 	}
 	
-	@RequestMapping(value="/grids", method=RequestMethod.GET)
-	public String grids(HttpSession ses, Model model){
-		
-		String address = "C:/Users/Parapanov/Desktop/VideosFolder/tsveta-Pyrvoto.mp4";
-		
-		Video video = VideoDAO.getInstance().getVideoByName("Pyrvoto");
-		
-		List<Video> videos = new ArrayList();
-		
-		System.out.println(video.getAddress());
-		
-		for(int i = 0; i < 4; i++){
-			videos.add(video);
-		}
-		
-		model.addAttribute("videos", videos);
-		return "grids";
-	}
+//	@RequestMapping(value="/grids", method=RequestMethod.GET)
+//	public String grids(HttpSession ses, Model model){
+//		
+//		
+//		Video video = VideoDAO.getInstance().getVideoByName("Purvoto");
+//		
+//		List<Video> videos = new ArrayList();
+//		
+//		System.out.println(video.getAddress());
+//		
+//		for(int i = 0; i < 4; i++){
+//			videos.add(video);
+//		}
+//		
+//		model.addAttribute("videos", videos);
+//		return "grids";
+//	}
 }

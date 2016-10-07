@@ -36,7 +36,7 @@ public class UserDAO {
 		try {
 
 			this.connection = DBManager.getInstance().getConnection();
-			Statement st = DBManager.getInstance().getConnection().createStatement();
+			Statement st = connection.createStatement();
 			ResultSet resultSet = st.executeQuery("SELECT username, password, profilePic, email FROM users;");
 			while (resultSet.next()) {
 				User user = new User(resultSet.getString("username"),
@@ -139,10 +139,11 @@ public class UserDAO {
 			stm.executeUpdate();
 
 			connection.close();
+			ChannelDAO.getInstance().createChannel(name);
 			return true;
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Pri loadvane na userite " +e.getMessage());
 			return false;
 		} finally {
 			try {
