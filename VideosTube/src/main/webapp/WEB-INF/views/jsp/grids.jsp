@@ -18,6 +18,23 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
     <link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
     <link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
 
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script type="text/javascript">
+	function search() {
+		
+		$.get(
+				"doSearch", 
+				{ search: document.getElementById("search-field").value, 
+					type: document.getElementById("search-drop-down").value
+				},
+				
+				function(result){
+					
+			    });
+	}
+
+</script>
 </head>
 <body>
     <!----start-wrap---->
@@ -28,17 +45,24 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
             <a href="home"><img src="img/logo.png" title="logo" /></a>
         </div>
             <!----End-Logo---->
-             <div class="searchbar">
+			<div class="searchbar">
                  <div class="search-left">
-                     <p>Latest Video Form VideosTube</p>
+                 <p>Search</p>
+                     <select class="search-drop-down" id="search-drop-down">
+                     	<option>Video</option>
+                     	<option>Play List</option>
+                     	<option>Cnannel</option>
+                   	 </select>
                  </div>
                  <div class="search-right">
                      <form>
-                         <input type="text" placeholder="Search videos"><input type="submit" value="" />
+                         <input type="text" id="search-field" onkeyup="search()" placeholder="Search videos">
+                         <input type="submit" value="" onclick="search()"/>
                      </form>
                  </div>
                  <div class="clear"> </div>
              </div>
+             
              <div class="buttons">
               	 <c:if test="${sessionScope.user == null}" > 
                  <button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
@@ -75,8 +99,19 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
             <div class="left-content">            
                 <div class="box">
                 	<div class="grids">
-                	
-                	<c:forEach items="${videos}" var="video">
+                	<c:set var="videosList" value="${videos}" />  
+		                	<c:choose>
+		    <c:when test="${searcheResult==null}">
+		      <c:set var="videosList" value="${videos}" /> 
+		    </c:when>
+		    <c:when test="${searcheResult=!null}">`
+		    <c:set var="videosList" value="${searchVideos}" /> 
+		    </c:when>
+		    <c:otherwise>
+		        No comment sir...
+		    </c:otherwise>
+</c:choose>             	
+                	<c:forEach items="${videosList}" var="video">
 						<div class="grid">
 							<h3> ${video.name}</h3>
 							<a href="video?name=${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>

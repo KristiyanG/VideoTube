@@ -151,7 +151,7 @@
 	<script>
 		function validateName(input){
 
-			var regex = new RegExp("[^a-zA-Z_\n\r.0-9]+");
+			var regex = new RegExp("[^a-zA-Z_\s\r.0-9]+");
 			var status = document.getElementById("video-name-label")
 			
 			if(regex.test(input.value)){
