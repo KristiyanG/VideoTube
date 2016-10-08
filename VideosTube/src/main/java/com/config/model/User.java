@@ -25,12 +25,11 @@ public class User {
 	private String playList;
 
 	public User(String name, String password, String email) throws CreateUserException {
-		super();
 		if (name.length() < 4 || name.length() > 12) {
 			throw new CreateUserException("Username must be >4 and < 12");
 		}
-		this.username = name;
-		this.password = password;
+		setUsername(name);
+		setPassword(password);
 		if (!isValidEmail(email)) {
 			throw new CreateUserException("Invalid email !!!");
 		}
@@ -53,7 +52,6 @@ public class User {
 	public void removeVideoFromLikedVideos(Video video) {
 		this.likedVideos.remove(video);
 	}
-	
 	
 	public void setEmail(String email) {
 		this.email = email;
@@ -129,6 +127,7 @@ public class User {
 	}
 
 	public boolean isValidPassword(String password){
+		System.out.println("User class pass: "  + this.password);
 		return this.password.equals(CryptWithMD5.cryptWithMD5(password));
 	}
 

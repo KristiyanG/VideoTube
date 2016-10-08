@@ -17,7 +17,50 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
     <link rel="shortcut icon" type="image/x-icon" href=img/pageicon.png" />
     <link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
     <link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+    
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script type="text/javascript">
+	function search() {
+		
+		$.get(
+				"doSearch", 
+				{ search: document.getElementById("search-field").value, 
+					type: document.getElementById("search-drop-down").value
+				},
+				
+				function(result){
+					alert(result)
+					$('#videoBox').empty();
 
+					var trHTML = '';
+			        $.each(result, function (i, item) {
+			        	trHTML +='<div class="grid">'
+			        	+ '<a href="video/' + item.name + '"><img src="img/g1 copy.png" title= "' +item.name+'" /></a>'
+			        	+'<div class="grid-info">'
+						+'<div class="video-share">'
+						+'<ul>'
+						+'<li><a href="#"><img src="img/likes.png" title="links" /></a></li>'
+						+'<li><a href="#"><img src="img/link.png" title="Link" /></a></li>'
+						+'<li><a href="#"><img src="img/views.png" title="Views" /></a></li>'
+						+'</ul>'
+						+'</div>'
+						+'<div class="video-watch">'
+						+'<a href="single.html">Watch Now</a>'
+						+'</div>'
+						+'<div class="clear"> </div>'
+						+'<div class="lables">'
+						+'<p>Labels:<a href="categories.html">' +item.uploader+ '</a></p>'
+						+'</div>'
+						+'</div>'
+			        	+ '</div>'
+	
+			        });
+			        $('#videoBox').append(trHTML);
+			    });
+
+	}
+
+</script>
 </head>
 <body>
     <!----start-wrap---->
@@ -30,11 +73,17 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
             <!----End-Logo---->
              <div class="searchbar">
                  <div class="search-left">
-                     <p>Latest Video Form VideosTube</p>
+                 <p>Search</p>
+                     <select class="search-drop-down" id="search-drop-down">
+                     	<option>Video</option>
+                     	<option>Play List</option>
+                     	<option>Cnannel</option>
+                   	 </select>
                  </div>
                  <div class="search-right">
                      <form>
-                         <input type="text" placeholder="Search videos"><input type="submit" value="" />
+                         <input type="text" id="search-field" onblur="search()" placeholder="Search videos">
+                         <input type="submit" value="" onclick="search()"/>
                      </form>
                  </div>
                  <div class="clear"> </div>
@@ -71,89 +120,48 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
         <!----End-Header---->
         <div class="clear"> </div>
         
-        <div class="content">      
+		<div class="content">      
             <div class="left-content">            
-                <div class="box">
-                	<div class="grids">
-					<div class="grid">
-						<h3>Consectetur adipisicing elit</h3>
-						<a href="single.html"><img src="img/g1 copy.png" title="video-name" /></a>
-						<div class="time">
-							<span>00:10</span>
-						</div>
-						<div class="grid-info">
-							<div class="video-share">
-								<ul>
-									<li><a href="#"><img src="img/likes.png" title="links" /></a></li>
-									<li><a href="#"><img src="img/link.png" title="Link" /></a></li>
-									<li><a href="#"><img src="img/views.png" title="Views" /></a></li>
-								</ul>
+				<div class="box">
+					<div class="grids">
+					
+                		<div id="videoBox">
+                		
+	                	<c:set var="videosList" value="${videos}" />                	
+	                	<c:forEach items="${videosList}" var="video">
+							<div class="grid">
+								<h3> ${video.name}</h3>
+								<a href="video/${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
+								<div class="time">
+									<span>00:10</span>
+								</div>
+								<div class="grid-info">
+									<div class="video-share">
+										<ul>
+											<li><a href="#"><img src="img/likes.png" title="links" /></a></li>
+											<li><a href="#"><img src="img/link.png" title="Link" /></a></li>
+											<li><a href="#"><img src="img/views.png" title="Views" /></a></li>
+										</ul>
+									</div>
+									<div class="video-watch">
+										<a href="single.html">Watch Now</a>
+									</div>
+									<div class="clear"> </div>
+									<div class="lables">
+										<p>Labels:<a href="categories.html">${video.uploader}</a></p>
+									</div>
+								</div>
 							</div>
-							<div class="video-watch">
-								<a href="single.html">Watch Now</a>
-							</div>
-							<div class="clear"> </div>
-							<div class="lables">
-								<p>Labels:<a href="categories.html">Lorem</a></p>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<h3>Consectetur adipisicing elit</h3>
-						<a href="single.html"><img src="img/g2 copy.png" title="video-name" /></a>
-						<div class="time">
-							<span>2:10</span>
-						</div>
-						<div class="grid-info">
-							<div class="video-share">
-								<ul>
-									<li><a href="#"><img src="img/likes.png" title="links" /></a></li>
-									<li><a href="#"><img src="img/link.png" title="Link" /></a></li>
-									<li><a href="#"><img src="img/views.png" title="Views" /></a></li>
-								</ul>
-							</div>
-							<div class="video-watch">
-								<a href="single.html">Watch Now</a>
-							</div>
-							<div class="clear"> </div>
-							<div class="lables">
-								<p>Labels:<a href="categories.html">Lorem</a></p>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<h3>Consectetur adipisicing elit</h3>
-						<a href="single.html"><img src="img/g4.jpg" title="video-name" /></a>
-						<div class="time">
-							<span>10:10</span>
-						</div>
-						<div class="grid-info">
-							<div class="video-share">
-								<ul>
-									<li><a href="#"><img src="img/likes.png" title="links" /></a></li>
-									<li><a href="#"><img src="img/link.png" title="Link" /></a></li>
-									<li><a href="#"><img src="img/views.png" title="Views" /></a></li>
-								</ul>
-							</div>
-							<div class="video-watch">
-								<a href="single.html">Watch Now</a>
-							</div>
-							<div class="clear"> </div>
-							<div class="lables">
-								<p>Labels:<a href="categories.html">Lorem</a></p>
-							</div>
-						</div>
-					</div>
-				</div>
-                </div>
-                <div class="clear"> </div>
+						</c:forEach>
+                		</div>
+                	</div>	
+		        </div>
+            	<div class="clear"> </div>
             </div>
-            <div class="clear"> </div>
-            <div class="clear"> </div>
-        </div>
-   
-        
-   
+	        <div class="clear"> </div>
+	        <div class="clear"> </div>
+    	</div>
+
     <!----End-wrap---->
     </body>
 </html>

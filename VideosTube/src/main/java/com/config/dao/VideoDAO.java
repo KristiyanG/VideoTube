@@ -9,8 +9,12 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.config.model.Comment;
 import com.config.model.User;
@@ -67,14 +71,16 @@ public class VideoDAO {
 	
 	public Video getVideoByName(String videoName){
 		Video video = null;
-		System.out.println("Videos size "+ videos.size());
-		for(String s : videos.keySet()){
-			System.out.println(s);
-		}
+
 		if(videos.containsKey(videoName)){
 			video = videos.get(videoName);
 		}
 		return video;
+	}
+
+	public List<Video> getAllVideos(){
+		List<Video> vids = new ArrayList<>(videos.values());
+		return  Collections.unmodifiableList(vids);
 	}
 	
 	private void loadVideos() {
@@ -213,6 +219,17 @@ public class VideoDAO {
 		Video video = new Video(name, uploader, category, 0, date, description, address);
 		videos.put(name, video);
 		return true;
+	}
+
+	public List<Video> searchVideos(String name) {
+		List<Video> serchResult = new ArrayList<>();
+		for (Entry<String, Video> element : videos.entrySet()) {
+			if(element.getKey().contains(name)){
+				serchResult.add(element.getValue());
+			}
+		}
+
+		return serchResult;
 	}
 	
 }

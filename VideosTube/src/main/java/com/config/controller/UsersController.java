@@ -39,6 +39,7 @@ public class UsersController {
 			ses.setAttribute("user", UserDAO.getInstance().getUserByUsername(username));
 			return "home";
 		}
+		
 		System.out.println("User do not exist");
 		model.addAttribute("msg", "Invalid username or password !");
 		return "login";
@@ -81,7 +82,6 @@ public class UsersController {
 		}
 		File file = new File(video.getAddress());
 		
-		
 		try {
 			Files.copy(file.toPath(), resp.getOutputStream());
 		} catch (IOException e) {
@@ -95,17 +95,25 @@ public class UsersController {
 		
 		String address = "C:/Users/Parapanov/Desktop/VideosFolder/tsveta-Pyrvoto.mp4";
 		
-		Video video = VideoDAO.getInstance().getVideoByName("Pyrvoto");
+//		Video video = VideoDAO.getInstance().getVideoByName("Pyrvoto");
 		
-		List<Video> videos = new ArrayList();
-		
-		System.out.println(video.getAddress());
-		
-		for(int i = 0; i < 4; i++){
-			videos.add(video);
-		}
+		List<Video> videos = VideoDAO.getInstance().getAllVideos();
 		
 		model.addAttribute("videos", videos);
 		return "grids";
+	}
+
+	@RequestMapping(value="/doSearch", method=RequestMethod.GET)
+	public @ResponseBody List<Video> searchBar(
+			@RequestParam("search") String name, 
+			@RequestParam("type") String type,
+			Model model){
+		
+		if(type.equals(type)){
+			return VideoDAO.getInstance().searchVideos(name);
+		}
+		List<Video> searchVideos = VideoDAO.getInstance().getAllVideos();
+		model.addAllAttributes(searchVideos);
+		return searchVideos;
 	}
 }
