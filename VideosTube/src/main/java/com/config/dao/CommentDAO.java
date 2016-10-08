@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -127,11 +128,11 @@ public class CommentDAO {
 		}
 	}
 
-	public void saveComment(User user, String text, Video video) {
+	public Comment saveComment(User user, String text, Video video) {
 		this.connection = DBManager.getInstance().getConnection();
 		String sql = "Insert INTO comments(text,comment_date,video_name,user_name) VALUES (?,?,?,?)";
 		LocalDate localDate = LocalDate.now();
-		Date date = (Date) Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		Date date = Date.valueOf(localDate);
 		try {
 			PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, text);
@@ -150,12 +151,12 @@ public class CommentDAO {
 				comments.put(video.getName(), new ArrayList<Comment>());
 			}
 			comments.get(video.getName()).add(com);
-
+			video.addComment(com);
+			return com;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Comment save error -- "+e.getMessage());
 		}
-
+		return null;
 	}
 	public List<Comment> getCommentsForVideo(String videoName){
 		if(!comments.containsKey(videoName)){

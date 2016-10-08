@@ -14,45 +14,45 @@
 	    <link href="http://vjs.zencdn.net/5.11.7/video-js.css" rel="stylesheet">
 	  
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script type="text/javascript">
-	function likeVideo() {
-		
-		var user =  document.getElementById('user');
-
-			if(user== null){
-				 var msg = document.getElementById('confirmMessage');
-				 msg.style.color = "#ff6666";
-				msg.innerHTML = "Login for vote video";
-		    }
-			else{
-				$.get(
-						"video/like", 
-						{ videoName: document.getElementById("videoName").innerHTML
-						},
-						
-						function(result){
-							document.getElementById("likes").innerHTML =result.likes,
-							document.getElementById("dislikes").innerHTML = result.dislikes;
-					    });
-			}
-		
+	<script src="script/register_form.js"></script>
+	
+<script type="text/javascript">
+function showDiv() {
+	
+	if(document.getElementById('commentsDiv').style.display == "block"){
+		document.getElementById('commentsDiv').style.display = "none";
 	}
-	function dislikeVideo() {
+	else{
+		document.getElementById('commentsDiv').style.display = "block";}
+	   
+	   var user =  document.getElementById('user');
+		if(user != null){
+			document.getElementById('writeCommentLogin').style.display = "block";
+	    }
+	}
+	function writeComment(){
 		var user =  document.getElementById('user');
 		if(user == null){
 			var msg = document.getElementById('confirmMessage');
 			 msg.style.color = "#ff6666";
-			msg.innerHTML = "Login for vote video";
+			msg.innerHTML = "Login for comment video";
 	    }
-		else{$.get(
-				"video/dislike", 
-				{ videoName: document.getElementById("videoName").innerHTML
-				},
-				
-				function(result){
-					document.getElementById("likes").innerHTML =result.likes,
-					document.getElementById("dislikes").innerHTML = result.dislikes;
-			    });}
+		else{
+			$.get(
+					"writeComment", 
+					{ commentText: document.getElementById("commentText").value,
+						videoName: document.getElementById("videoName").innerHTML
+					
+					},
+					
+					function(result){
+						window.alert(result);
+						document.getElementById("commentContent").innerHTML =result.text;
+
+						document.getElementById("commentAuthor").innerHTML =result.user;
+						document.getElementById('newComment').style.display = "block";
+				    });
+		}
 		
 	}
 
@@ -65,6 +65,7 @@
 		
 	    <c:set var="videoLikes" scope ="page" value ="${video.getLikes()}"></c:set>
 	    <c:set var="videoName" scope="page" value ="${video.getName()}"/>
+	    
 		
 	    <c:set var="username" scope="page" value ="${sessionScope.user.getUsername()}"/>
 	    
@@ -156,7 +157,7 @@
 							<li><a href="#"><img src="img/s1.png" title="Google+" /></a></li>
 						</ul>
 						<ul class="comment1">
-							<li><a href="#">Comment(1)</a></li>
+							<li><a onclick="showDiv()" >Comment(<c:out value="${ comments.size()}"/>)</a></li>
 							<li><a href="#"><img src="img/re.png" title="report" /><span>Report</span></a></li>
 						</ul>
 					</div>
@@ -173,118 +174,84 @@
 						<li><p>Uploaded on <a href="#"><c:out value="${videoDate}"></c:out></a> by <a href="myChannel"><c:out value="uploader"></c:out></a></p></li>
 						<li><p>Description for video :</p></li>
 						<li><span><c:out value = "${description }"></c:out></span></li>
+						 
+						 <div id="commentsDiv" style="display:none;" class="comments-container">
+        <h1>Video comments </h1>
+
+        <ul id="comments-list" class="comments-list">
+            <c:forEach items="${comments}" var="com">
+            <li>
+       
+                <div  class="comment-main-level">
+                    <!-- Avatar -->
+                    <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+                    <!-- Contenedor del Comentario -->
+                    <div class="comment-box">
+                        <div class="comment-head">
+                        
+                            <h6 class="comment-name by-author"><c:out value="${com.user}"/></h6>
+                           
+                            <span><c:out value="${com.date}"/></span>
+                            <i class="fa fa-reply"></i>
+                            <i class="fa fa-heart"></i>
+                        </div>
+                        <div  class="comment-content">
+                         <c:out value="${com.text}"/>
+                         </div>
+                    </div>
+                </div>
+            </li>
+            </c:forEach>
+            <li>
+            <div id="newComment" style="display:none;" class="comment-main-level">
+                    <!-- Avatar -->
+                    <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+                    <!-- Contenedor del Comentario -->
+                    <div class="comment-box">
+                        <div class="comment-head">
+                            <h6 id="commentAuthor" class="comment-name by-author"></h6>
+                            <span></span>
+                            <i class="fa fa-reply"></i>
+                            <i class="fa fa-heart"></i>
+                        </div>
+                        <div id="commentContent" class="comment-content">
+                         
+                         </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div id="writeCommentLogin" style="display:none;" class="comment-main-level">
+                    <!-- Avatar -->
+                    <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
+                    <!-- Contenedor del Comentario -->
+                    <div class="comment-box">
+                        <div class="comment-head">
+                            <h6 class="comment-name"><a href="http://creaticode.com/blog">Lorena Rojero</a></h6>
+                        </div>
+                       <form>
+                        <div class="comment-content">
+                        <input id="commentText"  type="text" placeholder="Write comment..."></input><button type="button" onclick="writeComment()" >Add</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </li>
+            
+        </ul>
+    </div>
+	<li> <a href="login" id="confirmMessage" class="confirmMessage"> </a></li>
 					</ul>
 					
 				</div>
 				<div class="clear"> </div>
 			
 				<div class="clear"> </div>
-				<div class="related-videos">
-					<h6>Related-Videos</h6>
-				<div class="grids">
-					<div class="grid">
-						<h3>Consectetur adipisicing elit</h3>
-						<a href="#"><img src="img/g3.jpg" title="video-name"></a>
-						<div class="time">
-							<span>2:30</span>
-						</div>
-						<div class="grid-info">
-							<div class="video-share">
-								<ul>
-									<li><a href="#"><img src="img/likes.png" title="links"></a></li>
-									<li><a href="#"><img src="img/link.png" title="Link"></a></li>
-									<li><a href="#"><img src="img/views.png" title="Views"></a></li>
-								</ul>
-							</div>
-							<div class="video-watch">
-								<a href="#">Watch Now</a>
-							</div>
-							<div class="clear"> </div>
-							<div class="lables">
-								<p>Labels:<a href="#">Lorem</a></p>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<h3>Consectetur adipisicing elit</h3>
-						<a href="#"><img src="img/g5.jpg" title="video-name"></a>
-						<div class="time">
-							<span>5:10</span>
-						</div>
-						<div class="grid-info">
-							<div class="video-share">
-								<ul>
-									<li><a href="#"><img src="img/likes.png" title="links"></a></li>
-									<li><a href="#"><img src="img/link.png" title="Link"></a></li>
-									<li><a href="#"><img src="img/views.png" title="Views"></a></li>
-								</ul>
-							</div>
-							<div class="video-watch">
-								<a href="#">Watch Now</a>
-							</div>
-							<div class="clear"> </div>
-							<div class="lables">
-								<p>Labels:<a href="#">Lorem</a></p>
-							</div>
-						</div>
-					</div>
-					<div class="grid">
-						<h3>Consectetur adipisicing elit</h3>
-						<a href="#"><img src="img/g4.jpg" title="video-name"></a>
-						<div class="time">
-							<span>2:00</span>
-						</div>
-						<div class="grid-info">
-							<div class="video-share">
-								<ul>
-									<li><a href="#"><img src="img/likes.png" title="links"></a></li>
-									<li><a href="#"><img src="img/link.png" title="Link"></a></li>
-									<li><a href="#"><img src="img/views.png" title="Views"></a></li>
-								</ul>
-							</div>
-							<div class="video-watch">
-								<a href="#">Watch Now</a>
-							</div>
-							<div class="clear"> </div>
-							<div class="lables">
-								<p>Labels:<a href="#">Lorem</a></p>
-							</div>
-						</div>
-					</div>
-				</div>
-				</div>
+				
 				<div class="clear"> </div>
 			</div>
 		<div class="right-content">
-			<div class="popular">
-				<h3>Popular Videos</h3>
-				<p><img src="img/l1.png" title="likes" /> 10,000</p>
-				<div class="clear"> </div>
-			</div>
-				<div class="grid1">
-							<h3>Consectetur adipisicing elit</h3>
-							<a href="#"><img src="img/g7.jpg" title="video-name" /></a>
-							<div class="time1">
-								<span>2:50</span>
-							</div>
-							
-					<div class="grid-info">
-						<div class="video-share">
-							<ul>
-								<li><a href="#"><img src="img/likes.png" title="links" /></a></li>
-								<li><a href="#"><img src="img/link.png" title="Link" /></a></li>
-								<li><a href="#"><img src="img/views.png" title="Views" /></a></li>
-							</ul>
-						</div>
-						<div class="video-watch">
-							<a href="#">Watch Now</a>
-						</div>
-						<div class="clear"> </div>
-						<div class="lables">
-							<p>Labels:<a href="#">Lorem</a></p>
-						</div>
-					</div>
-				</div>
+			
 			</div>
 		</div>
 	</div>

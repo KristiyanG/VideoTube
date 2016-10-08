@@ -52,9 +52,14 @@ public class Comment {
 	public void setText(String text) {
 		this.text = text;
 	}
-	public LocalDate getDate() {
+	public String getDate() {
+		return date.toString();
+	}
+	
+	public LocalDate getDateInDate(){
 		return date;
 	}
+	
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
