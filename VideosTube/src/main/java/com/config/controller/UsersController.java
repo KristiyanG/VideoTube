@@ -43,12 +43,13 @@ public class UsersController {
 		}
 		System.out.println("User do not exist");
 		model.addAttribute("msg", "Invalid username or password !");
-		return "login";
+		return "home";
 	}
 
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String loginPage(HttpSession ses){
 		ses.removeAttribute("user");
+
 		return "login";
 	}
 
@@ -66,7 +67,6 @@ public class UsersController {
 		VideoDAO.getInstance().viewVideo(video);
 		model.addAttribute("video", video);
 		
-		System.out.println("--------------" + video.getAddress() + " " + video.getName());
 		
 //		String location = "C:/Users/Parapanov/Desktop/VideosFolder/tsveta-Pyrvoto.mp4";
 //		File file = new File(location);
@@ -74,22 +74,25 @@ public class UsersController {
 		return "video";
 	}
 	
-	@RequestMapping(value="video/like", method=RequestMethod.GET)
-	@ResponseBody
-	public int likeVideo(HttpSession ses,HttpServletRequest req){
-		String videoName =req.getParameter("videoName");
-		int likes = Integer.parseInt(req.getParameter("likes"));
+//	@RequestMapping(value="video/like", method=RequestMethod.GET)
+//	@ResponseBody
+//	public int likeVideo(HttpSession ses,HttpServletRequest req){
+//		String videoName =req.getParameter("videoName").trim();
+//		int likes = Integer.parseInt(req.getParameter("likes"));
 //		if(ses.getAttribute("user")==null){
 //			return likes;
 //		}
 //		User user = (User)ses.getAttribute("user");
-		Video video = VideoDAO.getInstance().likeVideo(videoName, "asen");
-		if(video==null){
-			return likes;
-		}
-		System.out.println("Video likes before print "+video.getLikes());
-		return video.getLikes();
-	}
+//		System.out.println("++++"+videoName+"+++");
+//		Video video = VideoDAO.getInstance().likeVideo(videoName, user.getUsername());
+//		
+//		if(video==null){
+//			System.out.println("VIDEO IS NULL");
+//			return likes;
+//		}
+//		System.out.println("Video likes before print "+video.getLikes());
+//		return video.getLikes();
+//	}
 	
 	@RequestMapping(value="/video/{video}", method=RequestMethod.GET)
 	@ResponseBody

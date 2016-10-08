@@ -177,21 +177,12 @@ public class VideoDAO {
 
 			stm.executeUpdate();
 
-			connection.close();
 			return true;
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return false;
-		} finally {
-			try {
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-			}
-		}
+		} 
 		
 	}
 
@@ -232,21 +223,107 @@ public class VideoDAO {
 		randomVideos.addAll(videos.values());
 		return randomVideos;
 	}
+	
 	public Video likeVideo(String videoName,String username){
 		Video video = VideoDAO.getInstance().getVideoByName(videoName);
 		if(video==null){
 			System.out.println("Like video return null video");
 			return null;
 		}
-		
-		video.likeVideo(username);
-		saveLikeVideoInDB(video.getName(),username);
+		if(video.isUserLikeVideo(username)){
+			video.removeFromLike(username);
+			removeLikeFromDB(username,video.getName());
+		}
+		else{
+			if(video.isUserDislikeVideo(username)){
+				video.removeFromDislike(username);
+				removeDisLikeFromDB(video.getName(),username);
+			}
+			video.likeVideo(username);
+			saveLikeInDB(video.getName(),username);
+		}
 		return video;
 	}
 
-	private void saveLikeVideoInDB(String name, String username) {
+	public Video dislikeVideo(String videoName, String username) {
+		Video video = VideoDAO.getInstance().getVideoByName(videoName);
+		if(video==null){
+			System.out.println("Like video return null video");
+			return null;
+		}
+		if(video.isUserDislikeVideo(username)){
+			video.removeFromDislike(username);
+			removeDisLikeFromDB(username,video.getName());
+		}
+		else{
+			if(video.isUserLikeVideo(username)){
+				video.removeFromLike(username);
+				removeLikeFromDB(video.getName(),username);
+			}
+			video.dislikeVideo(username);
+			saveDislikeInDB(video.getName(),username);
+		}
+		return video;
+	}
+	
+
+	private void saveDislikeInDB(String name, String username) {
+		this.connection = DBManager.getInstance().getConnection();
+		try {
+			PreparedStatement stm = connection.prepareStatement("INSERT INTO user_dislike_videos(user_name,video_name) VALUES(?,?); ");
+			stm.setString(1, username);
+			stm.setString(2, name);
+			int rowsAffected =stm.executeUpdate();
+			System.out.println("UPDATE user_disliked_videos "+ rowsAffected);
+		} catch (SQLException e) {
+			System.out.println("Save dislike indDB -"+e.getMessage());
+		}
+		
+	}
+
+
+	private void saveLikeInDB(String name, String username) {
+		this.connection = DBManager.getInstance().getConnection();
+		try {
+			PreparedStatement stm = connection.prepareStatement("INSERT INTO user_liked_videos(user_name,video_name) VALUES(?,?); ");
+			stm.setString(1, username);
+			stm.setString(2, name);
+			int rowsAffected =stm.executeUpdate();
+			System.out.println("UPDATE user_liked_videos "+ rowsAffected);
+		} catch (SQLException e) {
+			System.out.println("Save like indDB -"+e.getMessage());
+		}
+		
+	}
+
+	private void removeDisLikeFromDB(String name, String username) {
+		this.connection = DBManager.getInstance().getConnection();
+		try {
+			PreparedStatement stm = connection.prepareStatement("DELETE FROM user_dislike_videos where user_name=? AND video_name=?; ");
+			stm.setString(1, username);
+			stm.setString(2, name);
+			stm.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Remove Dislike from dDB -"+e.getMessage());
+		}
 		
 		
 	}
+
+	private void removeLikeFromDB(String username,String videoName) {
+		this.connection = DBManager.getInstance().getConnection();
+		try {
+			PreparedStatement stm = connection.prepareStatement("DELETE FROM user_liked_videos where user_name=? AND video_name=?; ");
+			stm.setString(1, username);
+			stm.setString(2, videoName);
+			stm.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("remove like from dDB -"+e.getMessage());
+		}
+		
+	}
+
+	
+
 	
 }

@@ -12,26 +12,62 @@
 		<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
 		
 	    <link href="http://vjs.zencdn.net/5.11.7/video-js.css" rel="stylesheet">
-	    <script>
-				function likeVideo() {
-				  var xhttp = new XMLHttpRequest();
-				  xhttp.onreadystatechange = function() {
-				    if (this.readyState == 4 && this.status == 200) {
-				      document.getElementById("likes").innerHTML = this.responseText;
-				    }
-				  };
-				  var videoName= document.getElementById("videoName").innerHTML;
-				  var likes= document.getElementById("likes").innerHTML;
-				  xhttp.open("GET", "video/like?videoName="+videoName+"&likes="+likes, true);
-				  xhttp.send();
-				}
+	  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script type="text/javascript">
+	function likeVideo() {
+		
+		var user =  document.getElementById('user');
+
+			if(user== null){
+				 var msg = document.getElementById('confirmMessage');
+				 msg.style.color = "#ff6666";
+				msg.innerHTML = "Login for vote video";
+		    }
+			else{
+				$.get(
+						"video/like", 
+						{ videoName: document.getElementById("videoName").innerHTML
+						},
+						
+						function(result){
+							document.getElementById("likes").innerHTML =result.likes,
+							document.getElementById("dislikes").innerHTML = result.dislikes;
+					    });
+			}
+		
+	}
+	function dislikeVideo() {
+		var user =  document.getElementById('user');
+		if(user == null){
+			var msg = document.getElementById('confirmMessage');
+			 msg.style.color = "#ff6666";
+			msg.innerHTML = "Login for vote video";
+	    }
+		else{$.get(
+				"video/dislike", 
+				{ videoName: document.getElementById("videoName").innerHTML
+				},
+				
+				function(result){
+					document.getElementById("likes").innerHTML =result.likes,
+					document.getElementById("dislikes").innerHTML = result.dislikes;
+			    });}
+		
+	}
+
+
 </script>
+
 </head>
 
 <body>
+		
 	    <c:set var="videoLikes" scope ="page" value ="${video.getLikes()}"></c:set>
-	    <c:set var="videoName" scope="page" value ="${video.getName() }"/>
-
+	    <c:set var="videoName" scope="page" value ="${video.getName()}"/>
+		
+	    <c:set var="username" scope="page" value ="${sessionScope.user.getUsername()}"/>
+	    
 		<!----start-wrap---->
 	<div class="wrap">
 		<!----start-Header---->
@@ -59,7 +95,7 @@
                  </c:if>
                  <c:if test="${sessionScope.user != null}">
                  <button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
-                 <button type="button" class="login-but"><a href="myChannel"><c:out value="${sessionScope.user.getUsername() }"></c:out></a></button>
+                 <button type="button" class="login-but"><a href="myChannel"><div id="user"><c:out value="${username}"></c:out></div></a></button>
                  </c:if>
                  <button type="button" class="upload-but"><a href="upload">Upload</a></button>
              </div>
@@ -85,8 +121,8 @@
 
 		<div class="content">
 			<div class="inner-page">
-				<c:set var="uploader" scope="page" value="${ video.getUploader()}"/>
-				<c:set var="description" scope="page" value="${ video.getDescription()}"/>
+				<c:set var="uploader" scope="page" value="${video.getUploader()}"/>
+				<c:set var="description" scope="page" value="${video.getDescription()}"/>
 				<div class="title">
 					<h3 id="videoName"><c:out value="${video.getName()}"></c:out> </h3>
 						<ul>
@@ -115,7 +151,7 @@
 					<div class="view-links">
 						<ul>
 							<li><h4>Share on:</h4></li>
-							<li><button type="button" onclick="likeVideo()"><img src="img/001.png" title="likes" /><div id="likes"><c:out value="${videoLikes}"/></div></li>
+							<li><button  type="button" onclick="likeVideo()"><img src="img/001.png" title="likes" /><div id="likes"><c:out value="${videoLikes}"/></div></li>
 							<li><button type="button" onclick="dislikeVideo()"><img src="img/deslink.png" title="dislikes" /><div id="dislikes"><c:out value="${videoDislikes}"/></div></li>
 							<li><a href="#"><img src="img/s1.png" title="Google+" /></a></li>
 						</ul>
@@ -133,6 +169,7 @@
 				<div class="video-details">
 				
 					<ul>
+					<li> <a href="login" id="confirmMessage" class="confirmMessage"> </a></li>
 						<li><p>Uploaded on <a href="#"><c:out value="${videoDate}"></c:out></a> by <a href="myChannel"><c:out value="uploader"></c:out></a></p></li>
 						<li><p>Description for video :</p></li>
 						<li><span><c:out value = "${description }"></c:out></span></li>

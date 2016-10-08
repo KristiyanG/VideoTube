@@ -389,7 +389,7 @@ input::-webkit-input-placeholder {
 	height: 30px;
 }
 .search-right input[type="submit"]{
-	background: url(../images/search.png) 0px 0.6px;
+	background: url(../img/search.png) 0px 0.6px;
 	width: 16px;
 	cursor:pointer;
 	position: relative;

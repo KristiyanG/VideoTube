@@ -95,31 +95,27 @@ public class Video {
 	public int commentsCount(){
 		return comments.size();
 	}
-	public boolean likeVideo(String user){
-		if(!likes.contains(user)){
-			likes.add( user);
-			if(dislikes.contains(user)){
-				dislikes.remove(user);
-			}
-			return true;
-		}
-		else{
-			likes.remove(user);
-		}
-		return false;
+	public boolean isUserLikeVideo(String user){
+		return likes.contains(user);
 	}
-	public boolean dislikeVideo(String user){
-		if(!this.dislikes.contains(user)){
+	
+	public boolean isUserDislikeVideo(String user){
+		return dislikes.contains(user);
+	}
+	
+	public void likeVideo(String user){
+		likes.add(user);
+	}
+	public void dislikeVideo(String user){
 			this.dislikes.add(user);
-			if(likes.contains(user)){
-				likes.remove(user);
-			}
-			return true;
-		}
-		else{
-			dislikes.remove(user);
-		}
-		return false;
+	}
+	
+	public void removeFromDislike(String user){
+		dislikes.remove(user);
+	}
+	
+	public void removeFromLike(String user){
+		likes.remove(user);
 	}
 	
 	public void addComment(Comment com){
