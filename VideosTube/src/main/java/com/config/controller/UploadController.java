@@ -24,7 +24,7 @@ import com.config.model.User;
 @Controller
 @SessionAttributes("user")
 public class UploadController {
-	private static final String FILE_LOCATION = "C:/Users/Parapanov/Desktop/VideosFolder";
+	private static final String FILE_LOCATION = "C:/Users/Kristian/Desktop/VideosFolder";
 
 	@RequestMapping(value="/upload", method=RequestMethod.GET)
 	public String prepareForUpload() {
@@ -73,40 +73,4 @@ public class UploadController {
 	}
 	
 
-//	@RequestMapping(value="/upload", method=RequestMethod.GET)
-//	public String prepareNewAddress(Model model){
-//		model.addAttribute("user", new User());
-//		return "upload";
-//	}
-//
-////	@RequestMapping(value="/upload", method=RequestMethod.POST)
-////	public String addReadyAddress(
-////			@ModelAttribute("user") User user,
-////			@RequestParam("video") MultipartFile multiPartFile, 
-////			Model model){
-////		
-////		System.out.println("User password is  "+ user.getPassword());
-////		try {
-////			System.out.println("in  dao");
-////			UserDAO.getInstance().registerUser(user.getUsername(), user.getPassword(), user.getEmail());
-////			System.out.println("out dao");
-////		} catch (CreateUserException e) {
-////			model.addAttribute("msg", e.getMessage());
-////			return "register";
-////		}
-////		
-////		return "upload";
-////	}
-//	
-//	@RequestMapping(value="/upoad", method=RequestMethod.POST)
-//	public String uploadVideo(@RequestParam("video") MultipartFile multiPartFile, Model model) throws IOException{
-//	
-//		System.out.println("HERE");
-//		File fileOnDisk = new File(FILE_LOCATION + multiPartFile.getOriginalFilename());
-//		Files.copy(multiPartFile.getInputStream(), fileOnDisk.toPath(), StandardCopyOption.REPLACE_EXISTING);
-//		vzemiToqImage = multiPartFile.getOriginalFilename();
-//		model.addAttribute("filename", multiPartFile.getOriginalFilename());
-//		
-//		return "home";
-//	}
 }

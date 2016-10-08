@@ -114,7 +114,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
                 	<c:forEach items="${videosList}" var="video">
 						<div class="grid">
 							<h3> ${video.name}</h3>
-							<a href="video/${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
+							<a href="video?name=${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
 							<div class="time">
 								<span>00:10</span>
 							</div>

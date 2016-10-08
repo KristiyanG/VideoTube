@@ -74,10 +74,14 @@ public class Video {
 		this.category = category;
 	}
 	public int getView() {
-		return view;
+		return this.view;
 	}
 	public void setView(int view) {
 		this.view = view;
+	}
+	
+	public int viewVideo(){
+		return this.view++;
 	}
 	
 	public int getLikes(){
@@ -91,21 +95,27 @@ public class Video {
 	public int commentsCount(){
 		return comments.size();
 	}
+	public boolean isUserLikeVideo(String user){
+		return likes.contains(user);
+	}
+	
+	public boolean isUserDislikeVideo(String user){
+		return dislikes.contains(user);
+	}
+	
 	public void likeVideo(String user){
-		if(!likes.contains(user)){
-			likes.add( user);
-			if(dislikes.contains(user)){
-				dislikes.remove(user);
-			}
-		}
+		likes.add(user);
 	}
 	public void dislikeVideo(String user){
-		if(!this.dislikes.contains(user)){
 			this.dislikes.add(user);
-			if(likes.contains(user)){
-				likes.remove(user);
-			}
-		}
+	}
+	
+	public void removeFromDislike(String user){
+		dislikes.remove(user);
+	}
+	
+	public void removeFromLike(String user){
+		likes.remove(user);
 	}
 	
 	public void addComment(Comment com){

@@ -121,7 +121,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 								<div class="cols-sm-10">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-										<input type="text" class="form-control" name="username" 
+										<input type="text" class="form-control" name="username" maxlength="16" 
 											placeholder="Enter your username"/>
 									</div>
 								</div>
@@ -134,7 +134,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
 										<input type="password" class="form-control" name="password" id="password" minlength="4" maxlength="16"  
-												onblur="PasswordLength()" id="pass1" placeholder="Enter your Password"/>
+												onblur="PasswordLength()" id="pass" placeholder="Enter your Password"/>
 									</div>
 								</div>
 							</div>

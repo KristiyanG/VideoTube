@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class MyController {
+<<<<<<< HEAD
 	
+=======
+//	
+>>>>>>> 9fb8b0b274c586f86e1d412fe7491e0c4a0a158f
 //	@RequestMapping(value="/index", method=RequestMethod.GET)
 //	public String sayHi(Model viewModel) {
 //		// talk with model
@@ -62,5 +66,9 @@ public class MyController {
 //		
 //		return "listproducts";
 //	}
+<<<<<<< HEAD
 //	
+=======
+	
+>>>>>>> 9fb8b0b274c586f86e1d412fe7491e0c4a0a158f
 }

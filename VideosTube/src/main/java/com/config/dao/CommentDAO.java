@@ -47,11 +47,11 @@ public class CommentDAO {
 
 			this.connection = DBManager.getInstance().getConnection();
 			Statement st = DBManager.getInstance().getConnection().createStatement();
-			ResultSet resultSet = st.executeQuery("SELECT id,text,comment_date,video_name,user_name"
-					+ "FROM comments join users where comments.user_name=users.username ;");
+			ResultSet resultSet = st.executeQuery("SELECT id,text,comment_date,video_name,user_name FROM comments ;");
 			while (resultSet.next()) {
 				Date input = resultSet.getDate("comment_date");
-				LocalDate date = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				
+				LocalDate date = input.toLocalDate();
 				Comment com = new Comment(resultSet.getLong("id"), resultSet.getString("user_name"),
 						resultSet.getString("text"), date, resultSet.getString("video_name"));
 
@@ -63,7 +63,7 @@ public class CommentDAO {
 				comments.get(videoName).add(com);
 			}
 		} catch (SQLException e) {
-			System.out.println("Oops, cannot make statement.");
+			System.out.println("load comments error "+e.getMessage());
 
 		}
 

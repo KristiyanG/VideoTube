@@ -12,10 +12,62 @@
 		<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
 		
 	    <link href="http://vjs.zencdn.net/5.11.7/video-js.css" rel="stylesheet">
+	  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script type="text/javascript">
+	function likeVideo() {
+		
+		var user =  document.getElementById('user');
+
+			if(user== null){
+				 var msg = document.getElementById('confirmMessage');
+				 msg.style.color = "#ff6666";
+				msg.innerHTML = "Login for vote video";
+		    }
+			else{
+				$.get(
+						"video/like", 
+						{ videoName: document.getElementById("videoName").innerHTML
+						},
+						
+						function(result){
+							document.getElementById("likes").innerHTML =result.likes,
+							document.getElementById("dislikes").innerHTML = result.dislikes;
+					    });
+			}
+		
+	}
+	function dislikeVideo() {
+		var user =  document.getElementById('user');
+		if(user == null){
+			var msg = document.getElementById('confirmMessage');
+			 msg.style.color = "#ff6666";
+			msg.innerHTML = "Login for vote video";
+	    }
+		else{$.get(
+				"video/dislike", 
+				{ videoName: document.getElementById("videoName").innerHTML
+				},
+				
+				function(result){
+					document.getElementById("likes").innerHTML =result.likes,
+					document.getElementById("dislikes").innerHTML = result.dislikes;
+			    });}
+		
+	}
+
+
+</script>
+
 </head>
 
 <body>
-
+		
+	    <c:set var="videoLikes" scope ="page" value ="${video.getLikes()}"></c:set>
+	    <c:set var="videoName" scope="page" value ="${video.getName()}"/>
+		
+	    <c:set var="username" scope="page" value ="${sessionScope.user.getUsername()}"/>
+	    
 		<!----start-wrap---->
 	<div class="wrap">
 		<!----start-Header---->
@@ -36,22 +88,32 @@
 					</div>
 					<div class="clear"> </div>
 				</div>
-				<div class="buttons">
-					<button type="button" class="register-but"><a style="color:white;" href="registerForm.html">Register</a></button>
-					<button type="button" class="login-but"><a href="loginForm.html">Login</a></button>
-					<button type="button" class="upload-but"><a href="uploadVideo.html">Upload</a></button>
-					
-				</div>
+				  <div class="buttons">
+              	 <c:if test="${sessionScope.user == null}" > 
+                 <button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
+                 <button type="button" class="login-but"><a href="login">Login</a></button>
+                 </c:if>
+                 <c:if test="${sessionScope.user != null}">
+                 <button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
+                 <button type="button" class="login-but"><a href="myChannel"><div id="user"><c:out value="${username}"></c:out></div></a></button>
+                 </c:if>
+                 <button type="button" class="upload-but"><a href="upload">Upload</a></button>
+             </div>
 			<!----start-top-nav---->
 			<div class="top-nav">
-				<ul>
-					<li><a href="index.html">Home</a><p>My Forntpage</p></li>
-					<li><a href="#">About</a><p>About this blog</p></li>
-					<li><a href="categories.html">Categories</a><p>Be Ur Self</p></li>
-					<li><a href="#">Economics</a><p>Human Needs</p></li>
-					<li><a href="#">Health</a><p>Take A Trip</p></li>
-					<li><a href="contact.html">Contact</a><p>Leave Messages</p></li>
-				</ul>
+				 <ul>
+                    <li><a href="home">Home</a><p>My Forntpage</p></li>
+                    <c:if test="${sessionScope.user != null}" >
+                    <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
+                    </c:if>
+                    <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
+                    <c:if test="${sessionScope.user != null}" >
+                    <li><a href="likedVideos">Liked Videos</a></li>
+                    <li><a href="history">History</a><p>Watched videos</p></li>
+                    <li><a href="myPlaylist">My Playlist</a></li>
+                    <li><a href="abonatetChannel">Abonated Channel</a></li>
+                    </c:if> <li><a href="#">Search</a><p>Search users or videos</p></li>
+                </ul>
 			</div>
 			<!----End-top-nav---->
 		</div>
@@ -59,20 +121,23 @@
 
 		<div class="content">
 			<div class="inner-page">
-
+				<c:set var="uploader" scope="page" value="${video.getUploader()}"/>
+				<c:set var="description" scope="page" value="${video.getDescription()}"/>
 				<div class="title">
-					<h3>Video Title </h3>
+					<h3 id="videoName"><c:out value="${video.getName()}"></c:out> </h3>
 						<ul>
 							<li><h4>By:</h4></li>
-							<li><a href="#">Author</a></li>
+							<li><a href="myChannel"><c:out value="${uploader}"></c:out></a></li>
 							<li><a href="#"><img src="img/sub.png" title="subscribe" />subscribe</a></li>
 						</ul>
-					
-
+							
+							<c:set var="videoDislikes" scope ="page" value ="${video.getDislikes()}"></c:set>
+							<c:set var="views" scope ="page" value ="${video.getView()}"></c:set>
+							<c:set var="videoDate" scope ="page" value ="${video.getDate().toString() }"></c:set>
 						  	<c:set var="video" scope="page" value="${requestScope.video.getName()}"/>
 							<video id="my-video" class="video-js"   controls preload="auto" width="640" height="264"
 						  			 data-setup="{}">
-							        <source src="address/${video}"  type='video/mp4'>
+							        <source src="video/${video}"  type='video/mp4'>
 							<p class="vjs-no-js">
 						      		To view this video please enable JavaScript, and consider upgrading to a web browser that
 						    </p>
@@ -86,8 +151,8 @@
 					<div class="view-links">
 						<ul>
 							<li><h4>Share on:</h4></li>
-							<li><a href="#"><img src="img/f1.png" title="facebook" /></a></li>
-							<li><a href="#"><img src="img/t1.png" title="Twitter" /></a></li>
+							<li><button  type="button" onclick="likeVideo()"><img src="img/001.png" title="likes" /><div id="likes"><c:out value="${videoLikes}"/></div></li>
+							<li><button type="button" onclick="dislikeVideo()"><img src="img/deslink.png" title="dislikes" /><div id="dislikes"><c:out value="${videoDislikes}"/></div></li>
 							<li><a href="#"><img src="img/s1.png" title="Google+" /></a></li>
 						</ul>
 						<ul class="comment1">
@@ -96,7 +161,7 @@
 						</ul>
 					</div>
 					<div class="views-count">
-						<p><span>2,500</span> Views</p>
+						<p><span><c:out value="${views }"/> </span> Views</p>
 					</div>
 					<div class="clear"> </div>
 				</div>
@@ -104,16 +169,12 @@
 				<div class="video-details">
 				
 					<ul>
-						<li><p>Uploaded on <a href="#">June 21, 2013</a> by <a href="#">Lorem</a></p></li>
-						<li><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></li>
+					<li> <a href="login" id="confirmMessage" class="confirmMessage"> </a></li>
+						<li><p>Uploaded on <a href="#"><c:out value="${videoDate}"></c:out></a> by <a href="myChannel"><c:out value="uploader"></c:out></a></p></li>
+						<li><p>Description for video :</p></li>
+						<li><span><c:out value = "${description }"></c:out></span></li>
 					</ul>
 					
-					
-					<ul class="other-links">
-						<li><a href="#">youtube.com/videos-tube</a></li>
-						<li><a href="#">facebook.com/videos-tube</a></li>
-						<li><a href="#">Twitter.com/videos-tube</a></li>
-					</ul>
 				</div>
 				<div class="clear"> </div>
 			
