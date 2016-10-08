@@ -68,11 +68,7 @@ public class VideoDAO {
 	
 	public Video getVideoByName(String videoName){
 		Video video = null;
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 9fb8b0b274c586f86e1d412fe7491e0c4a0a158f
 		if(videos.containsKey(videoName)){
 			video = videos.get(videoName);
 		}

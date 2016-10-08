@@ -99,7 +99,7 @@ public class UsersController {
 	@ResponseBody
 	public void videoAddress(@PathVariable("video") String videoName, HttpServletResponse resp, Model model){
 	
-		System.out.println("SEARCH VIDEO WITH NAME " +videoName);
+		System.out.println("SEARCH VIDEO WITH NAME " + videoName);
 		Video video = VideoDAO.getInstance().getVideoByName(videoName);
 		if(video == null){
 			System.out.println("NO SUCH VIDEO ");
@@ -116,7 +116,6 @@ public class UsersController {
 		
 	}
 	
-<<<<<<< HEAD
 	@RequestMapping(value="/grids", method=RequestMethod.GET)
 	public String grids(HttpSession ses, Model model){
 		
@@ -143,23 +142,5 @@ public class UsersController {
 		model.addAllAttributes(searchVideos);
 		return searchVideos;
 	}
-=======
-//	@RequestMapping(value="/grids", method=RequestMethod.GET)
-//	public String grids(HttpSession ses, Model model){
-//		
-//		
-//		Video video = VideoDAO.getInstance().getVideoByName("Purvoto");
-//		
-//		List<Video> videos = new ArrayList();
-//		
-//		System.out.println(video.getAddress());
-//		
-//		for(int i = 0; i < 4; i++){
-//			videos.add(video);
-//		}
-//		
-//		model.addAttribute("videos", videos);
-//		return "grids";
-//	}
->>>>>>> 9fb8b0b274c586f86e1d412fe7491e0c4a0a158f
+
 }

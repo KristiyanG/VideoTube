@@ -35,7 +35,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 					var trHTML = '';
 			        $.each(result, function (i, item) {
 			        	trHTML +='<div class="grid">'
-			        	+ '<a href="video/' + item.name + '"><img src="img/g1 copy.png" title= "' +item.name+'" /></a>'
+			        	+ '<a href="video?name=' + item.name + '"><img src="img/g1 copy.png" title= "' +item.name+'" /></a>'
 			        	+'<div class="grid-info">'
 						+'<div class="video-share">'
 						+'<ul>'
@@ -82,8 +82,8 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
                  </div>
                  <div class="search-right">
                      <form>
-                         <input type="text" id="search-field" onblur="search()" placeholder="Search videos">
-                         <input type="submit" value="" onclick="search()"/>
+                         <input type="text" id="search-field"  placeholder="Search videos">
+                         <input type="submit" value="" onmousedown="search()"  onsubmit="handle"/>
                      </form>
                  </div>
                  <div class="clear"> </div>
@@ -120,7 +120,6 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
         <!----End-Header---->
         <div class="clear"> </div>
         
-<<<<<<< HEAD
 		<div class="content">      
             <div class="left-content">            
 				<div class="box">
@@ -132,9 +131,8 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 	                	<c:forEach items="${videosList}" var="video">
 							<div class="grid">
 								<h3> ${video.name}</h3>
-								<a href="video/${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
+								<a href="video?name=${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
 								<div class="time">
-									<span>00:10</span>
 								</div>
 								<div class="grid-info">
 									<div class="video-share">
@@ -163,51 +161,6 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 	        <div class="clear"> </div>
     	</div>
 
-=======
-          
-        <div class="content">      
-            <div class="left-content">            
-                <div class="box">
-                	<div class="grids">
-                	
-                	<c:forEach items="${videos}" var="video">
-						<div class="grid">
-							<h3> ${video.name}</h3>
-							<a href="video?name=${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
-							<div class="time">
-								<span>00:10</span>
-							</div>
-							<div class="grid-info">
-								<div class="video-share">
-									<ul>
-										<li><a href="#"><img src="img/likes.png" title="links" /></a></li>
-										<li><a href="#"><img src="img/link.png" title="Link" /></a></li>
-										<li><a href="#"><img src="img/views.png" title="Views" /></a></li>
-									</ul>
-								</div>
-								<div class="video-watch">
-									<a href="single.html">Watch Now</a>
-								</div>
-								<div class="clear"> </div>
-								<div class="lables">
-									<p>Labels:<a href="categories.html">${video.uploader}</a></p>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-						
-					</div>
-                </div>
-            <div class="clear"> </div>
-        </div>
-        <div class="clear"> </div>
-        <div class="clear"> </div>
-    </div>
-   
-   
-        
-   
->>>>>>> 9fb8b0b274c586f86e1d412fe7491e0c4a0a158f
     <!----End-wrap---->
     </body>
 </html>
