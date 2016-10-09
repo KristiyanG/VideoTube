@@ -25,6 +25,19 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 		
 <link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
 	
+<script type="text/javascript">
+
+function viewEditButton() {
+	var a = document.getElementById ('edit-but') ;
+	a.style.visibility = 'visible';
+}
+function hideEditButton() {
+	var a = document.getElementById ('edit-but') ;
+	a.style.visibility = 'hidden';
+}
+
+</script>	
+	
 </head>
 	<body>
 	<!----start-wrap---->
@@ -90,9 +103,12 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 								<!-- Twitter Button -->   
 							</div>
 
-							<a title="#" href="#" class="twPc-avatarLink">
-								<img alt="#" src="#" class="twPc-avatarImg">
-							</a>
+							<div title="#" href="#" class="twPc-avatarLink">
+								<img alt="#" onmouseover="viewEditButton()" onmouseout="hideEditButton()" src="myChannel/${sessionScope.user.getUsername()}" class="twPc-avatarImg">`
+								<a href="#">								
+									<img src="img/edit-button.png" onmouseover="viewEditButton()"  class="edit-but" id="edit-but"></img>
+								</a>
+							</div>
 
 							<div class="twPc-divUser">
 								<div class="twPc-divName">

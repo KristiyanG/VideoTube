@@ -211,7 +211,7 @@ public class VideoDAO {
 	public List<Video> searchVideos(String name) {
 		List<Video> serchResult = new ArrayList<>();
 		for (Entry<String, Video> element : videos.entrySet()) {
-			if(element.getKey().contains(name)){
+			if(element.getKey().toLowerCase().contains(name.toLowerCase())){
 				serchResult.add(element.getValue());
 			}
 		}
@@ -286,7 +286,6 @@ public class VideoDAO {
 		return video;
 	}
 	
-
 	private void saveDislikeInDB(String name, String username) {
 		this.connection = DBManager.getInstance().getConnection();
 		try {
@@ -300,7 +299,6 @@ public class VideoDAO {
 		}
 		
 	}
-
 
 	private void saveLikeInDB(String name, String username) {
 		this.connection = DBManager.getInstance().getConnection();

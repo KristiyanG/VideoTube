@@ -99,12 +99,20 @@ body, html{
     vertical-align: bottom;
 }
 .twPc-avatarImg {
+	position: relative;
     border: 2px solid #fff;
     border-radius: 7px;
     box-sizing: border-box;
     color: #fff;
     height: 72px;
     width: 72px;
+}
+.edit-but{
+	position: absolute;
+	top: 55px;
+	left: 60px;
+	height: 20px;
+	width: 20px;
 }
 .twPc-divUser {
     margin: 5px 0 0;

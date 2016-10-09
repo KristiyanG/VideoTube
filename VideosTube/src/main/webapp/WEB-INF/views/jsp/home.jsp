@@ -19,48 +19,9 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
     <link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
     
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script type="text/javascript">
-	function search() {
-		
-		$.get(
-				"doSearch", 
-				{ search: document.getElementById("search-field").value, 
-					type: document.getElementById("search-drop-down").value
-				},
-				
-				function(result){
-					alert(result)
-					$('#videoBox').empty();
-
-					var trHTML = '';
-			        $.each(result, function (i, item) {
-			        	trHTML +='<div class="grid">'
-			        	+ '<a href="video?name=' + item.name + '"><img src="img/g1 copy.png" title= "' +item.name+'" /></a>'
-			        	+'<div class="grid-info">'
-						+'<div class="video-share">'
-						+'<ul>'
-						+'<li><a href="#"><img src="img/likes.png" title="links" /></a></li>'
-						+'<li><a href="#"><img src="img/link.png" title="Link" /></a></li>'
-						+'<li><a href="#"><img src="img/views.png" title="Views" /></a></li>'
-						+'</ul>'
-						+'</div>'
-						+'<div class="video-watch">'
-						+'<a href="single.html">Watch Now</a>'
-						+'</div>'
-						+'<div class="clear"> </div>'
-						+'<div class="lables">'
-						+'<p>Labels:<a href="categories.html">' +item.uploader+ '</a></p>'
-						+'</div>'
-						+'</div>'
-			        	+ '</div>'
+	<script src="script/search_bar.js"></script>
 	
-			        });
-			        $('#videoBox').append(trHTML);
-			    });
-
-	}
-
-</script>
+	
 </head>
 <body>
     <!----start-wrap---->
@@ -77,12 +38,12 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
                      <select class="search-drop-down" id="search-drop-down">
                      	<option>Video</option>
                      	<option>Play List</option>
-                     	<option>Cnannel</option>
+                     	<option>Channel</option>
                    	 </select>
                  </div>
                  <div class="search-right">
                      <form>
-                         <input type="text" id="search-field"  placeholder="Search videos">
+                         <input type="text" id="search-field" placeholder="Search videos">
                          <input type="submit" value="" onmousedown="search()"  onsubmit="handle"/>
                      </form>
                  </div>

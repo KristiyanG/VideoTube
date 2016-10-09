@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
+import com.config.exception.CreateUserException;
 import com.config.model.User;
 import com.config.model.Video;
 
@@ -135,12 +136,45 @@ public class UsersController {
 			@RequestParam("type") String type,
 			Model model){
 		
-		if(type.equals(type)){
-			return VideoDAO.getInstance().searchVideos(name);
-		}
-		List<Video> searchVideos = VideoDAO.getInstance().getAllVideos();
-		model.addAllAttributes(searchVideos);
-		return searchVideos;
+			return VideoDAO.getInstance().searchVideos(name);		
 	}
 
+	@RequestMapping(value="/searchChannel", method=RequestMethod.GET)
+	public @ResponseBody List<User> searchChannel(
+			@RequestParam("search") String name, 
+			@RequestParam("type") String type,
+			Model model) throws CreateUserException{
+				
+			List<User> res = UserDAO.getInstance().searchUsers(name);
+			for (User user : res) {
+				System.out.println(user);
+			}
+			System.out.println("GAAAAAAAAAAAAAAAAAAAAAAAAAA ");
+			List<User> users = new ArrayList<>();
+			User user = new User("Ivancho", "1234", "vanko@van.ko");
+			for (int i = 0; i < 5; i++) {
+				users.add(user);
+			}
+			return users;		
+	}
+	
+	@RequestMapping(value="/myChannel/{username}", method=RequestMethod.GET)
+	@ResponseBody
+	public void getProfilePic(@PathVariable("username") String username, HttpServletResponse resp, Model model){
+	
+//		Video video = VideoDAO.getInstance().getVideoByName(videoName);
+		String userPic = UserDAO.getInstance().getUserByUsername(username).getProfilePic();
+		if(userPic == null){
+			System.out.println("NO PIC");
+			return;
+		}
+		File file = new File(userPic);
+		
+		try {
+			Files.copy(file.toPath(), resp.getOutputStream());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@" + userPic);
+	}
 }

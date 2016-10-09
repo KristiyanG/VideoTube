@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import com.config.exception.CreateUserException;
 
 public class User {
-	public static final String DEFAULT_PROFILE_PICTURE = "..WebContent\\image\\profile-pic.jpg";
+	public static final String DEFAULT_PROFILE_PICTURE = "defaulfProfilePic.png";
 	
 	private String username;
 	private String password;
@@ -38,7 +38,6 @@ public class User {
 		this.subscriptions = new ArrayList<>();
 		this.history = new TreeSet<History>((v1, v2) -> v1.getDate().compareTo(v2.getDate()));
 		this.likedVideos = new ArrayList<>();
-
 	}
 
 	public User() {

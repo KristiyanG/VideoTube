@@ -5,11 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
 
 import com.config.exception.CreateUserException;
 import com.config.model.Channel;
 import com.config.model.User;
+import com.config.model.Video;
 
 public class UserDAO {
 
@@ -173,6 +177,14 @@ public class UserDAO {
 		return false;
 	}
 	
-
+	public List<User> searchUsers(String name){
+		List<User> results = new ArrayList<>();
+		for (Entry<String, User> user : users.entrySet()) {
+			if(user.getKey().toLowerCase().contains(name.toLowerCase())){
+				results.add(user.getValue());
+			}
+		}
+		return results;
+	}
 	
 }
