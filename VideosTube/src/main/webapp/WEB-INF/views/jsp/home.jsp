@@ -82,9 +82,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
         </div>
         
 		<div class="content">    
-		  
             <div class="left-content">            
-				
 				<div class="box">		
 					<div class="grids">
                 		<div id="videoBox">

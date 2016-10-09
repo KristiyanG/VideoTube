@@ -43,8 +43,11 @@ public class UserDAO {
 			Statement st = connection.createStatement();
 			ResultSet resultSet = st.executeQuery("SELECT username, password, profilePic, email FROM users;");
 			while (resultSet.next()) {
-				User user = new User(resultSet.getString("username"),
-						resultSet.getString("password"), resultSet.getString("email"));
+				User user = new User(
+						resultSet.getString("username"),
+						resultSet.getString("password"),
+						resultSet.getString("profilePic"),
+						resultSet.getString("email"));
 				loadChannel(user);
 				loadAbonatedChannels(user);
 				loadLikedVideos(user);
@@ -186,6 +189,42 @@ public class UserDAO {
 			}
 		}
 		return results;
+	}
+
+	public boolean changeProfilePicture(String fileName, String username) {
+		User user = getUserByUsername(username);
+		if(user == null){
+			System.out.println("Can't change picture. User is NULL.");
+			return false;
+		}
+		user.setProfilePic(fileName);
+				
+		try {
+			this.connection = DBManager.getInstance().getConnection();
+
+			String sql = "UPDATE users SET profilePic = (?) WHERE username = (?);;";
+			PreparedStatement stm = connection.prepareStatement(sql);
+			stm.setString(1, fileName);
+			stm.setString(2, username);
+
+			stm.executeUpdate();
+
+			return true;
+
+		} catch (SQLException e) {
+			System.out.println("INVALID DB LOGIN " + e.getMessage());
+			return false;
+		} finally {
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
 	}
 	
 }

@@ -40,6 +40,13 @@ public class User {
 		this.likedVideos = new ArrayList<>();
 	}
 
+	public User(String name, String password, String profilePic, String email) throws CreateUserException{
+		this(name, password, email);
+		if(!profilePic.equals(null)){
+			this.setProfilePic(profilePic);
+		}
+	}
+	
 	public User() {
 		this.profilePic = DEFAULT_PROFILE_PICTURE;
 	}

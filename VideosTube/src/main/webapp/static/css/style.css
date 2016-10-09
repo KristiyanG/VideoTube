@@ -639,6 +639,9 @@ input::-webkit-input-placeholder {
 }
 /*---single-page-----*/
 .inner-page {
+	position: absolute;
+	top: 100px;
+	left: 70px;
 	width: 70%;
 	float: left;
 }

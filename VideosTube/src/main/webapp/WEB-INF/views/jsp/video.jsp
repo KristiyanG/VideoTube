@@ -5,19 +5,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Video Page</title>
-		<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
-		<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
-		<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
-		
-	    <link href="http://vjs.zencdn.net/5.11.7/video-js.css" rel="stylesheet">
-	  
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Video Page</title>
+	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
+	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
+	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+	
+    <link href="http://vjs.zencdn.net/5.11.7/video-js.css" rel="stylesheet">
+  
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="script/register_form.js"></script>
 	
 <script type="text/javascript">
-function showDiv() {
+	function showDiv() {
 	
 	if(document.getElementById('commentsDiv').style.display == "block"){
 		document.getElementById('commentsDiv').style.display = "none";
@@ -59,70 +59,69 @@ function showDiv() {
 		}
 		
 	}
-
-
 </script>
-
 </head>
 
 <body>
-		
-	    <c:set var="videoLikes" scope ="page" value ="${video.getLikes()}"></c:set>
-	    <c:set var="videoName" scope="page" value ="${video.getName()}"/>
-	    
-		
-	    <c:set var="username" scope="page" value ="${sessionScope.user.getUsername()}"/>
-	    
-		<!----start-wrap---->
+	<c:set var="videoLikes" scope ="page" value ="${video.getLikes()}"></c:set>
+	<c:set var="videoName" scope="page" value ="${video.getName()}"/>
+	<c:set var="username" scope="page" value ="${sessionScope.user.getUsername()}"/>
+
+	<!----start-wrap---->
 	<div class="wrap">
 		<!----start-Header---->
 		<div class="header">
 			<!----start-Logo---->
 			<div class="logo">
-				<a href="index.html"><img src="img/logo.png" title="logo" /></a>
+				<a href="home"><img src="img/logo.png" title="logo" /></a>
 			</div>
 			<!----End-Logo---->
-				<div class="searchbar">
-					<div class="search-left">
-						<p>Latest Video Form VideosTube</p>
-					</div>
-					<div class="search-right">
-						<form>
-							<input type="text"><input type="submit" value="" />
-						</form>
-					</div>
-					<div class="clear"> </div>
-				</div>
-				  <div class="buttons">
-              	 <c:if test="${sessionScope.user == null}" > 
-                 <button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
-                 <button type="button" class="login-but"><a href="login">Login</a></button>
-                 </c:if>
-                 <c:if test="${sessionScope.user != null}">
-                 <button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
-                 <button type="button" class="login-but"><a href="myChannel"><div id="user"><c:out value="${username}"></c:out></div></a></button>
-                 </c:if>
-                 <button type="button" class="upload-but"><a href="upload">Upload</a></button>
-             </div>
+	        <div class="searchbar">
+	            <div class="search-left">
+	            <p>Search</p>
+	                <select class="search-drop-down" id="search-drop-down">
+	                	<option>Video</option>
+	                	<option>Play List</option>
+	                	<option>Channel</option>
+	              	 </select>
+	            </div>
+	            <div class="search-right">
+	                <form>
+	                    <input type="text" id="search-field" placeholder="Search videos">
+	                    <input type="submit" value="" onmousedown="search()"  onsubmit="handle"/>
+	                </form>
+	            </div>
+	            <div class="clear"> </div>
+	        </div>
+			<div class="buttons">
+				<c:if test="${sessionScope.user == null}" > 
+				<button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
+				<button type="button" class="login-but"><a href="login">Login</a></button>
+				</c:if>
+				<c:if test="${sessionScope.user != null}">
+				<button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
+				<button type="button" class="login-but"><a href="myChannel"><div id="user"><c:out value="${username}"></c:out></div></a></button>
+				</c:if>
+				<button type="button" class="upload-but"><a href="upload">Upload</a></button>
+            	</div>
 			<!----start-top-nav---->
-			<div class="top-nav">
-				 <ul>
-                    <li><a href="home">Home</a><p>My Forntpage</p></li>
-                    <c:if test="${sessionScope.user != null}" >
-                    <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
-                    </c:if>
-                    <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
-                    <c:if test="${sessionScope.user != null}" >
-                    <li><a href="likedVideos">Liked Videos</a></li>
-                    <li><a href="myPlaylist">My Playlist</a></li>
-                    <li><a href="abonatetChannel">Abonated Channel</a></li>
-                    </c:if> 
-                </ul>
-			</div>
+				<div class="top-nav">
+					 <ul>
+	                    <li><a href="home">Home</a><p>My Forntpage</p></li>
+	                    <c:if test="${sessionScope.user != null}" >
+	                    <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
+	                    </c:if>
+	                    <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
+	                    <c:if test="${sessionScope.user != null}" >
+	                    <li><a href="likedVideos">Liked Videos</a></li>
+	                    <li><a href="myPlaylist">My Playlist</a></li>
+	                    <li><a href="abonatetChannel">Abonated Channel</a></li>
+	                    </c:if> 
+	                </ul>
+				</div>
 			<!----End-top-nav---->
 		</div>
 		<!----End-Header---->
-
 		<div class="content">
 			<div class="inner-page">
 				<c:set var="uploader" scope="page" value="${video.getUploader()}"/>
