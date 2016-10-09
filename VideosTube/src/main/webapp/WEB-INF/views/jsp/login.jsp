@@ -31,7 +31,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 <link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
 	
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 
 		<!-- Website CSS style -->
 		<link rel="stylesheet" type="text/css" href="css/main.css">

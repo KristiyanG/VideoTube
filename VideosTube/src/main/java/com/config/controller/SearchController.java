@@ -105,6 +105,7 @@ public @ResponseBody Comment commentVideo(HttpSession ses,HttpServletRequest req
 		System.out.println("VIDEO IS NULL");
 		return null;
 	}
+	System.out.println("Comment date"+com.getDate());
 	return com;
 }
 

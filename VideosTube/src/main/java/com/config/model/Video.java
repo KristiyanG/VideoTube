@@ -33,7 +33,7 @@ public class Video {
 		this.description = description;
 		this.likes = new HashSet<>();
 		this.dislikes = new HashSet<>();
-		this.comments = new TreeSet<Comment>((v1,v2)-> v1.getText().compareTo(v2.getText()));
+		this.comments = new TreeSet<Comment>((v1,v2)-> v2.getDateInDate().compareTo(v1.getDateInDate()));
 	}
 	
 	public String getAddress() {

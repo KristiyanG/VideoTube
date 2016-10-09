@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.config.model.Comment;
+import com.config.model.LocalDateTimeConverter;
 import com.config.model.User;
 import com.config.model.Video;
 
@@ -50,11 +52,13 @@ public class CommentDAO {
 			Statement st = DBManager.getInstance().getConnection().createStatement();
 			ResultSet resultSet = st.executeQuery("SELECT id,text,comment_date,video_name,user_name FROM comments ;");
 			while (resultSet.next()) {
-				Date input = resultSet.getDate("comment_date");
 				
-				LocalDate date = input.toLocalDate();
+//				Date input = resultSet.getDate("comment_date");
+//				LocalDate date = input.toLocalDate();
+				Timestamp ts = resultSet.getTimestamp("comment_date");
+				LocalDateTime dateAndTime = LocalDateTimeConverter.convertToEntityAttribute(ts);
 				Comment com = new Comment(resultSet.getLong("id"), resultSet.getString("user_name"),
-						resultSet.getString("text"), date, resultSet.getString("video_name"));
+						resultSet.getString("text"), dateAndTime, resultSet.getString("video_name"));
 
 				loadCommentsLikes(com);
 				String videoName = resultSet.getString("video_name");
@@ -131,12 +135,12 @@ public class CommentDAO {
 	public Comment saveComment(User user, String text, Video video) {
 		this.connection = DBManager.getInstance().getConnection();
 		String sql = "Insert INTO comments(text,comment_date,video_name,user_name) VALUES (?,?,?,?)";
-		LocalDate localDate = LocalDate.now();
-		Date date = Date.valueOf(localDate);
+		LocalDateTime localDateTime = LocalDateTime.now();
+		Timestamp date = LocalDateTimeConverter.convertToDatabaseColumn(localDateTime);
 		try {
 			PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, text);
-			st.setDate(2, date);
+			st.setTimestamp(2, date);
 			st.setString(3, video.getName());
 			st.setString(4, user.getUsername());
 
@@ -146,7 +150,7 @@ public class CommentDAO {
 			rs.next();
 			long commentId = rs.getInt(1);
 
-			Comment com = new Comment(commentId, user.getUsername(), text, localDate, video.getName());
+			Comment com = new Comment(commentId, user.getUsername(), text, localDateTime, video.getName());
 			if (!comments.containsKey(video.getName())) {
 				comments.put(video.getName(), new ArrayList<Comment>());
 			}

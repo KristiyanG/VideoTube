@@ -109,20 +109,20 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
                     <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
                     <c:if test="${sessionScope.user != null}" >
                     <li><a href="likedVideos">Liked Videos</a></li>
-                    <li><a href="history">History</a><p>Watched videos</p></li>
                     <li><a href="myPlaylist">My Playlist</a></li>
                     <li><a href="abonatetChannel">Abonated Channel</a></li>
-                    </c:if> <li><a href="#">Search</a><p>Search users or videos</p></li>
+                    </c:if> 
                 </ul>
             </div>
-            <div class="clear"> </div>
+           
             <!----End-top-nav---->
         <!----End-Header---->
-        <div class="clear"> </div>
-        
-		<div class="content">      
+		<div class="content">    
+		  
             <div class="left-content">            
+				
 				<div class="box">
+								
 					<div class="grids">
 					
                 		<div id="videoBox">
@@ -133,21 +133,13 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 								<h3> ${video.name}</h3>
 								<a href="video?name=${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
 								<div class="time">
+								<span>Views<c:out value="${ video.view}"/></span>
 								</div>
 								<div class="grid-info">
-									<div class="video-share">
-										<ul>
-											<li><a href="#"><img src="img/likes.png" title="links" /></a></li>
-											<li><a href="#"><img src="img/link.png" title="Link" /></a></li>
-											<li><a href="#"><img src="img/views.png" title="Views" /></a></li>
-										</ul>
-									</div>
-									<div class="video-watch">
-										<a href="single.html">Watch Now</a>
-									</div>
+									
 									<div class="clear"> </div>
 									<div class="lables">
-										<p>Labels:<a href="categories.html">${video.uploader}</a></p>
+										<p>Uploader:<a href="myChannel">${video.uploader}</a></p>
 									</div>
 								</div>
 							</div>
@@ -160,7 +152,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 	        <div class="clear"> </div>
 	        <div class="clear"> </div>
     	</div>
-
+</div>
     <!----End-wrap---->
     </body>
 </html>

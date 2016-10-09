@@ -1,6 +1,8 @@
 package com.config.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,9 +15,9 @@ public class Comment {
 	private String user;
 	private String videoName;
 	private String text;
-	private LocalDate date;
+	private LocalDateTime date;
 	private HashSet<String> likes ;//username
-	public Comment(long id,String user, String text, LocalDate date,String videoName) {
+	public Comment(long id,String user, String text, LocalDateTime date,String videoName) {
 		this.user = user;
 		this.id = id;
 		this.text = text;
@@ -53,14 +55,21 @@ public class Comment {
 		this.text = text;
 	}
 	public String getDate() {
-		return date.toString();
+		String str = date.toString();
+		str =str.replaceAll("T", " ");
+		str =str.substring(0, 16);
+		System.out.println(str);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
+		System.out.println("Get comment date " +dateTime.toString());
+		return dateTime.toString().replaceAll("T", " ");
 	}
 	
-	public LocalDate getDateInDate(){
+	public LocalDateTime getDateInDate(){
 		return date;
 	}
 	
-	public void setDate(LocalDate date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 	

@@ -38,20 +38,24 @@ function showDiv() {
 			msg.innerHTML = "Login for comment video";
 	    }
 		else{
-			$.get(
-					"writeComment", 
-					{ commentText: document.getElementById("commentText").value,
-						videoName: document.getElementById("videoName").innerHTML
-					
-					},
-					
-					function(result){
-						window.alert(result);
-						document.getElementById("commentContent").innerHTML =result.text;
-
-						document.getElementById("commentAuthor").innerHTML =result.user;
-						document.getElementById('newComment').style.display = "block";
-				    });
+			if(document.getElementById("commentText").value!=null){
+				$.get(
+						"writeComment", 
+						{ commentText: document.getElementById("commentText").value,
+							videoName: document.getElementById("videoName").innerHTML
+						
+						},
+						
+						function(result){
+							
+							document.getElementById("commentContent").innerHTML =result.text;
+							document.getElementById("newCommentDate").innerHTML =result.date;
+							document.getElementById("commentAuthor").innerHTML =result.user;
+							$("#commentText").val('');
+							document.getElementById('newComment').style.display = "block";
+					    });
+			}
+			
 		}
 		
 	}
@@ -110,10 +114,9 @@ function showDiv() {
                     <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
                     <c:if test="${sessionScope.user != null}" >
                     <li><a href="likedVideos">Liked Videos</a></li>
-                    <li><a href="history">History</a><p>Watched videos</p></li>
                     <li><a href="myPlaylist">My Playlist</a></li>
                     <li><a href="abonatetChannel">Abonated Channel</a></li>
-                    </c:if> <li><a href="#">Search</a><p>Search users or videos</p></li>
+                    </c:if> 
                 </ul>
 			</div>
 			<!----End-top-nav---->
@@ -179,7 +182,44 @@ function showDiv() {
         <h1>Video comments </h1>
 
         <ul id="comments-list" class="comments-list">
-            <c:forEach items="${comments}" var="com">
+           
+           <li>
+                <div id="writeCommentLogin" style="display:none;" class="comment-main-level">
+                    <!-- Avatar -->
+                    <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
+                    <!-- Contenedor del Comentario -->
+                    <div class="comment-box">
+                        <div class="comment-head">
+                            <h6 class="comment-name"><a href="http://creaticode.com/blog">You</a></h6>
+                        </div>
+                       <form action="javascript:writeComment()">
+                        <div class="comment-content">
+                        <input id="commentText"  type="text" placeholder="Write comment..." maxlength="100"></input><button type="submit"  >Add</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </li>
+            <li>
+            <div id="newComment" style="display:none;" class="comment-main-level">
+                    <!-- Avatar -->
+                    <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+                    <!-- Contenedor del Comentario -->
+                    <div class="comment-box">
+                        <div class="comment-head">
+                            <h6 id="commentAuthor" class="comment-name by-author"></h6>
+                            <span><div id="newCommentDate"></div></span>
+                            <i class="fa fa-reply"></i>
+                            <i class="fa fa-heart"></i>
+                        </div>
+                        <div id="commentContent" class="comment-content">
+                         
+                         </div>
+                    </div>
+                </div>
+            </li>
+            
+             <c:forEach items="${comments}" var="com">
             <li>
        
                 <div  class="comment-main-level">
@@ -202,41 +242,6 @@ function showDiv() {
                 </div>
             </li>
             </c:forEach>
-            <li>
-            <div id="newComment" style="display:none;" class="comment-main-level">
-                    <!-- Avatar -->
-                    <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
-                    <!-- Contenedor del Comentario -->
-                    <div class="comment-box">
-                        <div class="comment-head">
-                            <h6 id="commentAuthor" class="comment-name by-author"></h6>
-                            <span></span>
-                            <i class="fa fa-reply"></i>
-                            <i class="fa fa-heart"></i>
-                        </div>
-                        <div id="commentContent" class="comment-content">
-                         
-                         </div>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div id="writeCommentLogin" style="display:none;" class="comment-main-level">
-                    <!-- Avatar -->
-                    <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
-                    <!-- Contenedor del Comentario -->
-                    <div class="comment-box">
-                        <div class="comment-head">
-                            <h6 class="comment-name"><a href="http://creaticode.com/blog">Lorena Rojero</a></h6>
-                        </div>
-                       <form>
-                        <div class="comment-content">
-                        <input id="commentText"  type="text" placeholder="Write comment..."></input><button type="button" onclick="writeComment()" >Add</button>
-                        </div>
-                        </form>
-                    </div>
-                </div>
-            </li>
             
         </ul>
     </div>

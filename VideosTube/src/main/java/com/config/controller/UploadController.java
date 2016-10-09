@@ -24,7 +24,7 @@ import com.config.model.User;
 @Controller
 @SessionAttributes("user")
 public class UploadController {
-	private static final String FILE_LOCATION = "C:/Users/Parapanov/Desktop/VideosFolder";
+	private static final String FILE_LOCATION = "C:/Users/Kristian/Desktop/VideosFolder";
 
 	@RequestMapping(value="/upload", method=RequestMethod.GET)
 	public String prepareForUpload() {
@@ -47,7 +47,7 @@ public class UploadController {
 			return "upload";
 		}
 		
-		String fileFullName = user.getUsername().concat("-").concat(videoName).concat(".mp4");
+		String fileFullName = videoName.concat(".mp4");
 //		String fileFullName = "Username".concat("-").concat(videoName).concat(".mp4");
 
 	    File dir = new File(FILE_LOCATION);

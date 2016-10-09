@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
 import com.config.model.Comment;
+import com.config.model.CryptWithMD5;
 import com.config.model.User;
 import com.config.model.Video;
 
@@ -35,7 +36,6 @@ public class UsersController {
 			@RequestParam("username") String username,
 			@RequestParam("password") String password){
 		
-
 		if(UserDAO.getInstance().login(username, password)){
 			System.out.println("User exist");
 			
