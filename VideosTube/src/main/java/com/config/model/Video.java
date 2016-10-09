@@ -2,11 +2,14 @@ package com.config.model;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
 
 public class Video {
 
@@ -30,7 +33,7 @@ public class Video {
 		this.description = description;
 		this.likes = new HashSet<>();
 		this.dislikes = new HashSet<>();
-		this.comments = new TreeSet<Comment>((v1,v2)-> v1.getDate().compareTo(v2.getDate()));
+		this.comments = new TreeSet<Comment>((v1,v2)-> v2.getDateInDate().compareTo(v1.getDateInDate()));
 	}
 	
 	public String getAddress() {
@@ -128,7 +131,20 @@ public class Video {
 	public Set<Comment> showVideoComments(){
 		return (Set<Comment>) Collections.unmodifiableSet(comments);
 	}
+	public ArrayList<Comment> getVideoComments(){
+		System.out.println("COMMENTS SIZEE @@@@@@@@@@--- "+comments.size());
+		ArrayList<Comment> comments = new ArrayList<Comment>();
+		comments.addAll(this.comments);
+		return comments;
+	}
 	
+	public String getComments(){
+		System.out.println("COMMENTS SIZEE @@@@@@@@@@--- "+comments.size());
+		ArrayList<Comment> comments = new ArrayList<Comment>();
+		comments.addAll(this.comments);
+		
+		return comments.toString();
+	}
 	
 	
 	

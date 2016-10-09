@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
 import com.config.exception.CreateUserException;
+import com.config.model.Comment;
+import com.config.model.CryptWithMD5;
 import com.config.model.User;
 import com.config.model.Video;
 
@@ -35,7 +36,6 @@ public class UsersController {
 			@RequestParam("username") String username,
 			@RequestParam("password") String password){
 		
-
 		if(UserDAO.getInstance().login(username, password)){
 			System.out.println("User exist");
 			
@@ -68,34 +68,12 @@ public class UsersController {
 		Video video = VideoDAO.getInstance().getVideoByName(videoname);
 		VideoDAO.getInstance().viewVideo(video);
 		model.addAttribute("video", video);
-		
-		
-//		String location = "C:/Users/Parapanov/Desktop/VideosFolder/tsveta-Pyrvoto.mp4";
-//		File file = new File(location);
-//		Files.copy(file.toPath(), resp.getOutputStream());
+		model.addAttribute("comments", video.showVideoComments());
 		return "video";
 	}
 	
-//	@RequestMapping(value="video/like", method=RequestMethod.GET)
-//	@ResponseBody
-//	public int likeVideo(HttpSession ses,HttpServletRequest req){
-//		String videoName =req.getParameter("videoName").trim();
-//		int likes = Integer.parseInt(req.getParameter("likes"));
-//		if(ses.getAttribute("user")==null){
-//			return likes;
-//		}
-//		User user = (User)ses.getAttribute("user");
-//		System.out.println("++++"+videoName+"+++");
-//		Video video = VideoDAO.getInstance().likeVideo(videoName, user.getUsername());
-//		
-//		if(video==null){
-//			System.out.println("VIDEO IS NULL");
-//			return likes;
-//		}
-//		System.out.println("Video likes before print "+video.getLikes());
-//		return video.getLikes();
-//	}
 	
+
 	@RequestMapping(value="/video/{video}", method=RequestMethod.GET)
 	@ResponseBody
 	public void videoAddress(@PathVariable("video") String videoName, HttpServletResponse resp, Model model){

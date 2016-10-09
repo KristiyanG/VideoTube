@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.config.dao.CommentDAO;
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
+import com.config.model.Comment;
 import com.config.model.User;
 import com.config.model.Video;
 
@@ -87,5 +89,25 @@ public class SearchController {
 		System.out.println("Video dislikes before print "+video.getLikes());
 		return video;
 	}
+
+
+@RequestMapping(value="writeComment", method=RequestMethod.GET)
+
+public @ResponseBody Comment commentVideo(HttpSession ses,HttpServletRequest req){
+	System.out.println("TYKA SUMMM");
+	String comment =req.getParameter("commentText").trim();
+	String videoName =req.getParameter("videoName").trim();
+	User user = (User)ses.getAttribute("user");
+	Video video = VideoDAO.getInstance().getVideoByName(videoName);
+	Comment com =CommentDAO.getInstance().saveComment(user, comment, video);
+	
+	if(com==null){
+		System.out.println("VIDEO IS NULL");
+		return null;
+	}
+	System.out.println("Comment date"+com.getDate());
+	return com;
+}
+
 	
 }

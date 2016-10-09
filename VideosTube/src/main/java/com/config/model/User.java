@@ -29,10 +29,10 @@ public class User {
 			throw new CreateUserException("Username must be >4 and < 12");
 		}
 		setUsername(name);
-		setPassword(password);
 		if (!isValidEmail(email)) {
 			throw new CreateUserException("Invalid email !!!");
 		}
+		this.password=password;
 		this.email = email;
 		this.profilePic = DEFAULT_PROFILE_PICTURE;
 		this.subscriptions = new ArrayList<>();
@@ -126,8 +126,10 @@ public class User {
 	}
 
 	public boolean isValidPassword(String password){
-		System.out.println("User class pass: "  + this.password);
-		return this.password.equals(CryptWithMD5.cryptWithMD5(password));
+		System.out.println("User class pass: "+ this.password+"@");
+		String criptPass = CryptWithMD5.cryptWithMD5(password);
+		System.out.println("User password :"+criptPass+"@");
+		return this.password.equals(criptPass);
 	}
 
 	public static boolean isValidEmail(String enteredEmail) {

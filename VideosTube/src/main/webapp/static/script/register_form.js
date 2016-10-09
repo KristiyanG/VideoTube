@@ -77,25 +77,6 @@ function PasswordLength(){
 	}
 }
 
-function dislikeVideo() {
-	var user =  document.getElementById('user');
-	if(user == null){
-		var msg = document.getElementById('confirmMessage');
-		 msg.style.color = "#ff6666";
-		msg.innerHTML = "Login for vote video";
-    }
-	else{$.get(
-			"video/dislike", 
-			{ videoName: document.getElementById("videoName").innerHTML
-			},
-			
-			function(result){
-				document.getElementById("likes").innerHTML =result.likes,
-				document.getElementById("dislikes").innerHTML = result.dislikes;
-		    });}
-	
-}
-
 function likeVideo() {
 	
 	var user =  document.getElementById('user');
@@ -117,6 +98,22 @@ function likeVideo() {
 				    });
 		}
 	
-	
+}
+function dislikeVideo() {
+	var user =  document.getElementById('user');
+	if(user == null){
+		var msg = document.getElementById('confirmMessage');
+		 msg.style.color = "#ff6666";
+		msg.innerHTML = "Login for vote video";
+    }
+	else{$.get(
+			"video/dislike", 
+			{ videoName: document.getElementById("videoName").innerHTML
+			},
+			
+			function(result){
+				document.getElementById("likes").innerHTML =result.likes,
+				document.getElementById("dislikes").innerHTML = result.dislikes;
+		    });}
 	
 }
