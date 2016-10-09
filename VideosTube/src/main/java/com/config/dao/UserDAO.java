@@ -116,6 +116,7 @@ public class UserDAO {
 	}
 
 	public boolean registerUser(String name, String password, String email) throws CreateUserException {
+		String userPic = User.DEFAULT_PROFILE_PICTURE;
 		System.out.println("Registe user in DAO");
 		if(name.length()>12||name.length()<4){
 			throw new CreateUserException("Username must be >4 and < 12");
@@ -123,22 +124,23 @@ public class UserDAO {
 		if (users.containsKey(name)) {
 			throw new CreateUserException("User with this username already exist !");
 		} else if (addInCollection(name, password, email)) {
-			return addInDB(name, password, email);
+			return addInDB(name, password, userPic, email);
 		}
 
 		return false;
 	}
 
-	private boolean addInDB(String name, String password, String email) {
+	private boolean addInDB(String name, String password, String profilePic, String email) {
 
 		try {
 			this.connection = DBManager.getInstance().getConnection();
 
-			String sql = "insert into users(username,password,email) values(?,?,?);";
+			String sql = "insert into users(username,password,profilePic,email) values(?,?,?,?);";
 			PreparedStatement stm = connection.prepareStatement(sql);
 			stm.setString(1, name);
 			stm.setString(2, password);
-			stm.setString(3, email);
+			stm.setString(3, profilePic);
+			stm.setString(4, email);
 
 			stm.executeUpdate();
 
@@ -158,7 +160,6 @@ public class UserDAO {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	private boolean addInCollection(String name, String password, String email) throws CreateUserException {

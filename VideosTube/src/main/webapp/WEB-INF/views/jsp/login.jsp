@@ -13,147 +13,130 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 
 <!DOCTYPE HTML>
 <html>
-	<head>
-	<%
-		response.addHeader("Cache-Control", "no-cache,no-store,private,must-revalidate,max-stale=0,post-check=0,pre-check=0"); 
-		response.addHeader("Pragma", "no-cache"); 
-		response.addDateHeader ("Expires", 0);
-	%>
+<head>
+<%
+	response.addHeader("Cache-Control", "no-cache,no-store,private,must-revalidate,max-stale=0,post-check=0,pre-check=0"); 
+	response.addHeader("Pragma", "no-cache"); 
+	response.addDateHeader ("Expires", 0);
+%>
 		<title>Videostube Website Template | Home :: W3layouts</title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
-		
-<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
-		
-<meta name="keywords" content="legend iphone web template, Andriod web template, Smartphone web template, free webdesigns for Nokia,
- Samsung, LG, SonyErricsson, Motorola web design" />
-		
-<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
-	
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />	
+	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
 
 		<!-- Website CSS style -->
-		<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
 
-		<!-- Website Font style -->
-	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-		
-		<!-- Google Fonts -->
-		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
-		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+	<!-- Website Font style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
-		<title>Admin</title>
-	
 	
 </head>
-	<body>
+<body>
 	<!----start-wrap---->
-		<div class="wrap">
-		<!----start-Header---->
-			<div class="header">
-			<!----start-Logo---->
+    <div class="wrap">
+       <!----start-Header---->
+       <!----start-Logo---->
+       <div class="logo">
+           <a href="home"><img src="img/logo.png" title="logo" /></a>
+       </div>
+           <!----End-Logo---->
+       <div class="searchbar">
+           <div class="search-left">
+           	   <p>Search</p>
+               <select class="search-drop-down" id="search-drop-down">
+               		<option>Video</option>
+               		<option>Play List</option>
+               		<option>Channel</option>
+             	</select>
+           </div>
+           <div class="search-right">
+               <form>
+                   <input type="text" id="search-field" placeholder="Search videos">
+                   <input type="submit" value="" onmousedown="search()"  onsubmit="handle"/>
+               </form>
+           </div>
+           <div class="clear"> </div>
+       </div>
+       <div class="buttons">
+       	    <c:if test="${sessionScope.user == null}" > 
+            <button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
+            <button type="button" class="login-but"><a href="login">Login</a></button>
+            </c:if>
+            <c:if test="${sessionScope.user != null}">
+            <button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
+            <button type="button" class="login-but"><a href="myChannel"><c:out value="${sessionScope.user.getUsername() }"></c:out></a></button>
+            </c:if>
+            <button type="button" class="upload-but"><a href="upload">Upload</a></button>
+       </div>
+           <!----start-top-nav---->
+       <div class="top-nav" >
+           <ul>
+               <li><a href="home">Home</a><p>My Forntpage</p></li>
+               <c:if test="${sessionScope.user != null}" >
+               <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
+               </c:if>
+               <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
+               <c:if test="${sessionScope.user != null}" >
+               <li><a href="likedVideos">Liked Videos</a></li>
+               <li><a href="myPlaylist">My Playlist</a></li>
+               <li><a href="abonatetChannel">Abonated Channel</a></li>
+               </c:if> 
+           </ul>
+       </div>        
+       <!----End-top-nav---->
+       <!----End-Header---->
+       </div>
+		<!----End-Header---->
+		<div class="clear"> </div>
+		
+		<div class="clear"> </div>
+	
+		<!---reg Form start --->
+		<div class="container">
+			<div class="main-login main-center">
+				<form class="form-horizontal" method = "POST"  >
 			
-				<div class="logo">
-					<a href="home"><img src="img/logo.png" title="logo" /></a>
-				</div>
-				<div class="searchbar">
-                    <div class="search-left">
-                        <p>Latest Video Form VideosTube</p>
-                    </div>
-                    <div class="search-right">
-                        <form>
-                            <input type="text" placeholder="Search videos"><input type="submit" value="" />
-                        </form>
-                    </div>
-                    <div class="clear"> </div>
-                </div>
-                 <div class="buttons">
-                 <c:if test="${sessionScope.user == null}" > 
-               
-                    <button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
-                    <button type="button" class="login-but"><a href="login">Login</a></button>
-                    </c:if>
-                    <c:if test="${sessionScope.user != null}">
-                    <button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
-                    <button type="button" class="login-but"><a href="myChannel"><c:out value="${sessionScope.user.getUsername() }"></c:out></a></button>
-                    </c:if>
-                    <button type="button" class="upload-but"><a href="upload">Upload</a></button>
-                </div>
-					<!----End-Logo---->
-					<!----start-top-nav---->
-				<div class="top-nav">
-					 <ul>
-                	
-                    <li><a href="home">Home</a><p>My Forntpage</p></li>
-                    <c:if test="${sessionScope.user != null}" >
-                    <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
-                    </c:if>
-                    <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
-                    <c:if test="${sessionScope.user != null}" >
-                    <li><a href="likedVideos">Liked Videos</a></li>
-                    <li><a href="history">History</a><p>Watched videos</p></li>
-                    <li><a href="myPlaylist">My Playlist</a></li>
-                    <li><a href="abonatetChannel">Abonated Channel</a></li>
-                    </c:if> <li><a href="#">Search</a><p>Search users or videos</p></li>
-                </ul>
-				</div>
-				<div class="clear"> </div>
-				<!----End-top-nav---->
-			</div>
-			</div>
-			<!----End-Header---->
-			<div class="clear"> </div>
+					<div class="login-txt" align="center" style="color:#FFFFFF;"> Login <c:out value="${msg}"></c:out></div><br>
 			
-			<div class="clear"> </div>
-		
-			<!---reg Form start --->
-			<div class="container">
-				
-		
-					<div class="main-login main-center">
-						<form class="form-horizontal" method = "POST"  >
-		
-							<div class="login-txt" align="center" style="color:#FFFFFF;"> Login <c:out value="${msg}"></c:out></div><br>
-					
-							<div class="form-group">
-								<label for="email" class="cols-sm-2 control-label">Username</label>
-								<div class="cols-sm-10">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-										<input type="text" class="form-control" name="username" maxlength="16" 
-											placeholder="Enter your username"/>
-									</div>
-								</div>
-								<div class="status" id="status"></div>
+					<div class="form-group">
+						<label for="email" class="cols-sm-2 control-label">Username</label>
+						<div class="cols-sm-10">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+								<input type="text" class="form-control" name="username" maxlength="16" 
+									placeholder="Enter your username"/>
 							</div>
-
-							<div class="form-group">
-								<label for="password" class="cols-sm-2 control-label">Password</label>
-								<div class="cols-sm-10">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-										<input type="password" class="form-control" name="password" id="password" minlength="4" maxlength="16"  
-												onblur="PasswordLength()" id="pass" placeholder="Enter your Password"/>
-									</div>
-								</div>
-							</div>
-
-							<span id="confirmMessage" class="confirmMessage"></span>
-							
-							<div class="form-group ">
-								<button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
-							</div>
-						</form>
+						</div>
+						<div class="status" id="status"></div>
 					</div>
-				
-		
+			
+					<div class="form-group">
+						<label for="password" class="cols-sm-2 control-label">Password</label>
+						<div class="cols-sm-10">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+								<input type="password" class="form-control" name="password" id="password" minlength="4" maxlength="16"  
+										onblur="PasswordLength()" id="pass" placeholder="Enter your Password"/>
+							</div>
+						</div>
+					</div>
+			
+					<span id="confirmMessage" class="confirmMessage"></span>
+					
+					<div class="form-group ">
+						<button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
+					</div>
+				</form>
+			</div>
 		</div>
-
-			<script type="text/javascript" src="assets/js/bootstrap.js"></script>
-			<script src="web/script/register_form.js"></script>
-				<!--- reg Form end -->
-				<div class="clear"> </div>
+		<script type="text/javascript" src="assets/js/bootstrap.js"></script>
+		<script src="web/script/register_form.js"></script>
+		<!--- reg Form end -->
+		<div class="clear"> </div>
 
 	<!----End-wrap---->
 	</body>

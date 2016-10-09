@@ -6,75 +6,52 @@
 
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>Videostube Website Template | Home :: W3layouts</title>
-	
+<head>
+	<title>Register form</title>
+
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
-		
-<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
-		
-<meta name="keywords" content="legend iphone web template, Andriod web template, Smartphone web template, free webdesigns for Nokia,
- Samsung, LG, SonyErricsson, Motorola web design" />
-		
-<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
-	
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-
-		<!-- Website CSS style -->
-		<link rel="stylesheet" type="text/css" href="css/main.css">
-
-		<!-- Website Font style -->
-	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-		
-		<!-- Google Fonts -->
-		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
-		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-
-		<title>Admin</title>
-	
+	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
+	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Website CSS style -->
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<!-- Website Font style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+	<!-- Google Fonts -->
+	<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
 </head>
-	<body>
+<body>
 	<!----start-wrap---->
 	<div class="wrap">
 		<!----start-Header---->
-	
-	<div class="header">
+		<div class="header">
 			<!----start-Logo---->
-			
-<div class="logo">
-				<a href="home"><img src="img/logo.png" title="logo" /></a>
+			<div class="logo">
+					<a href="home"><img src="img/logo.png" title="logo" /></a>
 			</div>
-			
-                
-			<!----End-Logo---->
-			<!----start-top-nav---->
+				<!----End-Logo---->
+				<!----start-top-nav---->
 			<div class="top-nav">
-					 <ul>
-                	
-                    <li><a href="home">Home</a><p>My Forntpage</p></li>
-                    
-                    <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
-                    <li><a href="#">Search</a><p>Search users or videos</p></li>
-                </ul>
-				</div>
+				<ul>
+		            <li><a href="home">Home</a><p>My Forntpage</p></li>
+		            <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
+		            <li><a href="#">Search</a><p>Search users or videos</p></li>
+				</ul>
+			</div>
 			<div class="clear"> </div>
 			<!----End-top-nav---->
 		</div>
 		<!----End-Header---->
 		<div class="clear"> </div>
-		
 		<div class="clear"> </div>
-		</div>
-		
+	</div>
 			<!---reg Form start --->
-				<div class="container">
+		<div class="container">
 			<div class="row main">
-		
-				<div class="main-login main-center">
-				
+				<div class="main-register main-center">
 					<sf:form  class="form-horizontal" commandName="user">
-						
+						<div class="login-txt" align="center" style="color:#FFFFFF;"> Register <c:out value="${msg}"></c:out></div><br>
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">Username</label>
 							<div class="cols-sm-10">
@@ -84,7 +61,7 @@
 									
 										onkeyup ="Validate(this)" onblur="CheckLength()" placeholder="Enter your Username" />
 								</div>
-							</div>
+							</div><br>
 							<div id="errLast"></div>
 							<label for="email" class="cols-sm-2 control-label">Your Email</label>
 							<div class="cols-sm-10">
@@ -96,7 +73,7 @@
 								</div>
 							</div>
 							<!--  -->
-							<div class="status" id="status"></div>
+							<div class="status" id="status"></div><br>
 							<label for="password" class="cols-sm-2 control-label">Password</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
@@ -106,7 +83,7 @@
 											 placeholder="Enter your Password"/>
 											
 								</div>
-							</div>
+							</div><br>
 							
 							  
 							<label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
@@ -142,7 +119,6 @@
 			<!--- reg Form end -->
 			<div class="clear"> </div>
 
-	</div>
 	<!----End-wrap---->
 	</body>
 </html>

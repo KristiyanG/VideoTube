@@ -1,12 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://crea0tivecommons.org/licenses/by/3.0/
--->
 
 <!DOCTYPE HTML>
 <html>
@@ -14,26 +8,23 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 	<c:if test="${sessionScope.user == null}" >
 		<c:redirect url="login"/>
 	</c:if>
-		<title>Videostube Website Template | Home :: W3layouts</title>
-	
+		<title>My Channel</title>
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
-		
-<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
-		
-<meta name="keywords" content="legend iphone web template, Andriod web template, Smartphone web template, free webdesigns for Nokia,
- Samsung, LG, SonyErricsson, Motorola web design" />
-		
-<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />		
+	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
 	
 <script type="text/javascript">
 
+window.onload = hideEditButton;
+
 function viewEditButton() {
-	var a = document.getElementById ('edit-but') ;
-	a.style.visibility = 'visible';
+	var img = document.getElementById ('edit-but') ;
+	img.style.visibility = 'visible';
+
 }
 function hideEditButton() {
-	var a = document.getElementById ('edit-but') ;
-	a.style.visibility = 'hidden';
+	var img = document.getElementById ('edit-but') ;
+	img.style.visibility = 'hidden';
 }
 
 </script>	
@@ -50,17 +41,23 @@ function hideEditButton() {
 				<a href="index.html"><img src="img/logo.png" title="logo" /></a>
 			</div>
 			<!----End-Logo---->
-				<div class="searchbar">
-					<div class="search-left">
-						<p>Latest Video Form VideosTube</p>
-					</div>
-					<div class="search-right">
-						<form>
-							<input type="text"><input type="submit" value="" />
-						</form>
-					</div>
-					<div class="clear"> </div>
-				</div>
+	        <div class="searchbar">
+	            <div class="search-left">
+	            <p>Search</p>
+	                <select class="search-drop-down" id="search-drop-down">
+	                	<option>Video</option>
+	                	<option>Play List</option>
+	                	<option>Channel</option>
+	              	 </select>
+	            </div>
+	            <div class="search-right">
+	                <form>
+	                    <input type="text" id="search-field" placeholder="Search videos">
+	                    <input type="submit" value="" onmousedown="search()"  onsubmit="handle"/>
+	                </form>
+	            </div>
+	            <div class="clear"> </div>
+	        </div>
 			<!----start-top-nav---->
 			<div class="top-nav" >
 				 <ul>
@@ -91,7 +88,7 @@ function hideEditButton() {
                     <button type="button" class="login-but"><a href="myChannel"><c:out value="${sessionScope.user.getUsername() }"></c:out></a></button>
                     </c:if>
                     <button type="button" class="upload-but"><a href="upload">Upload</a></button>
-                </div> 	<!-- Channel start  -->
+        </div> 	<!-- Channel start  -->
 					<!-- code start -->
 					<div class="twPc-div">
 						<a class="twPc-bg twPc-block"></a>
@@ -106,7 +103,7 @@ function hideEditButton() {
 							<div title="#" href="#" class="twPc-avatarLink">
 								<img alt="#" onmouseover="viewEditButton()" onmouseout="hideEditButton()" src="myChannel/${sessionScope.user.getUsername()}" class="twPc-avatarImg">`
 								<a href="#">								
-									<img src="img/edit-button.png" onmouseover="viewEditButton()"  class="edit-but" id="edit-but"></img>
+									<img src="img/edit-button.png" onmouseover="viewEditButton()" onmouseout="hideEditButton()" class="edit-but" id="edit-but"></img>
 								</a>
 							</div>
 

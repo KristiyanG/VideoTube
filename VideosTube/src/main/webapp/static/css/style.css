@@ -228,7 +228,17 @@ hr{
 }
 .form-horizontal{
 	position: relative;
-	
+	height: 200px;
+}
+.input-group{
+	height: 25px;
+}
+
+.input-group input{
+	height: 24px;
+}
+.input-group span{
+	height: 26px;
 }
 .row-main{
 	position: relative;
@@ -262,10 +272,27 @@ input::-webkit-input-placeholder {
     -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-	position: relative;
-	top: -200px;
+	position: absolute;
+	top: 100px;
+	left: 30%;
+	width: 30%;
 }
 
+.main-register{
+ 	background-color: rgb(30, 93, 173);
+    /* shadows and rounded borders */
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+	position: absolute;
+	top: 100px;
+	left: 30%;
+	width: 40%;
+	height: 400px;
+}
 .main-center{
  	margin-top: 30px;
  	margin: 0 auto;
@@ -351,9 +378,9 @@ input::-webkit-input-placeholder {
 /*----content-----*/
 /* DIV BOX */
 .left-content{
-	position: relative;
-	top: 0px;
-	left: -350px;
+	position: absolute;
+	top: 100px;
+	left: 50px;
 	width:70%;
 	float:right;
 	height: 70px;
@@ -395,9 +422,9 @@ input::-webkit-input-placeholder {
 }
 .search-left select{
 	position: absolute;
-	height: 26px;
+	height: 23px;
 	top: 0px;
-	left: 180px;
+	left: 175px;
 }
 .searchbar{
 	position: relative;
@@ -405,7 +432,7 @@ input::-webkit-input-placeholder {
 	background:rgb(30, 93, 173);
 	padding: 12px;
 	width: 500px;
-	height: 30px;
+	height: 50px;
 }
 .search-right input[type="submit"]{
 	background: url(../img/search.png) 0px 0.6px;
@@ -567,10 +594,10 @@ input::-webkit-input-placeholder {
 }
 /* DIV CONTENT */
 .content {  
-	width: 1175px;
-	top: -220px;
-	position: relative;
-	left: 240px;
+	position: absolute;
+	width: 100%;
+	top: 30px;
+	left: 190px;
 	padding-bottom: 30px;
 }
 .time{
@@ -1067,6 +1094,12 @@ ul.dc_paginationA03 li a:hover, ul.dc_paginationA03 li a.current {
 	color:#fff;
 }
 /*  UPLOAD VIDEO  PAGE  */
+.panel-body{
+	position: absolute;
+	left: 100px;
+	top: 100px;
+}
+
 .video-upload-name label{
 	display:block;
 	color:black;
@@ -1075,11 +1108,11 @@ ul.dc_paginationA03 li a:hover, ul.dc_paginationA03 li a.current {
 .video-upload-name input{
 	display:block;
 	width: 200px;
-	height: 20px;
+	height: 27px;
 	border-radius: 5px;
 }
 .video-category-drop{
-	top: 70px;
+	top: 50px;
 	left: 230px;
 	position: absolute;
 }

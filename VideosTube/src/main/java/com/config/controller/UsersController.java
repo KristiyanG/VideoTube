@@ -92,16 +92,11 @@ public class UsersController {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
 	
 	@RequestMapping(value="/grids", method=RequestMethod.GET)
 	public String grids(HttpSession ses, Model model){
-		
-		String address = "C:/Users/Parapanov/Desktop/VideosFolder/tsveta-Pyrvoto.mp4";
-		
-//		Video video = VideoDAO.getInstance().getVideoByName("Pyrvoto");
-		
+						
 		List<Video> videos = VideoDAO.getInstance().getAllVideos();
 		
 		model.addAttribute("videos", videos);
@@ -153,6 +148,6 @@ public class UsersController {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@" + userPic);
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@ " + userPic);
 	}
 }
