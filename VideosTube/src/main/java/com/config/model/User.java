@@ -13,7 +13,7 @@ import com.config.exception.CreateUserException;
 
 public class User {
 	public static final String DEFAULT_PROFILE_PICTURE = "defaulfProfilePic.png";
-	
+
 	private String username;
 	private String password;
 	private String profilePic;
@@ -32,7 +32,7 @@ public class User {
 		if (!isValidEmail(email)) {
 			throw new CreateUserException("Invalid email !!!");
 		}
-		this.password=password;
+		this.password = password;
 		this.email = email;
 		this.profilePic = DEFAULT_PROFILE_PICTURE;
 		this.subscriptions = new ArrayList<>();
@@ -51,15 +51,15 @@ public class User {
 	public void removeVideoFromLikedVideos(Video video) {
 		this.likedVideos.remove(video);
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getPassword(){
+	public String getPassword() {
 		return password;
 	}
-	
+
 	public List<Video> getVideosWhereILike() {
 		return Collections.unmodifiableList(this.likedVideos);
 	}
@@ -97,7 +97,7 @@ public class User {
 		this.playList = playList;
 	}
 
-	public void setChannel(Channel ch){
+	public void setChannel(Channel ch) {
 		this.myChannel = ch;
 	}
 
@@ -110,7 +110,8 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		this.password = CryptWithMD5.cryptWithMD5(password);;
+		this.password = CryptWithMD5.cryptWithMD5(password);
+		;
 	}
 
 	public String getProfilePic() {
@@ -125,10 +126,10 @@ public class User {
 		return email;
 	}
 
-	public boolean isValidPassword(String password){
-		System.out.println("User class pass: "+ this.password+"@");
+	public boolean isValidPassword(String password) {
+
 		String criptPass = CryptWithMD5.cryptWithMD5(password);
-		System.out.println("User password :"+criptPass+"@");
+		System.out.println(password+"@"+criptPass+"@");
 		return this.password.equals(criptPass);
 	}
 

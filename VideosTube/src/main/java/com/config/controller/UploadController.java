@@ -24,7 +24,7 @@ import com.config.model.User;
 @Controller
 @SessionAttributes("user")
 public class UploadController {
-	private static final String FILE_LOCATION = "C:/Users/Parapanov/Desktop/VideosFolder";
+	private static final String FILE_LOCATION = "C:/Users/Kristian/Desktop/VideosFolder";
 
 	@RequestMapping(value="/upload", method=RequestMethod.GET)
 	public String prepareForUpload() {

@@ -108,8 +108,11 @@ public class UsersController {
 			@RequestParam("search") String name, 
 			@RequestParam("type") String type,
 			Model model){
-		
-			return VideoDAO.getInstance().searchVideos(name);		
+			System.out.println("Do search" +name +" type ="+type);
+			model.addAttribute("searchVideo", VideoDAO.getInstance().searchVideos(name));
+			System.out.println("Search videos size" +VideoDAO.getInstance().searchVideos(name).size());
+			List<Video> result =VideoDAO.getInstance().searchVideos(name);
+			return result;		
 	}
 
 	@RequestMapping(value="/searchChannel", method=RequestMethod.GET)
@@ -119,6 +122,7 @@ public class UsersController {
 			Model model) throws CreateUserException{
 				
 			List<User> res = UserDAO.getInstance().searchUsers(name);
+			System.out.println(res.size());
 			for (User user : res) {
 				System.out.println(user);
 			}

@@ -23,17 +23,6 @@ import com.config.model.Video;
 @RestController
 public class SearchController {
 
-	@RequestMapping(value="{name}", method = RequestMethod.GET)
-	public @ResponseBody User getShopInJSON(@PathVariable String name) {
-
-		User u = UserDAO.getInstance().getUserByUsername(name);
-		if(u!=null){
-		return u;
-		}
-
-		return null;
-
-	}
 
 	
 	@RequestMapping(value="/userSearch", method=RequestMethod.GET)

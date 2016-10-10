@@ -638,7 +638,11 @@ input::-webkit-input-placeholder {
 	font-size:10em;
 }
 /*---single-page-----*/
+
 .inner-page {
+	position: absolute;
+	top: 100px;
+	left: 70px;
 	width: 70%;
 	float: left;
 }

@@ -13,8 +13,7 @@
 						type: searchType
 					},
 					function(result){		
-						alert("video")
-						searchResultVideo(result);
+						searchResultVideo(result)
 				    });
 		}else{
 			alert("ELSE")
@@ -24,17 +23,15 @@
 						type: searchType
 					},
 					function(result){		
-						alert("START FUNCTION")
-						alert(resut)
-						alert("RESULT HERE")
+						
 						searchResultChannel(result);
 				    });
 		}
 	}
 	
 	function searchResultVideo(result){
-		$('#videoBox').empty();
-
+		
+		$('#videoBox').html('');
 		var trHTML = '';
         $.each(result, function (i, item) {
         	trHTML +='<div class="grid">'
@@ -63,15 +60,14 @@
 	}
 	
 	function searchResultChannel(result){
-		script("VAAAAAAAAAAAA")
-		$('#videoBox').empty();
 		
-		alert(result + " in function")
+		
+		
 		var trHTML = '';
         $.each(result, function (i, item) {
         	trHTML +='<div class="grid">'
-        	+'<h3>'+ item.name +'</h3>'	
-        	+ '<a href="video?name=' + item.name + '"><img src="img/g1 copy.png" title= "' +item.name+'" /></a>'
+        	+'<h3>'+ item.username +'</h3>'	
+        	+ '<a href="video?name=' + item.username + '"><img src="img/g1 copy.png" title= "' +item.username+'" /></a>'
         	+'<div class="grid-info">'
 			+'<div class="video-share">'
 			+'</div>'
