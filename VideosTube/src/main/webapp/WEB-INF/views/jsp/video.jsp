@@ -73,7 +73,7 @@
 		<div class="header">
 			<!----start-Logo---->
 			<div class="logo">
-				<a href="index.html"><img src="img/logo.png" title="logo" /></a>
+				<a href="home"><img src="img/logo.png" title="logo" /></a>
 			</div>
 			<!----End-Logo---->
 	        <div class="searchbar">

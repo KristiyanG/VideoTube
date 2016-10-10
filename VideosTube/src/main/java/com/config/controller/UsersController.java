@@ -3,6 +3,7 @@ package com.config.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
 import com.config.exception.CreateUserException;
@@ -71,8 +74,6 @@ public class UsersController {
 		model.addAttribute("comments", video.showVideoComments());
 		return "video";
 	}
-	
-	
 
 	@RequestMapping(value="/video/{video}", method=RequestMethod.GET)
 	@ResponseBody
@@ -139,7 +140,6 @@ public class UsersController {
 	@ResponseBody
 	public void getProfilePic(@PathVariable("username") String username, HttpServletResponse resp, Model model){
 	
-//		Video video = VideoDAO.getInstance().getVideoByName(videoName);
 		String userPic = UserDAO.getInstance().getUserByUsername(username).getProfilePic();
 		if(userPic == null){
 			System.out.println("NO PIC");
@@ -154,4 +154,29 @@ public class UsersController {
 		}
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@ " + userPic);
 	}
+
+	@RequestMapping(value="/myChannel", method=RequestMethod.POST)
+	public String receiveUpload(
+			@RequestParam("userPic") MultipartFile multiPartFile, 
+			Model model,
+			HttpSession ses) throws IOException{
+//		
+//		File fileOnDisk = new File(FILE_LOCATION + multiPartFile.getOriginalFilename());
+//		Files.copy(multiPartFile.getInputStream(), fileOnDisk.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//		vzemiToqImage = multiPartFile.getOriginalFilename();
+		model.addAttribute("filename", multiPartFile.getOriginalFilename());
+		User user = (User) ses.getAttribute("user");
+		if(user == null){
+			System.out.println("CANT GET USER FROM SESSION");
+		}
+		String fileName = multiPartFile.getOriginalFilename();
+		UserDAO.getInstance().changeProfilePicture(fileName, user.getUsername());
+		
+		File file = new File (fileName);
+		Files.copy(multiPartFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		
+		System.out.println("HERE AFTER ALL");
+		return "myChannel";
+	}
+
 }
