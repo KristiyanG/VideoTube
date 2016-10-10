@@ -130,7 +130,7 @@
 					<h3 id="videoName"><c:out value="${video.getName()}"></c:out> </h3>
 						<ul>
 							<li><h4>By:</h4></li>
-							<li><a href="myChannel"><c:out value="${uploader}"></c:out></a></li>
+							<li><a href="userProfile?name=${uploader}"><c:out value="${uploader}"></c:out></a></li>
 							<li><a href="#"><img src="img/sub.png" title="subscribe" />subscribe</a></li>
 						</ul>
 							
@@ -261,4 +261,4 @@
 	</div>
 	<!----End-wrap---->
 </body>
-</html> 
+</html>

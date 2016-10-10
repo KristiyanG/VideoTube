@@ -99,7 +99,7 @@ public class UsersController {
 			@RequestParam("search") String name, 
 			@RequestParam("type") String type,
 			Model model){
-			
+				
 			return VideoDAO.getInstance().searchVideos(name);		
 	}
 

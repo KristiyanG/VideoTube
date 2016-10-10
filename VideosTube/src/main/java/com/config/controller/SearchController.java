@@ -23,19 +23,6 @@ import com.config.model.Video;
 @RestController
 public class SearchController {
 
-	@RequestMapping(value="{name}", method = RequestMethod.GET)
-	public @ResponseBody User getShopInJSON(@PathVariable String name) {
-
-		User u = UserDAO.getInstance().getUserByUsername(name);
-		if(u!=null){
-		return u;
-		}
-
-		return null;
-
-	}
-	
-	
 	@RequestMapping(value="video/like", method=RequestMethod.GET)
 	public @ResponseBody Video likeVideo(HttpSession ses,HttpServletRequest req){
 		String videoName = req.getParameter("videoName").trim();
@@ -55,8 +42,7 @@ public class SearchController {
 		return video;
 	}
 	
-@RequestMapping(value="video/dislike", method=RequestMethod.GET)
-	
+	@RequestMapping(value="video/dislike", method=RequestMethod.GET)
 	public @ResponseBody Video dislikeVideo(HttpSession ses,HttpServletRequest req){
 		String videoName = req.getParameter("videoName").trim();
 		if(ses.getAttribute("user")==null){
@@ -75,20 +61,20 @@ public class SearchController {
 	}
 
 
-@RequestMapping(value="writeComment", method=RequestMethod.GET)
-public @ResponseBody Comment commentVideo(HttpSession ses,HttpServletRequest req){
-	String comment =req.getParameter("commentText").trim();
-	String videoName =req.getParameter("videoName").trim();
-	User user = (User)ses.getAttribute("user");
-	Video video = VideoDAO.getInstance().getVideoByName(videoName);
-	Comment com = CommentDAO.getInstance().saveComment(user, comment, video);
-	
-	if(com==null){
-		System.out.println("VIDEO IS NULL");
-		return null;
+	@RequestMapping(value="writeComment", method=RequestMethod.GET)
+	public @ResponseBody Comment commentVideo(HttpSession ses,HttpServletRequest req){
+		String comment =req.getParameter("commentText").trim();
+		String videoName =req.getParameter("videoName").trim();
+		User user = (User)ses.getAttribute("user");
+		Video video = VideoDAO.getInstance().getVideoByName(videoName);
+		Comment com = CommentDAO.getInstance().saveComment(user, comment, video);
+		
+		if(com==null){
+			System.out.println("VIDEO IS NULL");
+			return null;
+		}
+		return com;
 	}
-	return com;
-}
 
 	
 }

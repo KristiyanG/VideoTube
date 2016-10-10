@@ -5,8 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
+import com.config.model.User;
 import com.config.model.Video;
 
 @Controller
@@ -16,6 +19,14 @@ public class PageController {
 	public String getMyChannelPage(){
 		
 		return "myChannel";
+	}
+	
+	@RequestMapping(value="/userProfile", method=RequestMethod.GET)
+	public String getUserChannel(@RequestParam("name") String searchedUser,Model model){
+		User user =UserDAO.getInstance().getUserByUsername(searchedUser);
+		model.addAttribute("userChannel",user );
+		model.addAttribute("videos",VideoDAO.getInstance().getUserVideos(searchedUser) );
+		return "user";
 	}
 	
 	@RequestMapping(value="home", method=RequestMethod.GET)

@@ -12,6 +12,7 @@
 						type: searchType
 					},
 					function(result){		
+
 						searchResultVideo(result);
 				    });
 		}
@@ -22,17 +23,15 @@
 						type: searchType
 					},
 					function(result){		
+
 						searchResultChannel(result);
 				    });
 		}
-		
-//		alert("Search for: " + searchField + " in " + searchType);
-//		document.getElementById("result_text").innerHTML="KUR";
 	}
 	
 	function searchResultVideo(result){
-		$('#videoBox').empty();
-
+		
+		$('#videoBox').html('');
 		var trHTML = '';
         $.each(result, function (i, item) {
         	trHTML +='<div class="grid">'
@@ -61,7 +60,9 @@
 	}
 	
 	function searchResultChannel(result){
+
 		$('#videoBox').empty();
+
 		var trHTML = '';
         $.each(result, function (i, item) {
         	trHTML +='<div class="grid">'

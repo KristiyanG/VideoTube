@@ -12,6 +12,30 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 <!DOCTYPE HTML>
 <html>
 <head>
+<script type="text/javascript">
+	function search() {
+	
+	if(document.getElementById('commentsDiv').style.display == "block"){
+		document.getElementById('commentsDiv').style.display = "none";
+	}
+	else{
+		document.getElementById('commentsDiv').style.display = "block";}
+	   
+	   var user =  document.getElementById('user');
+		if(user != null){
+			document.getElementById('writeCommentLogin').style.display = "block";
+	    }
+	}
+	function writeComment(){
+		var user =  document.getElementById('user');
+		if(user == null){
+			var msg = document.getElementById('confirmMessage');
+			 msg.style.color = "#ff6666";
+			msg.innerHTML = "Login for comment video";
+	    }
+		
+	}
+</script>
     <title>Video Tube </title>
 
     <link rel="shortcut icon" type="image/x-icon" href=img/pageicon.png" />
@@ -83,11 +107,12 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
         
 		<div class="content">    
             <div class="left-content">            
-				<div class="box">		
+
+				
+				<div id="videosList"  class="box">		
+
 					<div class="grids">
-						
-						<div id="result_text"></div>
-                		<div id="videoBox">
+                		<div id="videoBox" >             		
 	                	<c:set var="videosList" value="${videos}" />                	
 	                	<c:forEach items="${videosList}" var="video">
 							<div class="grid">
@@ -100,19 +125,17 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 									
 									<div class="clear"> </div>
 									<div class="lables">
-										<p>Uploader:<a href="myChannel">${video.uploader}</a></p>
+										<p>Uploader:<a href="userProfile?name=${video.uploader}">${video.uploader}</a></p>
 									</div>
 								</div>
 							</div>
 						</c:forEach>
                 		</div>
+                		
+                		</div>
                 	</div>	
 		        </div>
-            	<div class="clear"> </div>
-            </div>
-	        <div class="clear"> </div>
-	        <div class="clear"> </div>
-    	</div>
+		    </div>
     <!----End-wrap---->
     </body>
 </html>
