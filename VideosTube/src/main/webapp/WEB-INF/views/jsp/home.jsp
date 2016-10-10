@@ -43,9 +43,9 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
               	 </select>
             </div>
             <div class="search-right">
-                <form>
+                <form action="javascript:search()">
                     <input type="text" id="search-field" placeholder="Search videos">
-                    <input type="submit" value="" onmousedown="search()"  onsubmit="handle"/>
+                    <input type="submit" value=""/>
                 </form>
             </div>
             <div class="clear"> </div>
@@ -85,6 +85,8 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
             <div class="left-content">            
 				<div class="box">		
 					<div class="grids">
+						
+						<div id="result_text"></div>
                 		<div id="videoBox">
 	                	<c:set var="videosList" value="${videos}" />                	
 	                	<c:forEach items="${videosList}" var="video">

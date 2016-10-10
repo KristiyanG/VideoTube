@@ -22,11 +22,7 @@ import com.config.model.Video;
 
 public class CommentDAO {
 
-	private static HashMap<String, List<Comment>> comments = new HashMap<String, List<Comment>>();// videoName
-																									// -
-																									// >list
-																									// with
-																									// comment
+	private static HashMap<String, List<Comment>> comments = new HashMap<String, List<Comment>>();// videoName - list with comment
 
 	private static CommentDAO instance;
 
@@ -37,7 +33,6 @@ public class CommentDAO {
 
 	public synchronized static CommentDAO getInstance() {
 		if (instance == null) {
-
 			instance = new CommentDAO();
 			instance.loadComments();
 
@@ -52,9 +47,6 @@ public class CommentDAO {
 			Statement st = DBManager.getInstance().getConnection().createStatement();
 			ResultSet resultSet = st.executeQuery("SELECT id,text,comment_date,video_name,user_name FROM comments ;");
 			while (resultSet.next()) {
-				
-//				Date input = resultSet.getDate("comment_date");
-//				LocalDate date = input.toLocalDate();
 				Timestamp ts = resultSet.getTimestamp("comment_date");
 				LocalDateTime dateAndTime = LocalDateTimeConverter.convertToEntityAttribute(ts);
 				Comment com = new Comment(resultSet.getLong("id"), resultSet.getString("user_name"),
@@ -71,7 +63,6 @@ public class CommentDAO {
 			System.out.println("load comments error "+e.getMessage());
 
 		}
-
 	}
 
 	private void loadCommentsLikes(Comment com) {
@@ -90,7 +81,6 @@ public class CommentDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void likeComment(String user, Comment com) {
@@ -102,7 +92,6 @@ public class CommentDAO {
 			com.removeUserFromLikesComment(user);
 			saveCommentLikeInDB(com, user);
 		}
-
 	}
 
 	private void saveCommentLikeInDB(Comment com, String user) {
@@ -116,7 +105,6 @@ public class CommentDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private void deleteComFromDB(Comment com, String user) {
@@ -162,6 +150,7 @@ public class CommentDAO {
 		}
 		return null;
 	}
+	
 	public List<Comment> getCommentsForVideo(String videoName){
 		if(!comments.containsKey(videoName)){
 			comments.put(videoName, new ArrayList<>());

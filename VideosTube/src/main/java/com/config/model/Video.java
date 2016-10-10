@@ -1,15 +1,11 @@
 package com.config.model;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
 
 public class Video {
 
@@ -109,6 +105,7 @@ public class Video {
 	public void likeVideo(String user){
 		likes.add(user);
 	}
+	
 	public void dislikeVideo(String user){
 			this.dislikes.add(user);
 	}
@@ -124,6 +121,7 @@ public class Video {
 	public void addComment(Comment com){
 		this.comments.add(com);
 	}
+
 	public void removeComment(Comment com ){
 		this.comments.remove(com);
 	}
@@ -132,21 +130,14 @@ public class Video {
 		return (Set<Comment>) Collections.unmodifiableSet(comments);
 	}
 	public ArrayList<Comment> getVideoComments(){
-		System.out.println("COMMENTS SIZEE @@@@@@@@@@--- "+comments.size());
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 		comments.addAll(this.comments);
 		return comments;
 	}
 	
 	public String getComments(){
-		System.out.println("COMMENTS SIZEE @@@@@@@@@@--- "+comments.size());
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 		comments.addAll(this.comments);
-		
 		return comments.toString();
 	}
-	
-	
-	
-
 }

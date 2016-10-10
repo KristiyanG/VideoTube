@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
 import com.config.exception.CreateUserException;
-import com.config.model.Comment;
-import com.config.model.CryptWithMD5;
 import com.config.model.User;
 import com.config.model.Video;
 
@@ -57,17 +54,11 @@ public class UsersController {
 
 		return "login";
 	}
-
-//	@RequestMapping(value="/video", method=RequestMethod.GET)
-//	public String displayVideo(){
-//		return "video";
-//	}
 	
 	@RequestMapping(value="/video", method=RequestMethod.GET)
 	public String video(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
 		
 		String videoname = req.getParameter("name");
-		System.out.println("Search video - - " + videoname);
 		Video video = VideoDAO.getInstance().getVideoByName(videoname);
 		VideoDAO.getInstance().viewVideo(video);
 		model.addAttribute("video", video);
@@ -79,7 +70,6 @@ public class UsersController {
 	@ResponseBody
 	public void videoAddress(@PathVariable("video") String videoName, HttpServletResponse resp, Model model){
 	
-		System.out.println("SEARCH VIDEO WITH NAME " + videoName);
 		Video video = VideoDAO.getInstance().getVideoByName(videoName);
 		if(video == null){
 			System.out.println("NO SUCH VIDEO ");
@@ -109,7 +99,7 @@ public class UsersController {
 			@RequestParam("search") String name, 
 			@RequestParam("type") String type,
 			Model model){
-		
+			
 			return VideoDAO.getInstance().searchVideos(name);		
 	}
 
@@ -120,15 +110,12 @@ public class UsersController {
 			Model model) throws CreateUserException{
 				
 			List<User> res = UserDAO.getInstance().searchUsers(name);
-			for (User user : res) {
-				System.out.println(user);
-			}
-			System.out.println("GAAAAAAAAAAAAAAAAAAAAAAAAAA ");
 			List<User> users = new ArrayList<>();
-			User user = new User("Ivancho", "1234", "vanko@van.ko");
-			for (int i = 0; i < 5; i++) {
-				users.add(user);
+			for (User user : res) {
+				User u = new User(user.getUsername(), user.getPassword(), user.getProfilePic(), user.getEmail());
+				users.add(u);
 			}
+
 			return users;		
 	}
 	
@@ -141,14 +128,13 @@ public class UsersController {
 			System.out.println("NO PIC");
 			return;
 		}
-		File file = new File(userPic);
+		File file = new File("profilePic/" + userPic);
 		
 		try {
 			Files.copy(file.toPath(), resp.getOutputStream());
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@ " + userPic);
 	}
 
 	@RequestMapping(value="/myChannel", method=RequestMethod.POST)
@@ -156,11 +142,7 @@ public class UsersController {
 			@RequestParam("userPic") MultipartFile multiPartFile, 
 			Model model,
 			HttpSession ses) throws IOException{
-//		
-//		File fileOnDisk = new File(FILE_LOCATION + multiPartFile.getOriginalFilename());
-//		Files.copy(multiPartFile.getInputStream(), fileOnDisk.toPath(), StandardCopyOption.REPLACE_EXISTING);
-//		vzemiToqImage = multiPartFile.getOriginalFilename();
-		model.addAttribute("filename", multiPartFile.getOriginalFilename());
+
 		User user = (User) ses.getAttribute("user");
 		if(user == null){
 			System.out.println("CANT GET USER FROM SESSION");
@@ -168,10 +150,11 @@ public class UsersController {
 		String fileName = multiPartFile.getOriginalFilename();
 		UserDAO.getInstance().changeProfilePicture(fileName, user.getUsername());
 		
-		File file = new File (fileName);
+		File dir = new File("profilePic");
+		File file = new File (dir, fileName);
+		
 		Files.copy(multiPartFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		
-		System.out.println("HERE AFTER ALL");
 		return "myChannel";
 	}
 

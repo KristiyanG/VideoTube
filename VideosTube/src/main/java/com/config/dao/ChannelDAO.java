@@ -25,10 +25,8 @@ public class ChannelDAO {
 
 	public synchronized static ChannelDAO getInstance() {
 		if (instance == null) {
-
 			instance = new ChannelDAO();
 			instance.loadChannels();
-
 		}
 		return instance;
 	}
@@ -50,8 +48,6 @@ public class ChannelDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 	private void loadSubscribes(Channel channel) {
@@ -69,6 +65,7 @@ public class ChannelDAO {
 		}
 		
 	}
+	
 	public Channel getUserChannel(String username){
 		Channel channel = null;
 		if(channels.containsKey(username)){
@@ -78,6 +75,7 @@ public class ChannelDAO {
 	}
 
 	private void loadChannelVideos(Channel channel) {
+		
 		List<Video> videoInChannel = VideoDAO.getInstance().getUserVideos(channel.getName());
 		for(Video v :videoInChannel){
 			channel.addVideoInChannel(v.getName());
@@ -91,6 +89,7 @@ public class ChannelDAO {
 	}
 
 	private void addInDB(String username) {
+		
 		try {
 			PreparedStatement stm = connection.prepareStatement("INSERT INTO channels(name,user_name) VALUES (?,?);");
 			stm.setString(1, username);
@@ -99,7 +98,6 @@ public class ChannelDAO {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
 
 	private void addInCollection(String username) {

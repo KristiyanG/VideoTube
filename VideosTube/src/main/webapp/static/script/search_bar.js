@@ -2,8 +2,7 @@
  * 
  */
 	
-	function search() {
-		
+	function search(event) {
 		var searchField = document.getElementById("search-field").value;
 		var searchType = document.getElementById("search-drop-down").value;
 		if(searchType == "Video"){
@@ -13,23 +12,22 @@
 						type: searchType
 					},
 					function(result){		
-						alert("video")
 						searchResultVideo(result);
 				    });
-		}else{
-			alert("ELSE")
+		}
+		if(searchType == "Channel"){
 			$.get(
 					"searchChannel", 
 					{ search: searchField, 
 						type: searchType
 					},
 					function(result){		
-						alert("START FUNCTION")
-						alert(resut)
-						alert("RESULT HERE")
 						searchResultChannel(result);
 				    });
 		}
+		
+//		alert("Search for: " + searchField + " in " + searchType);
+//		document.getElementById("result_text").innerHTML="KUR";
 	}
 	
 	function searchResultVideo(result){
@@ -63,15 +61,12 @@
 	}
 	
 	function searchResultChannel(result){
-		script("VAAAAAAAAAAAA")
 		$('#videoBox').empty();
-		
-		alert(result + " in function")
 		var trHTML = '';
         $.each(result, function (i, item) {
         	trHTML +='<div class="grid">'
-        	+'<h3>'+ item.name +'</h3>'	
-        	+ '<a href="video?name=' + item.name + '"><img src="img/g1 copy.png" title= "' +item.name+'" /></a>'
+        	+'<h3>'+ item.username +'</h3>'	
+        	+ '<a href="video?name=' + item.username + '"><img style="width:234px;height:178px;" src="profilePic/'+ item.profilePic +'" title= "'+ item.username +'" /></a>'
         	+'<div class="grid-info">'
 			+'<div class="video-share">'
 			+'</div>'

@@ -10,8 +10,6 @@ import com.config.dao.UserDAO;
 import com.config.exception.CreateUserException;
 import com.config.model.User;
 
-
-
 @Controller
 public class RegisterController {
 
@@ -33,9 +31,4 @@ public class RegisterController {
 		
 		return "home";
 	}
-	
-	
-	
-	
-	
 }

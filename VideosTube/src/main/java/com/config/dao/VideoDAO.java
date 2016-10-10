@@ -151,9 +151,7 @@ public class VideoDAO {
 			}
 		} catch (SQLException e) {
 			System.out.println("LOAD VIDEOS LIKES INT VIDEO DAO " +e.getMessage());
-		}
-	
-		
+		}		
 	}
 
 	private boolean saveVideoInDB(
@@ -166,8 +164,7 @@ public class VideoDAO {
 		
 		try {
 			this.connection = DBManager.getInstance().getConnection();
-//			insert into youtube.videos(name, views, likes, dislikes, date_upload, description, video_address, category, channel_name, user_name) 
-//			insert into youtube.videos(name, category, description, user_name, video_address, date_upload, channel_name) 
+
 			String sql = "insert into videos(name, views, likes, dislikes, "
 					+ "date_upload, description, video_address, category, "
 					+ "channel_name, user_name) "
@@ -234,8 +231,6 @@ public class VideoDAO {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-	
-		
 	}
 	
 	public List<Video> getRandomVideos(){
@@ -297,7 +292,6 @@ public class VideoDAO {
 		} catch (SQLException e) {
 			System.out.println("Save dislike indDB -"+e.getMessage());
 		}
-		
 	}
 
 	private void saveLikeInDB(String name, String username) {
@@ -311,7 +305,6 @@ public class VideoDAO {
 		} catch (SQLException e) {
 			System.out.println("Save like indDB -"+e.getMessage());
 		}
-		
 	}
 
 	private void removeDisLikeFromDB(String name, String username) {
@@ -324,8 +317,6 @@ public class VideoDAO {
 		} catch (SQLException e) {
 			System.out.println("Remove Dislike from dDB -"+e.getMessage());
 		}
-		
-		
 	}
 
 	private void removeLikeFromDB(String username,String videoName) {
@@ -338,10 +329,5 @@ public class VideoDAO {
 		} catch (SQLException e) {
 			System.out.println("remove like from dDB -"+e.getMessage());
 		}
-		
 	}
-
-	
-
-	
 }

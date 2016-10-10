@@ -13,6 +13,7 @@ import java.util.Set;
 import com.config.model.Playlist;
 
 public class PlayListDAO {
+	
 	private static HashMap<String, Set<Playlist>>playlist = new HashMap<String, Set<Playlist>>();// username - > set playlist
 
 	private static PlayListDAO instance;
@@ -27,7 +28,6 @@ public class PlayListDAO {
 
 			instance = new PlayListDAO();
 			instance.loadPlayList();
-
 		}
 		return instance;
 	}
@@ -51,7 +51,6 @@ public class PlayListDAO {
 				playlist.get(username).add(pl);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -70,15 +69,14 @@ public class PlayListDAO {
 				pl.addVideoInPlaylist(video);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
+	
 	public Set<Playlist> getUserPlayList(String username){
 		if(playlist.containsKey(username)){
 			return Collections.unmodifiableSet(playlist.get(username));
-			
 		}
 		return new HashSet<Playlist>();
 	}

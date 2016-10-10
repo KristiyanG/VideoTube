@@ -29,7 +29,6 @@ public class PageController {
 	public String getIndexPage(){
 		return "home";
 	}
-	
 
 	@RequestMapping(value="/search", method = RequestMethod.GET)
 	public String getSearchPage(){

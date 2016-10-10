@@ -133,9 +133,7 @@ public class User {
 	}
 
 	public boolean isValidPassword(String password){
-		System.out.println("User class pass: "+ this.password+"@");
 		String criptPass = CryptWithMD5.cryptWithMD5(password);
-		System.out.println("User password :"+criptPass+"@");
 		return this.password.equals(criptPass);
 	}
 

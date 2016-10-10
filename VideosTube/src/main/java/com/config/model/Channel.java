@@ -62,15 +62,6 @@ public class Channel {
 		this.subscribes.remove(username);
 	}
 	
-//	public User getUserByNameFromChannel(String name){
-//		User u = null;
-//		if(subscribes.contains(name)){
-//			u =subscribes.get(name);
-//		}
-//		
-//		return u;
-//	}
-	
 	public List<String> getAllUsersInChannel(){
 		return Collections.unmodifiableList((List<String>)subscribes);
 	}
