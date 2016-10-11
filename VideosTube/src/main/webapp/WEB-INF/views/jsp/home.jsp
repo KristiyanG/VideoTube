@@ -112,7 +112,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 				<div id="videosList"  class="box">		
 
 					<div class="grids">
-                		<div id="videoBox" >             		
+                		<div id="videoBox" >                		             		
 	                	<c:set var="videosList" value="${videos}" />                	
 	                	<c:forEach items="${videosList}" var="video">
 							<div class="grid">

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -87,14 +88,14 @@ public class UsersController {
 		}
 	}
 	
-	@RequestMapping(value="/grids", method=RequestMethod.GET)
-	public String grids(HttpSession ses, Model model){
-						
-		List<Video> videos = VideoDAO.getInstance().getAllVideos();
-		
-		model.addAttribute("videos", videos);
-		return "grids";
-	}
+//	@RequestMapping(value="/grids", method=RequestMethod.GET)
+//	public String grids(HttpSession ses, Model model){
+//						
+//		List<Video> videos = VideoDAO.getInstance().getAllVideos();
+//		
+//		model.addAttribute("videos", videos);
+//		return "grids";
+//	}
 
 	@RequestMapping(value="/doSearch", method=RequestMethod.GET)
 	public @ResponseBody List<Video> searchBar(
@@ -123,7 +124,10 @@ public class UsersController {
 	
 	@RequestMapping(value="/myChannel/{username}", method=RequestMethod.GET)
 	@ResponseBody
-	public void getProfilePic(@PathVariable("username") String username, HttpServletResponse resp, Model model){
+	public void getProfilePic(@PathVariable("username") String username,
+			HttpSession ses, 
+			HttpServletResponse resp, 
+			Model model){
 	
 		String userPic = UserDAO.getInstance().getUserByUsername(username).getProfilePic();
 		if(userPic == null){
@@ -157,6 +161,8 @@ public class UsersController {
 		
 		Files.copy(multiPartFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		
+		List<Video> userVideos = VideoDAO.getInstance().getUserVideos(user.getUsername());
+		model.addAttribute("videos", userVideos);
 		return "myChannel";
 	}
 
@@ -173,4 +179,14 @@ public class UsersController {
 		
 		return pl;
 	}
+	
+//	@RequestMapping(value="/getVideos", method=RequestMethod.GET)
+//	public @ResponseBody List<Video> getUserVideos(HttpSession ses, Model model){
+//		
+//		User user = (User) ses.getAttribute("user");
+//		System.out.println("VIDEOOOOOOO KYDE SI");
+//		model.addAttribute("videos", );
+//		return VideoDAO.getInstance().getUserVideos(user.getUsername());
+//	}
+	
 }

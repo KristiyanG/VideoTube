@@ -63,4 +63,10 @@ function createPlaylist() {
 
 function showPlaylists() {
 	document.getElementById("my-playlists").style.display = "block";
+	document.getElementById("videoBox").style.display = "none";
+}
+
+function showMyVideos() {
+	document.getElementById("my-playlists").style.display = "none";
+	document.getElementById("videoBox").style.display = "block";
 }

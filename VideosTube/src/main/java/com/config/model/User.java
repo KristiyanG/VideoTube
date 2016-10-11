@@ -155,4 +155,11 @@ public class User {
 		this.playLists.add(pl);
 		return pl;
 	}
+
+	
+	public void createPlaylist(Set<Playlist> userPlayList) {
+		for (Playlist playlist : userPlayList) {
+			this.playLists.add(playlist);
+		}	
+	}
 }

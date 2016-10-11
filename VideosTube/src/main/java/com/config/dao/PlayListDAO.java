@@ -43,17 +43,16 @@ public class PlayListDAO {
 				String name = rs.getString("name");
 				String username = rs.getString("user_name");
 				Playlist pl = new Playlist(username, name);
-				
 				loadPlaylistVideos(pl);
+				
 				if(!playlist.containsKey(username)){
-					playlist.put(username,new HashSet<>());
+					playlist.put(username, new HashSet<>());
 				}
 				playlist.get(username).add(pl);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	private void loadPlaylistVideos(Playlist pl) {
@@ -98,5 +97,12 @@ public class PlayListDAO {
 			}
 
 		return user.createPlaylist(name);
+	}
+
+	public Set<Playlist> getPlaylists(String username){
+		if(!playlist.containsKey(username)){
+			return null;
+		}
+		return this.playlist.get(username);
 	}
 }

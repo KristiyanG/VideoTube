@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import com.config.exception.CreateUserException;
@@ -51,6 +52,7 @@ public class UserDAO {
 				loadChannel(user);
 				loadAbonatedChannels(user);
 				loadLikedVideos(user);
+				loadPlaylists(user);
 				
 				users.put(resultSet.getString("username"), user);
 
@@ -61,6 +63,13 @@ public class UserDAO {
 
 		} catch (CreateUserException e) {
 			System.out.println(e.getMessage() + " error in loading users from DB ");
+		}
+	}
+
+	private void loadPlaylists(User user) {
+		Set<Playlist> list = PlayListDAO.getInstance().getUserPlayList(user.getUsername());
+		if(list != null){
+			user.createPlaylist(list);
 		}
 	}
 

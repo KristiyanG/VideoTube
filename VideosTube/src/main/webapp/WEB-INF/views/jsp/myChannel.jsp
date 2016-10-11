@@ -97,7 +97,7 @@
 					<ul class="twPc-Arrange">
 						<li class="twPc-ArrangeSizeFit">
 							<a href="#">
-								<span class="twPc-StatLabel twPc-block">My videos</span>
+								<span id="my-videos" onclick="showMyVideos()" class="twPc-StatLabel twPc-block">My videos</span>
 							</a>
 						</li>
 						<li class="twPc-ArrangeSizeFit">
@@ -146,6 +146,25 @@
 							<h4 class="list-video-views" id="new-playlist-count"></h4>
 						</div>
 				</div>
+           		<div id="videoBox" style="display:block;" >   
+	               	<c:set var="videosList" value="${userVideos}" />                	
+	               	<c:forEach items="${videosList}" var="video">
+						<div class="grid">
+							<h3> ${video.name}</h3>
+							<a href="video?name=${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
+							<div class="time">
+							<span>Views<c:out value="${ video.view}"/></span>
+							</div>
+							<div class="grid-info">
+								
+								<div class="clear"> </div>
+								<div class="lables">
+									<p>Uploader:<a href="userProfile?name=${video.uploader}">${video.uploader}</a></p>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+       			</div>
 
 		</div>
 	<!-- code end -->

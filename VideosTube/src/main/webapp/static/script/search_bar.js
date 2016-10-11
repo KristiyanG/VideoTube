@@ -23,7 +23,6 @@
 						type: searchType
 					},
 					function(result){		
-						alert("dasdad")	
 						searchResultChannel(result);
 				    });
 		}
