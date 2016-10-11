@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,9 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.config.dao.PlayListDAO;
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
 import com.config.exception.CreateUserException;
+
+import com.config.model.Playlist;
 import com.config.model.User;
 import com.config.model.Video;
 
@@ -86,6 +90,7 @@ public class UsersController {
 		}
 	}
 
+
 	@RequestMapping(value="/doSearch", method=RequestMethod.GET)
 	public @ResponseBody List<Video> searchBar(
 			@RequestParam("search") String name, 
@@ -113,7 +118,10 @@ public class UsersController {
 	
 	@RequestMapping(value="/myChannel/{username}", method=RequestMethod.GET)
 	@ResponseBody
-	public void getProfilePic(@PathVariable("username") String username, HttpServletResponse resp, Model model){
+	public void getProfilePic(@PathVariable("username") String username,
+			HttpSession ses, 
+			HttpServletResponse resp, 
+			Model model){
 	
 		String userPic = UserDAO.getInstance().getUserByUsername(username).getProfilePic();
 		if(userPic == null){
@@ -143,15 +151,39 @@ public class UsersController {
 		UserDAO.getInstance().changeProfilePicture(fileName, user.getUsername());
 		
 		File dir = new File("profilePic");
-		if(!dir.exists()){
-			
-			dir.mkdir();
-		}
+
 		File file = new File (dir, fileName);
 		
 		Files.copy(multiPartFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		
+
+		List<Video> userVideos = VideoDAO.getInstance().getUserVideos(user.getUsername());
+		model.addAttribute("videos", userVideos);
+
 		return "myChannel";
 	}
 
+	@RequestMapping(value="/createPlaylist", method=RequestMethod.POST)
+	@ResponseBody
+	public Playlist createPlaylist(@RequestParam("name") String name, HttpSession ses){
+		User user = (User) ses.getAttribute("user");
+		if(user == null){
+			System.out.println("No user in session to create playlist");
+			return null;
+		}
+	
+		Playlist pl = PlayListDAO.getInstance().createPlaylist(name, user.getUsername());
+		
+		return pl;
+	}
+	
+//	@RequestMapping(value="/getVideos", method=RequestMethod.GET)
+//	public @ResponseBody List<Video> getUserVideos(HttpSession ses, Model model){
+//		
+//		User user = (User) ses.getAttribute("user");
+//		System.out.println("VIDEOOOOOOO KYDE SI");
+//		model.addAttribute("videos", );
+//		return VideoDAO.getInstance().getUserVideos(user.getUsername());
+//	}
+	
 }

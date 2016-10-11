@@ -10,17 +10,20 @@ public class Playlist {
 	private String user;
 	private String name;
 	private List<String> videos;//videoname
+	private int count;
 	
-	public Playlist(String user, String name,long id) {
-		this.id = id;
+	
+	public Playlist(String user, String name) {
 		this.user = user;
 		this.name = name;
-		this.videos= new ArrayList<>();
+		this.videos = new ArrayList<>();
+		this.count = 0;
 	}
 
 	public long getId() {
 		return id;
 	}
+	
 	public String getUser() {
 		return user;
 	}
@@ -44,6 +47,7 @@ public class Playlist {
 	public List<String> getVideosFromPlaylist(){
 		return Collections.unmodifiableList(videos);
 	}
+	
 	public void removeVideoFromList(String video){
 		this.videos.remove(video);
 	}
@@ -78,6 +82,22 @@ public class Playlist {
 			return false;
 		return true;
 	}
+
 	
+	public int getCount() {
+		return videos.size();
+	}
 	
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
+	public String getFirstVideo(){
+		if(videos.size() < 1){
+			return null;
+		}
+		
+		return videos.get(0);
+	}
 }

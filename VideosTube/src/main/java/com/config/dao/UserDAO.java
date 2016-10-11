@@ -8,10 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import com.config.exception.CreateUserException;
 import com.config.model.Channel;
+import com.config.model.Playlist;
 import com.config.model.User;
 import com.config.model.Video;
 
@@ -50,6 +52,7 @@ public class UserDAO {
 				loadChannel(user);
 				loadAbonatedChannels(user);
 				loadLikedVideos(user);
+				loadPlaylists(user);
 				
 				users.put(resultSet.getString("username"), user);
 
@@ -61,6 +64,15 @@ public class UserDAO {
 		} catch (CreateUserException e) {
 			System.out.println(e.getMessage() + " error in loading users from DB ");
 		}
+
+	}
+
+	private void loadPlaylists(User user) {
+		Set<Playlist> list = PlayListDAO.getInstance().getUserPlayList(user.getUsername());
+		if(list != null){
+			user.createPlaylist(list);
+		}
+
 	}
 
 	private void loadLikedVideos(User user) {
@@ -194,7 +206,7 @@ public class UserDAO {
 		try {
 			this.connection = DBManager.getInstance().getConnection();
 
-			String sql = "UPDATE users SET profilePic = (?) WHERE username = (?);;";
+			String sql = "UPDATE users SET profilePic = (?) WHERE username = (?);";
 			PreparedStatement stm = connection.prepareStatement(sql);
 			stm.setString(1, fileName);
 			stm.setString(2, username);
@@ -216,6 +228,7 @@ public class UserDAO {
 			}
 		}
 	}
+
 }
 
 /*

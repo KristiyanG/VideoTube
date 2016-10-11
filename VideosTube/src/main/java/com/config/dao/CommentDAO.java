@@ -92,7 +92,9 @@ public class CommentDAO {
 			com.addUserInLikesComment(user);
 			saveCommentLikeInDB(com, user);
 		}
+
 		return com.getLikes();
+
 	}
 
 	private void saveCommentLikeInDB(Comment com, String user) {

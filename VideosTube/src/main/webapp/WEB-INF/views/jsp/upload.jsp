@@ -108,7 +108,8 @@
 						</div><br>
 						<div class="video-upload-description">
 						      <label for="comment">Description:</label>
-						      <textarea class="form-control" rows="5" id="comment" name="description" maxlength="255" placeholder="Type here..."></textarea>
+						      <textarea class="form-control" rows="5" id="comment" name="description" onkeyup ="ValidateText(this)"
+						      		maxlength="255" placeholder="Type here..."></textarea>
     					</div>						
 						
 						<button type="submit" name="submit" class="btn btn-sm btn-primary"							
@@ -149,7 +150,7 @@
 	<script>
 		function validateName(input){
 
-			var regex = new RegExp("[^a-zA-Z_\s\r.0-9]+");
+			var regex = new RegExp("[^a-zA-Z_.\s \n\r0-9]+");
 			var status = document.getElementById("video-name-label")
 			
 			if(regex.test(input.value)){
@@ -217,6 +218,9 @@
 			xhr.open("POST", "UploadVideoServlet", true); // If async=false, then you'll miss progress bar support.
 			xhr.send(formData);
 			document.getElementById("progress-bar-butt").innerHTML = "Complate"
+		}
+		function ValidateText(txt) {
+		    txt.value = txt.value.replace(/[^a-zA-Z_.\s \n\r0-9!?@,()&]+/g, '');
 		}
 	</script>
 </body>

@@ -62,7 +62,10 @@ public class SearchController {
 	}
 
 
+
 	@RequestMapping(value="writeComment", method=RequestMethod.POST)
+
+
 	public @ResponseBody Comment commentVideo(HttpSession ses,HttpServletRequest req){
 		String comment =req.getParameter("commentText").trim();
 		String videoName =req.getParameter("videoName").trim();
@@ -75,6 +78,7 @@ public class SearchController {
 			return null;
 		}
 		return com;
+
 	}
 
 	@RequestMapping(value="comment/like", method=RequestMethod.POST)
@@ -108,5 +112,9 @@ public class SearchController {
 		
 		return ChannelDAO.getInstance().subscribeChannel(user.getUsername(), channelName);
 	}
+
+	}
+
+
 	
 }
