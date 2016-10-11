@@ -4,21 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
-import com.config.exception.CreateUserException;
 import com.config.model.User;
 
 @Controller
@@ -48,7 +42,6 @@ public class UploadController {
 		}
 		
 		String fileFullName = videoName.concat(".mp4");
-//		String fileFullName = "Username".concat("-").concat(videoName).concat(".mp4");
 
 	    File dir = new File(FILE_LOCATION);
 	    if(!dir.exists()){
@@ -64,13 +57,10 @@ public class UploadController {
 	}
 
 	private boolean validateVideoFormat(String contentType) {
-		// TODO Auto-generated method stub
 		String[] contentParams = contentType.split("/");
 		if(contentParams.length < 2 || contentParams.length > 2 || !contentParams[1].equals("mp4")){
 			return false;
 		}
 		return true;
 	}
-	
-
 }

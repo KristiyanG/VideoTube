@@ -15,10 +15,6 @@ import com.config.model.History;
 
 public class HistoryDAO {
 	private static HashMap<String, Set<String>> history = new HashMap<String, Set<String>>();// username - > list watched videos
-	// -
-	// >list
-	// with
-	// comment
 
 	private static HistoryDAO instance;
 
@@ -32,7 +28,6 @@ public class HistoryDAO {
 
 			instance = new HistoryDAO();
 			instance.loadHistory();
-
 		}
 		return instance;
 	}
@@ -54,11 +49,8 @@ public class HistoryDAO {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	public void saveInHistory(String username, String videoName){
@@ -79,12 +71,10 @@ public class HistoryDAO {
 			stm.executeUpdate();
 			System.out.println("Added in History - " +username +" watched - " +videoName);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		
+		}	
 	}
+	
 	public Set<String> getUserHistory(String username){
 		return Collections.unmodifiableSet(history.get(username));
 	}

@@ -25,10 +25,8 @@ public class ChannelDAO {
 
 	public synchronized static ChannelDAO getInstance() {
 		if (instance == null) {
-
 			instance = new ChannelDAO();
 			instance.loadChannels();
-
 		}
 		return instance;
 	}
@@ -50,8 +48,6 @@ public class ChannelDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 	private void loadSubscribes(Channel channel) {
@@ -69,6 +65,7 @@ public class ChannelDAO {
 		}
 		
 	}
+	
 	public Channel getUserChannel(String username){
 		Channel channel = null;
 		if(channels.containsKey(username)){
@@ -78,6 +75,7 @@ public class ChannelDAO {
 	}
 
 	private void loadChannelVideos(Channel channel) {
+		
 		List<Video> videoInChannel = VideoDAO.getInstance().getUserVideos(channel.getName());
 		for(Video v :videoInChannel){
 			channel.addVideoInChannel(v.getName());
@@ -91,6 +89,7 @@ public class ChannelDAO {
 	}
 
 	private void addInDB(String username) {
+		
 		try {
 			PreparedStatement stm = connection.prepareStatement("INSERT INTO channels(name,user_name) VALUES (?,?);");
 			stm.setString(1, username);
@@ -99,11 +98,51 @@ public class ChannelDAO {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
 
 	private void addInCollection(String username) {
 		Channel channel = new Channel(username);
 		channels.put(username, channel);
+	}
+	
+	public String subscribeChannel(String username,String channelName){
+		Channel ch = channels.get(channelName);
+		if(ch!=null){
+			if(ch.checkUserSubscribe(username)){
+				ch.removeUserFromChannel(username);
+				removeUserFromChannelDB(username,channelName);
+				return "Subscribe";
+			}
+			else{
+				ch.addUserInChannel(username);
+				addUserInChannelDB(username,channelName);
+				return "Unsubscribe";
+			}
+		}
+		return "Error";
+	}
+
+	private void addUserInChannelDB(String username,String channelName) {
+		try {
+			PreparedStatement stm = connection.prepareStatement("INSERT INTO subscribes(channel_name,user_name) VALUES (?,?);");
+			stm.setString(1, channelName);
+			stm.setString(2, username);
+			stm.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
+	private void removeUserFromChannelDB(String username,String channelName) {
+		try {
+			PreparedStatement stm = connection.prepareStatement("DELETE FROM subscribes where channel_name=? and user_name=? ;");
+			stm.setString(1, channelName);
+			stm.setString(2, username);
+			stm.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 }

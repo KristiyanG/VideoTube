@@ -25,43 +25,42 @@ public class Comment {
 		this.videoName = videoName;
 		this.likes = new HashSet<>();
 	}
-	
+
 	
 	public long getId() {
 		return id;
 	}
 
-
 	public void setId(long id) {
 		this.id = id;
 	}
-
 
 	public String getVideoName() {
 		return videoName;
 	}
 
-
 	public String getUser() {
 		return user;
 	}
+	
 	public void setUser(String user) {
 		this.user = user;
 	}
+	
 	public String getText() {
 		return text;
 	}
+	
 	public void setText(String text) {
 		this.text = text;
 	}
+	
 	public String getDate() {
 		String str = date.toString();
-		str =str.replaceAll("T", " ");
-		str =str.substring(0, 16);
-		System.out.println(str);
+		str = str.replaceAll("T", " ");
+		str = str.substring(0, 16);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
-		System.out.println("Get comment date " +dateTime.toString());
 		return dateTime.toString().replaceAll("T", " ");
 	}
 	
@@ -80,10 +79,10 @@ public class Comment {
 		return false;
 	}
 	
-	
 	public void removeUserFromLikesComment(String username){
 		likes.remove(username);
 	}
+	
 	public void addUserInLikesComment(String username ){
 		likes.add(username);
 	}
@@ -92,6 +91,9 @@ public class Comment {
 		return likes.size();
 	}
 	
+	public int getLikes(){
+		return likes.size();
+	}
 	
 	
 }

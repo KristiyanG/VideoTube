@@ -133,10 +133,8 @@ public class User {
 		return email;
 	}
 
-	public boolean isValidPassword(String password) {
-
+	public boolean isValidPassword(String password){
 		String criptPass = CryptWithMD5.cryptWithMD5(password);
-		System.out.println(password+"@"+criptPass+"@");
 		return this.password.equals(criptPass);
 	}
 
@@ -148,5 +146,14 @@ public class User {
 		return ((!enteredEmail.isEmpty()) && (enteredEmail != null) && (matcher.matches()));
 
 	}
-
+	
+	public boolean isSubscribeChannel(String channelName){
+		
+		for(Channel channel: this.subscriptions){
+			if(channel.getName().equals(channelName)){
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -31,7 +31,6 @@ public class UserDAO {
 
 			instance = new UserDAO();
 			instance.loadUsers();
-
 		}
 		return instance;
 	}
@@ -62,7 +61,6 @@ public class UserDAO {
 		} catch (CreateUserException e) {
 			System.out.println(e.getMessage() + " error in loading users from DB ");
 		}
-
 	}
 
 	private void loadLikedVideos(User user) {
@@ -76,10 +74,8 @@ public class UserDAO {
 				user.addVideoInLikedVideos(VideoDAO.getInstance().getVideoByName(rs.getString("video_name")));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
 	private void loadChannel(User user) {
@@ -92,7 +88,6 @@ public class UserDAO {
 		this.connection = DBManager.getInstance().getConnection();
 		
 		try {
-			
 			PreparedStatement st = connection.prepareStatement("SELECT channel_name FROM subscribes where user_name = ?;");
 			st.setString(1, user.getUsername());
 			ResultSet resultSet = st.executeQuery();
@@ -102,9 +97,7 @@ public class UserDAO {
 				user.subscribeChannel(channel);
 			}
 			
-			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -174,7 +167,6 @@ public class UserDAO {
 	public boolean login(String username , String password){
 		if(users.containsKey(username)){
 			if(users.get(username).isValidPassword(password)){
-				
 				return true;
 			}
 		}
@@ -223,8 +215,18 @@ public class UserDAO {
 				e.printStackTrace();
 			}
 		}
-		
-		
 	}
-	
 }
+
+/*
+* TODO: Video page : махаме report, google (g+); Share on -> Like video; Views в ляво; Махаме линка от датата
+* 	Profile pic на коментарите, бутон [+Add To] (да изкарва листовете на логнатия потребител -> 
+* 	да избереш къде да добавиш видеото) 
+*	Login page: съобщение за невалидни данни, да връща в същата страница
+*	My Channel page: при достъп от друг акаунт да променя страницата, 
+*	playlist да има бутон [create playlist]
+*	Search: No Results
+*	Play list:
+*	Subscribe for channel
+*	
+*/

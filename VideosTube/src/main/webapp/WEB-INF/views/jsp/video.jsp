@@ -17,6 +17,7 @@
 	<script src="script/register_form.js"></script>
 	
 <script type="text/javascript">
+
 	function showDiv() {
 	
 	if(document.getElementById('commentsDiv').style.display == "block"){
@@ -37,9 +38,13 @@
 			 msg.style.color = "#ff6666";
 			msg.innerHTML = "Login for comment video";
 	    }
+		
 		else{
+			if(document.getElementById("commentText").value==null||document.getElementById("commentText").value==''){
+				return;
+			}
 			if(document.getElementById("commentText").value!=null){
-				$.get(
+				$.post(
 						"writeComment", 
 						{ commentText: document.getElementById("commentText").value,
 							videoName: document.getElementById("videoName").innerHTML
@@ -59,6 +64,49 @@
 		}
 		
 	}
+	function likeComment(index,id){
+		var user =  document.getElementById('user');
+		if(user == null){
+			var msg = document.getElementById('confirmMes'+index);
+			 msg.style.color = "#ff6666";
+			msg.innerHTML = "Login for like comment";
+	    }
+		else{
+			
+			
+			
+			$.post(
+				"comment/like", 
+				{ commentId: id,
+					videoName: document.getElementById("videoName").innerHTML
+				}).done(
+				
+				function(data){
+					document.getElementById(index).innerHTML =data;
+			    });}
+	}
+	function subscribe(){
+		
+		var user =  document.getElementById('user');
+		if(user == null){
+			var msg = document.getElementById('confirmM');
+			 msg.style.color = "#ff6666";
+			msg.innerHTML = "Login for subscribe comment";
+	    }
+		else{
+			
+			
+			
+			$.post(
+				"subscribe", 
+				{ channel: document.getElementById('up').innerHTML
+				}).done(
+						
+				function(data){
+					document.getElementById('sub').innerHTML =data;
+			    });}
+	}
+
 </script>
 </head>
 
@@ -124,14 +172,41 @@
 		<!----End-Header---->
 		<div class="content">
 			<div class="inner-page">
+			
 				<c:set var="uploader" scope="page" value="${video.getUploader()}"/>
 				<c:set var="description" scope="page" value="${video.getDescription()}"/>
+				
 				<div class="title">
+					
 					<h3 id="videoName"><c:out value="${video.getName()}"></c:out> </h3>
 						<ul>
+						<c:set var="channelName" scope="page" value="${video.getUploader()}"/>
 							<li><h4>By:</h4></li>
-							<li><a href="userProfile?name=${uploader}"><c:out value="${uploader}"></c:out></a></li>
-							<li><a href="#"><img src="img/sub.png" title="subscribe" />subscribe</a></li>
+							<li><a href="userProfile?name=${uploader}"><div id="up"><c:out value="${uploader}"></c:out></div></a></li>
+							<c:if test="${sessionScope.user==null }">
+							<li><img onclick="subscribe()" src="img/sub.png" title="Unsubscribe" /><button onclick="subscribe()" type="button"><div id="sub">Subscribe</div></button><a href="login" id="confirmM" class="confirmMessage"> </a></li>
+							
+							</c:if>
+							
+							<c:if test="${sessionScope.user != null}">
+							
+							<c:if test="${sessionScope.user.isSubscribeChannel(channelName)}">
+							<li><img onclick="subscribe()" src="img/sub.png" title="Unsubscribe" /><button onclick="subscribe()" type="button"><div id="sub">Unsubscribe</div></button><a href="login" id="confirmM" class="confirmMessage"> </a></li>
+							</c:if>
+							<c:if test="${!sessionScope.user.isSubscribeChannel(channelName)}">
+							<li><img  src="img/sub.png" title="subscribe" /><button onclick="subscribe()" type="button"><div id="sub">Subscribe</div></button><a href="login" id="confirmM" class="confirmMessage"> </a></li>
+							</c:if>
+							
+							</c:if>
+						<li></li>
+						<li><select>
+  									<option value="volvo">Choose playlist to add video</option>
+  									<option value="saab">Saab</option>
+  									<option value="mercedes">Mercedes</option>
+ 								 <option value="audi">Audi</option>
+									</select>
+	</li>
+						
 						</ul>
 							
 							<c:set var="videoDislikes" scope ="page" value ="${video.getDislikes()}"></c:set>
@@ -139,17 +214,15 @@
 							<c:set var="videoDate" scope ="page" value ="${video.getDate().toString() }"></c:set>
 						  	<c:set var="video" scope="page" value="${requestScope.video.getName()}"/>
 							<video id="my-video" class="video-js"   controls preload="auto" width="640" height="264"
-						  			 data-setup="{}">
+						  			 >
 							        <source src="video/${video}"  type='video/mp4'>
-							<p class="vjs-no-js">
-						      		To view this video please enable JavaScript, and consider upgrading to a web browser that
-						    </p>
+							
 						  </video>
+						  
 
 				</div>
-				<div class="video-inner">
-					
-				</div>
+				
+				
 				<div class="viwes">
 					<div class="view-links">
 						<ul>
@@ -160,7 +233,8 @@
 						</ul>
 						<ul class="comment1">
 							<li><a onclick="showDiv()" >Comment(<c:out value="${ comments.size()}"/>)</a></li>
-							<li><a href="#"><img src="img/re.png" title="report" /><span>Report</span></a></li>
+							
+							
 						</ul>
 					</div>
 					<div class="views-count">
@@ -173,7 +247,7 @@
 				
 					<ul>
 					<li> <a href="login" id="confirmMessage" class="confirmMessage"> </a></li>
-						<li><p>Uploaded on <a href="#"><c:out value="${videoDate}"></c:out></a> by <a href="myChannel"><c:out value="uploader"></c:out></a></p></li>
+						<li><p>Uploaded on <a href="#"><c:out value="${videoDate}"></c:out></a> by <a  href="myChannel"><c:out value="uploader"></c:out></a></p></li>
 						<li><p>Description for video :</p></li>
 						<li><span><c:out value = "${description }"></c:out></span></li>
 						 
@@ -184,16 +258,16 @@
            
            <li>
                 <div id="writeCommentLogin" style="display:none;" class="comment-main-level">
-                    <!-- Avatar -->
-                    <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
-                    <!-- Contenedor del Comentario -->
+                    <c:if test="${sessionScope.user!=null}">
+                    <div class="comment-avatar"><a href="myChannel"><img src="myChannel/${sessionScope.user.getUsername()}"   alt=""></a></div>
+                   	</c:if>
                     <div class="comment-box">
                         <div class="comment-head">
-                            <h6 class="comment-name"><a href="http://creaticode.com/blog">You</a></h6>
+                            <h6 class="comment-name"><a href="myChannel">You</a></h6>
                         </div>
                        <form action="javascript:writeComment()">
                         <div class="comment-content">
-                        <input id="commentText"  type="text" placeholder="Write comment..." maxlength="100"></input><button type="submit"  >Add</button>
+                        <input id="commentText"  type="text" placeholder="Write comment..." maxlength="90"></input><button type="submit"  >Add</button>
                         </div>
                         </form>
                     </div>
@@ -202,11 +276,13 @@
             <li>
             <div id="newComment" style="display:none;" class="comment-main-level">
                     <!-- Avatar -->
-                    <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+                    <c:if test="${sessionScope.user!=null}">
+                    <div class="comment-avatar"><a href="myChannel"><img src="myChannel/${sessionScope.user.getUsername()}"   alt=""></a></div>
+                   	</c:if>
                     <!-- Contenedor del Comentario -->
                     <div class="comment-box">
                         <div class="comment-head">
-                            <h6 id="commentAuthor" class="comment-name by-author"></h6>
+                            <h6 id="commentAuthor" class="comment-name"></h6>
                             <span><div id="newCommentDate"></div></span>
                             <i class="fa fa-reply"></i>
                             <i class="fa fa-heart"></i>
@@ -218,21 +294,27 @@
                 </div>
             </li>
             
-             <c:forEach items="${comments}" var="com">
+             <c:forEach items="${comments}" var="com" varStatus="loop">
             <li>
        
+       
+
                 <div  class="comment-main-level">
                     <!-- Avatar -->
-                    <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+                    <div class="comment-avatar"><a href="userProfile?name=${com.user}"><img  src="myChannel/${com.user}"  alt=""></a></div>
                     <!-- Contenedor del Comentario -->
                     <div class="comment-box">
+                    <div id="commentId" style="display: none;" ><c:out value="${com.id }"></c:out></div>
                         <div class="comment-head">
-                        
+                        	<c:if test="${com.user==uploader}">
                             <h6 class="comment-name by-author"><c:out value="${com.user}"/></h6>
-                           
-                            <span><c:out value="${com.date}"/></span>
-                            <i class="fa fa-reply"></i>
-                            <i class="fa fa-heart"></i>
+                           </c:if>
+                           <c:if test="${com.user!=uploader}">
+                            <h6 class="comment-name "><c:out value="${com.user}"/></h6>
+                           </c:if>
+                            <span><c:out value="${com.date}"/> <a href="login" id="confirmMes${loop.index}" class="confirmMessage"> </a></span>
+							<div ><i id="${loop.index}" class="fa fa-reply"><c:out value="${com.likes}"/></i></div> 
+                            <i class="fa fa-heart"><img onclick="likeComment(${loop.index},${com.id})" src="img/001.png"/></i>
                         </div>
                         <div  class="comment-content">
                          <c:out value="${com.text}"/>

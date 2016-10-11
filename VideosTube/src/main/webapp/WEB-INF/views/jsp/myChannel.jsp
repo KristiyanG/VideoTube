@@ -13,103 +13,6 @@
 	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />		
 	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
 	
-	<style>
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-    position: relative;
-    background-color: #fefefe;
-    margin: auto;
-    padding: 0;
-    border: 1px solid #888;
-    width: 40%;
-    height: 100px;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s
-}
-
-/* Add Animation */
-@-webkit-keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
-}
-
-@keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
-}
-
-/* The Close Button */
-.close {
-    color: white;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.modal-header {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
-}
-
-.modal-body {
-	padding: 2px 16px;
-	vertical-align: middle;	
-}
-
-.modal-footer {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
-}
-.modal-submit{
-	position: absolute;
-	top: 60px;
-	left: 10px;
-	width: 25%;
-	height: 25px;
-}
-</style>
-	
-	
-	<script type="text/javascript">
-	window.onload = hideEditButton;
-	
-	function viewEditButton() {
-		var img = document.getElementById ('edit-but') ;
-		img.style.visibility = 'visible';
-	}
-	function hideEditButton() {
-		var img = document.getElementById ('edit-but') ;
-		img.style.visibility = 'hidden';
-	}
-	</script>	
-	
 </head>
 	<body>
 	<!----start-wrap---->
@@ -200,12 +103,7 @@
 								<ul class="twPc-Arrange">
 									<li class="twPc-ArrangeSizeFit">
 										<a href="#">
-											<span class="twPc-StatLabel twPc-block">Home</span>
-										</a>
-									</li>
-									<li class="twPc-ArrangeSizeFit">
-										<a href="#">
-											<span class="twPc-StatLabel twPc-block">Videos</span>
+											<span class="twPc-StatLabel twPc-block">My videos</span>
 										</a>
 									</li>
 									<li class="twPc-ArrangeSizeFit">
@@ -215,7 +113,12 @@
 									</li>
 									<li class="twPc-ArrangeSizeFit">
 										<a href="#">
-											<span class="twPc-StatLabel twPc-block">About</span>
+											<span class="twPc-StatLabel twPc-block">Subscriptions</span>
+										</a>
+									</li>
+									<li class="twPc-ArrangeSizeFit">
+										<a href="#">
+											<span class="twPc-StatLabel twPc-block">Liked videos</span>
 										</a>
 									</li>
 								</ul>
@@ -241,26 +144,8 @@
 	    </div>
 	</form>
   </div>
-<script type="text/javascript">
-var span = document.getElementsByClassName("close")[0];
-var modal = document.getElementById('myModal');
 
-function displayModal() {	
-	modal.style.display = "block";
-}
-
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-
-</script>
+<script src="script/my_channel_scripts.js"></script>
 </div>
 	</body>
 </html>

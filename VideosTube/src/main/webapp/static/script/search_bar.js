@@ -2,8 +2,7 @@
  * 
  */
 	
-	function search() {
-		
+	function search(event) {
 		var searchField = document.getElementById("search-field").value;
 		var searchType = document.getElementById("search-drop-down").value;
 		if(searchType == "Video"){
@@ -13,17 +12,18 @@
 						type: searchType
 					},
 					function(result){		
-						searchResultVideo(result)
+
+						searchResultVideo(result);
 				    });
-		}else{
-			alert("ELSE")
+		}
+		if(searchType == "Channel"){
 			$.get(
 					"searchChannel", 
 					{ search: searchField, 
 						type: searchType
 					},
 					function(result){		
-						
+
 						searchResultChannel(result);
 				    });
 		}
@@ -60,14 +60,14 @@
 	}
 	
 	function searchResultChannel(result){
-		
-		
-		
+
+		$('#videoBox').empty();
+
 		var trHTML = '';
         $.each(result, function (i, item) {
         	trHTML +='<div class="grid">'
         	+'<h3>'+ item.username +'</h3>'	
-        	+ '<a href="video?name=' + item.username + '"><img src="img/g1 copy.png" title= "' +item.username+'" /></a>'
+        	+ '<a href="video?name=' + item.username + '"><img style="width:234px;height:178px;" src="profilePic/'+ item.profilePic +'" title= "'+ item.username +'" /></a>'
         	+'<div class="grid-info">'
 			+'<div class="video-share">'
 			+'</div>'
