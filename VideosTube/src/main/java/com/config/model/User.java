@@ -2,6 +2,7 @@ package com.config.model;
 
 import java.security.CryptoPrimitive;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +23,7 @@ public class User {
 	private List<Channel> subscriptions;
 	private TreeSet<History> history;
 	private List<Video> likedVideos;
-	private String playList;
+	private List<Playlist> playLists;
 
 	public User(String name, String password, String email) throws CreateUserException {
 		if (name.length() < 4 || name.length() > 12) {
@@ -38,6 +39,8 @@ public class User {
 		this.subscriptions = new ArrayList<>();
 		this.history = new TreeSet<History>((v1, v2) -> v1.getDate().compareTo(v2.getDate()));
 		this.likedVideos = new ArrayList<>();
+		this.playLists = new ArrayList<>();
+
 	}
 
 	public User(String name, String password, String profilePic, String email) throws CreateUserException{
@@ -96,12 +99,12 @@ public class User {
 		this.subscriptions.remove(channel);
 	}
 
-	public String getPlayList() {
-		return playList;
+	public List<Playlist> getPlayLists() {
+		return 	Collections.unmodifiableList(this.playLists);
 	}
 
-	public void setPlayList(String playList) {
-		this.playList = playList;
+	public void setPlayLists(List<Playlist> playLists) {
+		this.playLists = playLists;
 	}
 
 	public void setChannel(Channel ch) {
@@ -145,5 +148,11 @@ public class User {
 		Matcher matcher = pattern.matcher(enteredEmail);
 		return ((!enteredEmail.isEmpty()) && (enteredEmail != null) && (matcher.matches()));
 
+	}
+
+	public Playlist createPlaylist(String name){
+		Playlist pl = new Playlist(this.username, name);
+		this.playLists.add(pl);
+		return pl;
 	}
 }

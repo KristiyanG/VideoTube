@@ -28,3 +28,39 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+// Create Playlist Dialog
+var playlistSpan = document.getElementsByClassName("playlist-dialog-close")[0];
+var playlistModal = document.getElementById('create-playlist-modal');
+
+function openDialog() {
+	if(document.getElementById("new-playlist").style.display == 'block' ){
+		return;
+	}
+	playlistModal.style.display = "block";
+}
+
+playlistSpan.onclick = function() {
+	playlistModal.style.display = "none";
+}
+
+function createPlaylist() {
+	
+	var playlistName = document.getElementById("playlist-name").value;
+	playlistModal.style.display = "none";
+	$.post("createPlaylist", {name: playlistName}, function(result){
+
+		document.getElementById('new-paylist-name').innerHTML = result.name;
+		document.getElementById('new-playlist-count').innerHTML = "Videos: " + result.count;
+		
+		document.getElementById("new-playlist").style.display = "block";
+
+    });
+	
+	document.getElementById("playlist-button").click();
+}
+
+
+function showPlaylists() {
+	document.getElementById("my-playlists").style.display = "block";
+}

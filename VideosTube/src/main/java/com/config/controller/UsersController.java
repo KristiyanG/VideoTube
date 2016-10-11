@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.config.dao.PlayListDAO;
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
 import com.config.exception.CreateUserException;
+import com.config.model.Playlist;
 import com.config.model.User;
 import com.config.model.Video;
 
@@ -158,4 +160,17 @@ public class UsersController {
 		return "myChannel";
 	}
 
+	@RequestMapping(value="/createPlaylist", method=RequestMethod.POST)
+	@ResponseBody
+	public Playlist createPlaylist(@RequestParam("name") String name, HttpSession ses){
+		User user = (User) ses.getAttribute("user");
+		if(user == null){
+			System.out.println("No user in session to create playlist");
+			return null;
+		}
+	
+		Playlist pl = PlayListDAO.getInstance().createPlaylist(name, user.getUsername());
+		
+		return pl;
+	}
 }

@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.config.model.Playlist;
+import com.config.model.User;
 
 public class PlayListDAO {
 	
@@ -37,12 +38,11 @@ public class PlayListDAO {
 		this.connection = DBManager.getInstance().getConnection();
 		try {
 			Statement stm = connection.createStatement();
-			ResultSet rs = stm.executeQuery("Select id, name,user_name from playlists");
+			ResultSet rs = stm.executeQuery("Select name, user_name from playlists");
 			while(rs.next()){
-				long id = rs.getLong("id");
 				String name = rs.getString("name");
 				String username = rs.getString("user_name");
-				Playlist pl = new Playlist(username, name, id);
+				Playlist pl = new Playlist(username, name);
 				
 				loadPlaylistVideos(pl);
 				if(!playlist.containsKey(username)){
@@ -59,10 +59,10 @@ public class PlayListDAO {
 	private void loadPlaylistVideos(Playlist pl) {
 		
 		this.connection = DBManager.getInstance().getConnection();
-		String sql = "Select video_name FROM playlist_video where playlist_id = ?";
+		String sql = "Select video_name FROM playlist_video where playlist_name = ?";
 		try {
 			PreparedStatement stm = connection.prepareStatement(sql);
-			stm.setLong(1, pl.getId());
+			stm.setString(1, pl.getName());
 			ResultSet rs = stm.executeQuery();
 			while(rs.next()){
 				String video = rs.getString("video_name");
@@ -71,7 +71,6 @@ public class PlayListDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public Set<Playlist> getUserPlayList(String username){
@@ -79,5 +78,25 @@ public class PlayListDAO {
 			return Collections.unmodifiableSet(playlist.get(username));
 		}
 		return new HashSet<Playlist>();
+	}
+
+	public Playlist createPlaylist(String name, String username) {
+		User user = UserDAO.getInstance().getUserByUsername(username);
+		
+		try {
+			this.connection = DBManager.getInstance().getConnection();
+			String query = "INSERT INTO playlists (name, user_name) VALUES (?, ?);";
+			PreparedStatement stm = connection.prepareStatement(query);
+			stm.setString(1, name);
+			stm.setString(2, username);
+			stm.executeUpdate();
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+				return null;
+			}
+
+		return user.createPlaylist(name);
 	}
 }

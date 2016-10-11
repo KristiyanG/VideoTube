@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 
 import com.config.exception.CreateUserException;
 import com.config.model.Channel;
+import com.config.model.Playlist;
 import com.config.model.User;
 import com.config.model.Video;
 
@@ -194,7 +195,7 @@ public class UserDAO {
 		try {
 			this.connection = DBManager.getInstance().getConnection();
 
-			String sql = "UPDATE users SET profilePic = (?) WHERE username = (?);;";
+			String sql = "UPDATE users SET profilePic = (?) WHERE username = (?);";
 			PreparedStatement stm = connection.prepareStatement(sql);
 			stm.setString(1, fileName);
 			stm.setString(2, username);
@@ -216,6 +217,7 @@ public class UserDAO {
 			}
 		}
 	}
+
 }
 
 /*

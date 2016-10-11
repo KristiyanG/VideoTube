@@ -30,6 +30,8 @@ body, html{
  	font-family: 'Oxygen', sans-serif;
 }
 
+
+
 /* Drag-drop */
 .upload-drop-zone {
   height: 200px;
@@ -72,7 +74,6 @@ body, html{
 	top: -550px;
 }
 .twPc-bg {
-    background-image: url("https://pbs.twimg.com/profile_banners/50988711/1384539792/600x200");
     background-position: 0 50%;
     background-size: 100% auto;
     border-bottom: 1px solid #e1e8ed;
@@ -163,6 +164,18 @@ ul.twPc-Arrange {
     overflow: hidden;
     text-transform: uppercase;
     transition: color 0.15s ease-in-out 0s;
+}
+
+.my_channel_content{
+	position: absolute;
+	top: 350px;
+	
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #e1e8ed;
+    border-radius: 6px;
+    height: 60%;
+	width: 840px;
+	left: 290px;
 }
 
 /* Channel end */
@@ -1645,3 +1658,135 @@ body {
 	height: 25px;
 	background-color: #FB8C00;
 }
+
+.create-playlist-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.playlist-modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 30%;
+    height: 150px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.playlist-dialog-close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.playlist-dialog-close:hover,
+.playlist-dialog-close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.playlist-modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+.playlist-modal-header span{
+	color:#000;
+}
+
+.playlist-modal-body {
+	padding: 2px 16px;
+	vertical-align: middle;	
+}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+.playlist-modal-submit{
+	position: absolute;
+	top: 60%;
+	left: 14px;
+	width: 25%;
+	height: 35px;
+	background-color: #5cb85c;
+	
+}
+.playlist-modal-input{
+	position: absolute;
+	top: 30%;
+	left: 12px;
+	height: 30px;
+	width: 50%;
+    font-size: 100%;
+}
+
+.playlists-frame{
+float:left;
+	border: solid;
+    border-width: 1px;
+	border-color: rgb(30, 93, 173);
+	padding: 10px;
+    margin: 10px;
+    width: 97%;
+}
+.video-list-image{
+	float:left;
+	top: 2px;
+	width: 90px;
+	height: 60px;
+}
+.list-video-title{
+	position: relative;
+	top: 20px;
+	left: 15px;
+	font-size:130%;
+	float:left;
+}
+.list-video-uploader{
+	position: relative;
+	left: -80px;
+	font-size:90%;
+	float:left;
+	top: 35px;;
+}
+.list-video-views{
+	font-size:90%;
+	float:right;
+	top: 20px;
+	position: relative;
+	right: 10px;
+}
+
