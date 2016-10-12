@@ -72,6 +72,7 @@ function showMyVideos() {
 }
 
 function swohSubscriptions() {
+<<<<<<< HEAD
 	hideAll();
 	document.getElementById("subscriptionsDiv").style.display = "block";
 	

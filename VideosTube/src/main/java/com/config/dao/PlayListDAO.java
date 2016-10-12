@@ -103,6 +103,53 @@ public class PlayListDAO {
 		if(!playlist.containsKey(username)){
 			return null;
 		}
-		return this.playlist.get(username);
+		return playlist.get(username);
 	}
+	
+	public String addVideoInPlaylist(String username,String videoName,String playlistName){
+		
+		User user = UserDAO.getInstance().getUserByUsername(username);
+		Playlist pl = user.getUserPlaylist(playlistName);
+		if(pl.isVideoInList(videoName)){
+			pl.removeVideoFromList(videoName);
+			removeVideoFromDB(username,videoName,playlistName);
+			return "Removed from playlist";
+		}
+		else{
+			pl.addVideoInPlaylist(videoName);
+			addVideoInPlaylistDB(username,videoName,playlistName);	
+			return "Added in playlist";}
+		
+		
+	}
+
+	private void addVideoInPlaylistDB(String username, String videoName, String playlistName) {
+		this.connection = DBManager.getInstance().getConnection();
+		try {
+			PreparedStatement stm = connection.prepareStatement("INSERT INTO playlist_video(video_name, username,playlist_name) VALUES(?,?,?); ");
+			stm.setString(1, videoName);
+			stm.setString(2, username);
+			stm.setString(3, playlistName);
+			int rowsAffected =stm.executeUpdate();
+			System.out.println("UPDATE playlist_video "+ rowsAffected);
+		} catch (SQLException e) {
+			System.out.println("Save dislike indDB -"+e.getMessage());
+		}
+		
+	}
+
+	private void removeVideoFromDB(String username, String videoName, String playlistName) {
+		this.connection = DBManager.getInstance().getConnection();
+		try {
+			PreparedStatement stm = connection.prepareStatement("DELETE FROM playlist_video where playlist_name=? AND video_name=? AND username=? ; ");
+			stm.setString(1, playlistName);
+			stm.setString(2, videoName);
+			stm.setString(3, username);
+			stm.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Remove from dDB -"+e.getMessage());
+		}
+		
+	}
+	
 }

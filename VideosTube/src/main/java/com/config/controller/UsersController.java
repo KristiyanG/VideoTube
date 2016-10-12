@@ -113,26 +113,26 @@ public class UsersController {
 			return users;		
 	}
 	
-	@RequestMapping(value="/myChannel/{username}", method=RequestMethod.GET)
-	@ResponseBody
-	public void getProfilePic(@PathVariable("username") String username,
-			HttpSession ses, 
-			HttpServletResponse resp, 
-			Model model){
-	
-		String userPic = UserDAO.getInstance().getUserByUsername(username).getProfilePic();
-		if(userPic == null){
-			System.out.println("NO PIC");
-			return;
-		}
-		File file = new File("profilePic/" + userPic);
-		
-		try {
-			Files.copy(file.toPath(), resp.getOutputStream());
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-	}
+	 @RequestMapping(value="/myChannel/{username}", method=RequestMethod.GET)
+	 @ResponseBody
+	 public void getProfilePic(@PathVariable("username") String username,
+	   HttpSession ses, 
+	   HttpServletResponse resp, 
+	   Model model){
+	 
+	  String userPic = UserDAO.getInstance().getUserByUsername(username).getProfilePic();
+	  if(userPic == null){
+	   System.out.println("NO PIC");
+	   return;
+	  }
+	  File file = new File(userPic);
+	  
+	  try {
+	   Files.copy(file.toPath(), resp.getOutputStream());
+	  } catch (IOException e) {
+	   System.out.println(e.getMessage());
+	  }
+	 }
 
 	@RequestMapping(value="/myChannel", method=RequestMethod.POST)
 	public String receiveUpload(
@@ -152,6 +152,12 @@ public class UsersController {
 		
 		Files.copy(multiPartFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		
+		// String fileName = multiPartFile.getOriginalFilename();
+		 //UserDAO.getInstance().changeProfilePicture(fileName, user.getUsername());
+
+		 // File file = new File ( fileName);
+		//  Files.copy(multiPartFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
 		List<Video> userVideos = VideoDAO.getInstance().getUserVideos(user.getUsername());
 		model.addAttribute("videos", userVideos);
 		return "myChannel";

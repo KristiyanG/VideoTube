@@ -156,6 +156,16 @@ public class User {
 		return ((!enteredEmail.isEmpty()) && (enteredEmail != null) && (matcher.matches()));
 
 	}
+	
+	public boolean isSubscribeChannel(String channelName){
+		
+		for(Channel channel: this.subscriptions){
+			if(channel.getName().equals(channelName)){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public Playlist createPlaylist(String name){
 		Playlist pl = new Playlist(this.username, name);
@@ -167,5 +177,15 @@ public class User {
 		for (Playlist playlist : userPlayList) {
 			this.playLists.add(playlist);
 		}	
+	}
+	
+	public Playlist getUserPlaylist(String playlistName){
+		
+		for(Playlist list: this.playLists){
+			if(list.getName().equals(playlistName)){
+				return list;
+			}
+		}
+		return null;
 	}
 }

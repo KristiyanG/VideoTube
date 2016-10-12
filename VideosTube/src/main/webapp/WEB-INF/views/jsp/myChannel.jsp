@@ -12,8 +12,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
 	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />		
 	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>	
 	
 	<style>
 .tooltip {
@@ -75,7 +74,7 @@
                     <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
                     <li><a href="likedVideos">Liked Videos</a></li>
                     <li><a href="myPlaylist">My Playlist</a></li>
-                    <li><a href="simple?name">Abonated Channel</a></li>
+                    <li><a href="abonatetChannel">Abonated Channel</a></li>
                 </ul>
 			</div>
 			<div class="clear"> </div>
