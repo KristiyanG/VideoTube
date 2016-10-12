@@ -117,4 +117,93 @@ function dislikeVideo() {
 		    });}
 	
 }
+function showDiv() {
+	
+	if(document.getElementById('commentsDiv').style.display == "block"){
+		document.getElementById('commentsDiv').style.display = "none";
+	}
+	else{
+		document.getElementById('commentsDiv').style.display = "block";}
+	   
+	   var user =  document.getElementById('user');
+		if(user != null){
+			document.getElementById('writeCommentLogin').style.display = "block";
+	    }
+	}
+	function writeComment(){
+		var user =  document.getElementById('user');
+		if(user == null){
+			var msg = document.getElementById('confirmMessage');
+			 msg.style.color = "#ff6666";
+			msg.innerHTML = "Login for comment video";
+	    }
+		
+		else{
+			if(document.getElementById("commentText").value==null||document.getElementById("commentText").value==''){
+				return;
+			}
+			if(document.getElementById("commentText").value!=null){
+				$.post(
+						"writeComment", 
+						{ commentText: document.getElementById("commentText").value,
+							videoName: document.getElementById("videoName").innerHTML
+						
+						},
+						
+						function(result){
+							
+							document.getElementById("commentContent").innerHTML =result.text;
+							document.getElementById("newCommentDate").innerHTML =result.date;
+							document.getElementById("commentAuthor").innerHTML =result.user;
+							$("#commentText").val('');
+							document.getElementById('newComment').style.display = "block";
+					    });
+			}
+			
+		}
+		
+	}
+	function likeComment(index,id){
+		var user =  document.getElementById('user');
+		if(user == null){
+			var msg = document.getElementById('confirmMes'+index);
+			 msg.style.color = "#ff6666";
+			msg.innerHTML = "Login for like comment";
+	    }
+		else{
+			
+			
+			
+			$.post(
+				"comment/like", 
+				{ commentId: id,
+					videoName: document.getElementById("videoName").innerHTML
+				}).done(
+				
+				function(data){
+					document.getElementById(index).innerHTML =data;
+			    });}
+	}
+	function subscribe(){
+		
+		var user =  document.getElementById('user');
+		if(user == null){
+			var msg = document.getElementById('confirmM');
+			 msg.style.color = "#ff6666";
+			msg.innerHTML = "Login for subscribe comment";
+	    }
+		else{
+			
+			
+			
+			$.post(
+				"subscribe", 
+				{ channel: document.getElementById('up').innerHTML
+				}).done(
+						
+				function(data){
+					document.getElementById('sub').innerHTML =data;
+			    });}
+	}
+
 

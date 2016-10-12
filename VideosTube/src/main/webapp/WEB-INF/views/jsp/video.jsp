@@ -9,105 +9,15 @@
 	<title>Video Page</title>
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
 	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
+	<link href="css/add_playList.css" rel="stylesheet" type="text/css"  media="all" />
 	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
 	
     <link href="http://vjs.zencdn.net/5.11.7/video-js.css" rel="stylesheet">
   
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="script/register_form.js"></script>
-	
-<script type="text/javascript">
+	<script src="script/add_playlist.js"></script>
 
-	function showDiv() {
-	
-	if(document.getElementById('commentsDiv').style.display == "block"){
-		document.getElementById('commentsDiv').style.display = "none";
-	}
-	else{
-		document.getElementById('commentsDiv').style.display = "block";}
-	   
-	   var user =  document.getElementById('user');
-		if(user != null){
-			document.getElementById('writeCommentLogin').style.display = "block";
-	    }
-	}
-	function writeComment(){
-		var user =  document.getElementById('user');
-		if(user == null){
-			var msg = document.getElementById('confirmMessage');
-			 msg.style.color = "#ff6666";
-			msg.innerHTML = "Login for comment video";
-	    }
-		
-		else{
-			if(document.getElementById("commentText").value==null||document.getElementById("commentText").value==''){
-				return;
-			}
-			if(document.getElementById("commentText").value!=null){
-				$.post(
-						"writeComment", 
-						{ commentText: document.getElementById("commentText").value,
-							videoName: document.getElementById("videoName").innerHTML
-						
-						},
-						
-						function(result){
-							
-							document.getElementById("commentContent").innerHTML =result.text;
-							document.getElementById("newCommentDate").innerHTML =result.date;
-							document.getElementById("commentAuthor").innerHTML =result.user;
-							$("#commentText").val('');
-							document.getElementById('newComment').style.display = "block";
-					    });
-			}
-			
-		}
-		
-	}
-	function likeComment(index,id){
-		var user =  document.getElementById('user');
-		if(user == null){
-			var msg = document.getElementById('confirmMes'+index);
-			 msg.style.color = "#ff6666";
-			msg.innerHTML = "Login for like comment";
-	    }
-		else{
-			
-			
-			
-			$.post(
-				"comment/like", 
-				{ commentId: id,
-					videoName: document.getElementById("videoName").innerHTML
-				}).done(
-				
-				function(data){
-					document.getElementById(index).innerHTML =data;
-			    });}
-	}
-	function subscribe(){
-		
-		var user =  document.getElementById('user');
-		if(user == null){
-			var msg = document.getElementById('confirmM');
-			 msg.style.color = "#ff6666";
-			msg.innerHTML = "Login for subscribe comment";
-	    }
-		else{
-			
-			
-			
-			$.post(
-				"subscribe", 
-				{ channel: document.getElementById('up').innerHTML
-				}).done(
-						
-				function(data){
-					document.getElementById('sub').innerHTML =data;
-			    });}
-	}
-
-</script>
 </head>
 
 <body>
@@ -199,14 +109,39 @@
 							
 							</c:if>
 						<li></li>
-						<li><select>
-  									<option value="volvo">Choose playlist to add video</option>
-  									<option value="saab">Saab</option>
-  									<option value="mercedes">Mercedes</option>
- 								 <option value="audi">Audi</option>
-									</select>
-	</li>
 						
+						<li> <div id="list1" class="dropdown-check-list" tabindex="100">
+        <span class="anchor">Add to playlist</span>
+        <ul class="items">
+        <c:if test="${sessionScope.user!=null}">
+        <c:forEach items="${sessionScope.user.getPlayLists()}" var="list">
+        
+            <li><input id="${list.name}" type="checkbox" onchange="addPlaylist(this.id)"/><c:out value="${list.name}"/> </li>
+        </c:forEach>
+        <li><a href="login" id="addToList" class="confirmMessage"> </a></li>
+        </c:if>
+        </ul>
+    </div>
+<script type="text/javascript">
+
+var checkList = document.getElementById('list1');
+checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
+	
+    if (checkList.classList.contains('visible'))
+        checkList.classList.remove('visible');
+    else
+        checkList.classList.add('visible');
+}
+
+checkList.onblur = function(evt) {
+    checkList.classList.remove('visible');
+}
+
+checkList.onblur = function(evt) {
+    checkList.classList.remove('visible');
+}
+</script>
+   </li>
 						</ul>
 							
 							<c:set var="videoDislikes" scope ="page" value ="${video.getDislikes()}"></c:set>

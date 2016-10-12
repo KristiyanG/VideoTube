@@ -20,6 +20,8 @@ public class Playlist {
 		this.count = 0;
 	}
 
+	
+
 	public long getId() {
 		return id;
 	}
@@ -99,5 +101,9 @@ public class Playlist {
 		}
 		
 		return videos.get(0);
+	}
+	
+	public boolean isVideoInList(String videoName){
+		return videos.contains(videoName);
 	}
 }

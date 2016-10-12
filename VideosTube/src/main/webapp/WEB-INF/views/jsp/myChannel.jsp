@@ -12,7 +12,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
 	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />		
 	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	
 </head>
 	<body>
@@ -46,12 +46,9 @@
 				 <ul>
                     <li><a href="home">Home</a><p>My Forntpage</p></li>
                     <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
-                    <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
                     <li><a href="likedVideos">Liked Videos</a></li>
-                    <li><a href="history">History</a><p>Watched videos</p></li>
                     <li><a href="myPlaylist">My Playlist</a></li>
                     <li><a href="abonatetChannel">Abonated Channel</a></li>
-                    <li><a href="#">Search</a><p>Search users or videos</p></li>
                 </ul>
 			</div>
 			<div class="clear"> </div>
@@ -106,7 +103,7 @@
 							</a>
 						</li>
 						<li class="twPc-ArrangeSizeFit">
-							<a href="#">
+							<a href="#" onclick="swohSubscriptions()">
 								<span class="twPc-StatLabel twPc-block">Subscriptions</span>
 							</a>
 						</li>
@@ -162,33 +159,6 @@
 									<p>Uploader:<a href="userProfile?name=${video.uploader}">${video.uploader}</a></p>
 								</div>
 							</div>
-<<<<<<< HEAD
-							<br><br>
-							<div class="twPc-divStats">
-								<ul class="twPc-Arrange">
-									<li class="twPc-ArrangeSizeFit">
-										<a href="#">
-											<span class="twPc-StatLabel twPc-block">My videos</span>
-										</a>
-									</li>
-									<li class="twPc-ArrangeSizeFit">
-										<a href="#">
-											<span class="twPc-StatLabel twPc-block">Playlists</span>
-										</a>
-									</li>
-									<li class="twPc-ArrangeSizeFit">
-										<a href="#">
-											<span class="twPc-StatLabel twPc-block">Subscriptions</span>
-										</a>
-									</li>
-									<li class="twPc-ArrangeSizeFit">
-										<a href="#">
-											<span class="twPc-StatLabel twPc-block">Liked videos</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-
 						</div>
 					</c:forEach>
        			</div>
@@ -198,7 +168,6 @@
 	<!-- Channel end  -->		
 	</div>
 	<!----End-wrap---->
-
 	<div id="myModal" class="modal">
 	  <!-- Modal content -->
 		 <div class="modal-content">

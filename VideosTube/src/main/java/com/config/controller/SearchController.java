@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.config.dao.ChannelDAO;
 import com.config.dao.CommentDAO;
+import com.config.dao.PlayListDAO;
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
 import com.config.model.Comment;
@@ -112,8 +113,24 @@ public class SearchController {
 		
 		return ChannelDAO.getInstance().subscribeChannel(user.getUsername(), channelName);
 	}
-
+	
+	@RequestMapping(value="/addPlaylist", method=RequestMethod.POST)
+	public @ResponseBody String addVideoToPlaylist(HttpSession ses,HttpServletRequest req){
+		String playlistName =req.getParameter("playlist");
+		String videoName =req.getParameter("videoName");
+		System.out.println("playlistName "+playlistName);
+		if(ses.getAttribute("user")==null){
+			return "No user";
+		}
+		User user = (User)ses.getAttribute("user");
+		System.out.println("USERNAME -"+user.getUsername()+"-");
+	
+		PlayListDAO.getInstance().addVideoInPlaylist(user.getUsername(), videoName, playlistName);
+		
+		return "Raboti mai";
 	}
+
+	
 
 
 	

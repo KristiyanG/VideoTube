@@ -159,7 +159,7 @@ public class User {
 			}
 		}
 		return false;
-
+	}
 
 	public Playlist createPlaylist(String name){
 		Playlist pl = new Playlist(this.username, name);
@@ -173,5 +173,15 @@ public class User {
 			this.playLists.add(playlist);
 		}	
 
+	}
+	
+	public Playlist getUserPlaylist(String playlistName){
+		
+		for(Playlist list: this.playLists){
+			if(list.getName().equals(playlistName)){
+				return list;
+			}
+		}
+		return null;
 	}
 }

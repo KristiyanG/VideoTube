@@ -27,7 +27,6 @@ window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
-
 }
 
 // Create Playlist Dialog
@@ -72,3 +71,12 @@ function showMyVideos() {
 	document.getElementById("videoBox").style.display = "block";
 }
 
+function swohSubscriptions() {
+	document.getElementById("my-playlists").style.display = "none";
+	document.getElementById("videoBox").style.display = "none";
+	alert("go go go")
+	$.post("simple", function(result){
+		alert("here i am")
+
+    });
+}
