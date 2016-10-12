@@ -25,7 +25,6 @@ import com.config.dao.PlayListDAO;
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
 import com.config.exception.CreateUserException;
-
 import com.config.model.Playlist;
 import com.config.model.User;
 import com.config.model.Video;
@@ -44,13 +43,12 @@ public class UsersController {
 			System.out.println("User exist");
 			
 			ses.setAttribute("user", UserDAO.getInstance().getUserByUsername(username));
-			model.addAttribute("videos", VideoDAO.getInstance().getAllVideos());
 			return "home";
 		}
 		
 		System.out.println("User do not exist");
 		model.addAttribute("msg", "Invalid username or password !");
-		return "login";
+		return "home";
 	}
 
 	@RequestMapping(value="/login", method=RequestMethod.GET)
@@ -89,8 +87,7 @@ public class UsersController {
 			System.out.println(e.getMessage());
 		}
 	}
-
-
+	
 	@RequestMapping(value="/doSearch", method=RequestMethod.GET)
 	public @ResponseBody List<Video> searchBar(
 			@RequestParam("search") String name, 
@@ -151,15 +148,12 @@ public class UsersController {
 		UserDAO.getInstance().changeProfilePicture(fileName, user.getUsername());
 		
 		File dir = new File("profilePic");
-
 		File file = new File (dir, fileName);
 		
 		Files.copy(multiPartFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		
-
 		List<Video> userVideos = VideoDAO.getInstance().getUserVideos(user.getUsername());
 		model.addAttribute("videos", userVideos);
-
 		return "myChannel";
 	}
 
@@ -175,15 +169,5 @@ public class UsersController {
 		Playlist pl = PlayListDAO.getInstance().createPlaylist(name, user.getUsername());
 		
 		return pl;
-	}
-	
-//	@RequestMapping(value="/getVideos", method=RequestMethod.GET)
-//	public @ResponseBody List<Video> getUserVideos(HttpSession ses, Model model){
-//		
-//		User user = (User) ses.getAttribute("user");
-//		System.out.println("VIDEOOOOOOO KYDE SI");
-//		model.addAttribute("videos", );
-//		return VideoDAO.getInstance().getUserVideos(user.getUsername());
-//	}
-	
+	}	
 }

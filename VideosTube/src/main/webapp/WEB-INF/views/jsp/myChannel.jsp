@@ -12,7 +12,34 @@
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
 	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />		
 	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	
+	
+	<style>
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
 
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+</style>
 	
 </head>
 	<body>
@@ -46,12 +73,9 @@
 				 <ul>
                     <li><a href="home">Home</a><p>My Forntpage</p></li>
                     <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
-                    <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
                     <li><a href="likedVideos">Liked Videos</a></li>
-                    <li><a href="history">History</a><p>Watched videos</p></li>
                     <li><a href="myPlaylist">My Playlist</a></li>
-                    <li><a href="abonatetChannel">Abonated Channel</a></li>
-                    <li><a href="#">Search</a><p>Search users or videos</p></li>
+                    <li><a href="simple?name">Abonated Channel</a></li>
                 </ul>
 			</div>
 			<div class="clear"> </div>
@@ -106,7 +130,7 @@
 							</a>
 						</li>
 						<li class="twPc-ArrangeSizeFit">
-							<a href="#">
+							<a href="#" onclick="swohSubscriptions()">
 								<span class="twPc-StatLabel twPc-block">Subscriptions</span>
 							</a>
 						</li>
@@ -118,13 +142,15 @@
 						<li class="twPc-ArrangeSizeFit">
 							<a href="#" onclick="openDialog()">
 								<span class="twPc-StatLabel twPc-block">Create Playlist</span>
+								  <span class="tooltiptext">Tooltip text</span>
 							</a>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<div class="my_channel_content">
+		<div class="my_channel_content" id="my_channel_content">
+			<div id="subscriptionsDiv"></div>
 
 				<div class="my-playlists" id="my-playlists" style="display:none;">
 	
@@ -162,33 +188,6 @@
 									<p>Uploader:<a href="userProfile?name=${video.uploader}">${video.uploader}</a></p>
 								</div>
 							</div>
-<<<<<<< HEAD
-							<br><br>
-							<div class="twPc-divStats">
-								<ul class="twPc-Arrange">
-									<li class="twPc-ArrangeSizeFit">
-										<a href="#">
-											<span class="twPc-StatLabel twPc-block">My videos</span>
-										</a>
-									</li>
-									<li class="twPc-ArrangeSizeFit">
-										<a href="#">
-											<span class="twPc-StatLabel twPc-block">Playlists</span>
-										</a>
-									</li>
-									<li class="twPc-ArrangeSizeFit">
-										<a href="#">
-											<span class="twPc-StatLabel twPc-block">Subscriptions</span>
-										</a>
-									</li>
-									<li class="twPc-ArrangeSizeFit">
-										<a href="#">
-											<span class="twPc-StatLabel twPc-block">Liked videos</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-
 						</div>
 					</c:forEach>
        			</div>
@@ -198,7 +197,6 @@
 	<!-- Channel end  -->		
 	</div>
 	<!----End-wrap---->
-
 	<div id="myModal" class="modal">
 	  <!-- Modal content -->
 		 <div class="modal-content">

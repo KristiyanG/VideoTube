@@ -64,14 +64,14 @@ body, html{
 
 /* Channel start */
 .twPc-div {
-	position: relative;
+	position: absolute;
     background: #fff none repeat scroll 0 0;
     border: 1px solid #e1e8ed;
     border-radius: 6px;
     height: 200px;
 	width: 840px;
-	left:224px;
-	top: -550px;
+	left: 290px;
+	top: 140px;
 }
 .twPc-bg {
     background-position: 0 50%;
@@ -1659,7 +1659,6 @@ body {
 	background-color: #FB8C00;
 }
 
-
 .create-playlist-modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -1790,5 +1789,4 @@ float:left;
 	position: relative;
 	right: 10px;
 }
-
 

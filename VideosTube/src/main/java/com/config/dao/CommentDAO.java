@@ -83,18 +83,15 @@ public class CommentDAO {
 		}
 	}
 
-	public int likeComment(String user, String videoName,long comID) {
-		Comment com =getCommentById(videoName, comID);
+	public void likeComment(String user, Comment com) {
+
 		if (com.isLikeComment(user)) {
-			com.removeUserFromLikesComment(user);
+			com.addUserInLikesComment(user);
 			deleteComFromDB(com, user);
 		} else {
-			com.addUserInLikesComment(user);
+			com.removeUserFromLikesComment(user);
 			saveCommentLikeInDB(com, user);
 		}
-
-		return com.getLikes();
-
 	}
 
 	private void saveCommentLikeInDB(Comment com, String user) {
@@ -159,16 +156,5 @@ public class CommentDAO {
 			comments.put(videoName, new ArrayList<>());
 		}
 		return Collections.unmodifiableList(comments.get(videoName));
-	}
-	private Comment getCommentById(String videoName,long comID){
-		List<Comment> commentsVideo =getCommentsForVideo(videoName);
-		System.out.println("CommentsVideo size="+commentsVideo.size());
-		for(Comment com :commentsVideo){
-			if(com.getId()==comID){
-				System.out.println(com.getId()+"@@@"+comID);
-				return com;
-			}
-		}
-		return null;
 	}
 }

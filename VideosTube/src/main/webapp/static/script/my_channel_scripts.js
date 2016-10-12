@@ -27,7 +27,6 @@ window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
-
 }
 
 // Create Playlist Dialog
@@ -63,12 +62,26 @@ function createPlaylist() {
 
 
 function showPlaylists() {
+	hideAll();
 	document.getElementById("my-playlists").style.display = "block";
-	document.getElementById("videoBox").style.display = "none";
 }
 
 function showMyVideos() {
-	document.getElementById("my-playlists").style.display = "none";
+	hideAll();
 	document.getElementById("videoBox").style.display = "block";
 }
 
+function swohSubscriptions() {
+	hideAll();
+	document.getElementById("subscriptionsDiv").style.display = "block";
+	
+	$.get("simple", {}, function(result){
+		document.getElementById("subscriptionsDiv").innerHTML = result;
+    });
+}
+
+function hideAll() {
+	document.getElementById("subscriptionsDiv").style.display = "none";
+	document.getElementById("my-playlists").style.display = "none";
+	document.getElementById("videoBox").style.display = "none";
+}

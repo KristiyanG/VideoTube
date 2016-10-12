@@ -1,41 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://crea0tivecommons.org/licenses/by/3.0/
--->
  
 <!DOCTYPE HTML>
 <html>
 <head>
-<script type="text/javascript">
-	function search() {
-	
-	if(document.getElementById('commentsDiv').style.display == "block"){
-		document.getElementById('commentsDiv').style.display = "none";
-	}
-	else{
-		document.getElementById('commentsDiv').style.display = "block";}
-	   
-	   var user =  document.getElementById('user');
-		if(user != null){
-			document.getElementById('writeCommentLogin').style.display = "block";
-	    }
-	}
-	function writeComment(){
-		var user =  document.getElementById('user');
-		if(user == null){
-			var msg = document.getElementById('confirmMessage');
-			 msg.style.color = "#ff6666";
-			msg.innerHTML = "Login for comment video";
-	    }
-		
-	}
-</script>
     <title>Video Tube </title>
 
     <link rel="shortcut icon" type="image/x-icon" href=img/pageicon.png" />
@@ -45,8 +14,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
     
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="script/search_bar.js"></script>
-	
-	
+	<script src="script/home_page_scripts.js"></script>
 </head>
 <body>
     <!----start-wrap---->
@@ -94,7 +62,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
                 </c:if>
                 <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
                 <c:if test="${sessionScope.user != null}" >
-                <li><a href="likedVideos">Liked Videos</a></li>
+                <li><a href="#" onclick="showLikedVideos()">Liked Videos</a></li>
                 <li><a href="myPlaylist">My Playlist</a></li>
                 <li><a href="abonatetChannel">Abonated Channel</a></li>
                 </c:if> 
@@ -108,13 +76,11 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 		<div class="content">    
             <div class="left-content">            
 
-				
+				<div id="liked-videos-div"></div>
 				<div id="videosList"  class="box">		
 
 					<div class="grids">
-
                 		<div id="videoBox" >                		             		
-
 	                	<c:set var="videosList" value="${videos}" />                	
 	                	<c:forEach items="${videosList}" var="video">
 							<div class="grid">

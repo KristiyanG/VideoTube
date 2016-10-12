@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
@@ -52,5 +53,23 @@ public class PageController {
 	@RequestMapping(value="/search", method = RequestMethod.GET)
 	public String getSearchPage(){
 		return "search";
+	}
+	
+	@RequestMapping(value="simple", method = RequestMethod.GET)
+	public String searchBar(Model model, HttpSession ses){
+		
+		User user = (User) ses.getAttribute("user");
+		
+		model.addAttribute("subscribers", user.getChannels());
+		model.addAttribute("userVideos", VideoDAO.getInstance().getUserVideos(user.getUsername()));
+		return "simplePage";	
+	}
+	
+	@RequestMapping(value="likeds", method = RequestMethod.GET)
+	public String likedVideos(Model model, HttpSession ses){
+		
+		User user = (User) ses.getAttribute("user");
+		model.addAttribute("likedVideos", user.getLikedVideos());
+		return "likedVideos";	
 	}
 }
