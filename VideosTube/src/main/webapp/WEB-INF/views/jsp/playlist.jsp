@@ -81,10 +81,10 @@
 		</div>
 		<!----End-Header---->
 		<div class="content">
-		
-			<div id="newVideo"  style="display:block;" class="inner-page">
+			<div class="inner-page">
 			
-				
+				<c:set var="uploader" scope="page" value="${video.getUploader()}"/>
+				<c:set var="description" scope="page" value="${video.getDescription()}"/>
 				
 				<div class="title">
 					
@@ -98,7 +98,7 @@
 							
 							</c:if>
 							
-							<c:if test="${((sessionScope.user != null)&& (username!=uploader))}">
+							<c:if test="${sessionScope.user != null}">
 							
 							<c:if test="${sessionScope.user.isSubscribeChannel(channelName)}">
 							<li><img onclick="subscribe()" src="img/sub.png" title="Unsubscribe" /><button onclick="subscribe()" type="button"><div id="sub">Unsubscribe</div></button><a href="login" id="confirmM" class="confirmMessage"> </a></li>
@@ -126,28 +126,34 @@
 
 var checkList = document.getElementById('list1');
 checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
+	
     if (checkList.classList.contains('visible'))
         checkList.classList.remove('visible');
-    else{
+    else
         checkList.classList.add('visible');
-    }
 }
 
+checkList.onblur = function(evt) {
+    checkList.classList.remove('visible');
+}
+
+checkList.onblur = function(evt) {
+    checkList.classList.remove('visible');
+}
 </script>
    </li>
 						</ul>
-						<c:set var="uploader" scope="page" value="${video.getUploader()}"/>
-				<c:set var="description" scope="page" value="${video.getDescription()}"/>
 							
 							<c:set var="videoDislikes" scope ="page" value ="${video.getDislikes()}"></c:set>
 							<c:set var="views" scope ="page" value ="${video.getView()}"></c:set>
 							<c:set var="videoDate" scope ="page" value ="${video.getDate().toString() }"></c:set>
 						  	<c:set var="video" scope="page" value="${requestScope.video.getName()}"/>
-							<video id="${index}" class="video-js"  controls width="640" height="264"  >
+							<video id="my-video" class="video-js"   controls preload="auto" width="640" height="264"
+						  			 >
 							        <source src="video/${video}"  type='video/mp4'>
 							
-						 	 </video>
-						
+						  </video>
+						  
 
 				</div>
 				
@@ -265,26 +271,21 @@ checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
 				
 				<div class="clear"> </div>
 			</div>
-			<div id="videoNewa" ></div>
 		<div class="right-content">
 			
 			</div>
 		</div>
-		 <div id="pos">
-    </div>
-      <c:if test="${playlist!=null}">
 		<div class="right-content">
-    <div id="myDiv" style="overflow: auto; height: 400px; width: 250px;" onscroll="scollPos();">
 			<div class="popular">
-				<h3><c:out value="${listname}"/></h3>
-				<p><c:out value="${playlist.size()}"/></p>
+				<h3>Popular Videos</h3>
+				<p><img src="img/l1.png" title="likes" /> 10,000</p>
 				<div class="clear"> </div>
 			</div>
 			<c:set var="playlist" value="${playlist}" />
-			<c:forEach items="${playlist}" var="videoList" varStatus="loop">
+			<c:forEach items="${playlist}" var="videoList">
 			<div class="grid1">
-						<h3 >${loop.index}</h3> <h3 id="${loop.index}">${videoList.name}</h3>
-						<a id="${videoList.name}" onclick="nextVideo(this.id)"><img src="img/g7.jpg" title="video-name" /></a>
+						<h3>${videoList.name}</h3>
+						<a href="#"><img src="img/g7.jpg" title="video-name" /></a>
 						<div class="time1">
 							<span>Views ${videoList.view}</span>
 						</div>
@@ -300,13 +301,8 @@ checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
 					</div>
 					</c:forEach>
 					<div class="clear"> </div>
-					</div>
 		</div>
-		</c:if>
-    </div>
-	
-	
+	</div>
 	<!----End-wrap---->
-	
 </body>
 </html>

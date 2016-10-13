@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,11 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.config.dao.CommentDAO;
 import com.config.dao.PlayListDAO;
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
 import com.config.exception.CreateUserException;
-
+import com.config.model.Comment;
 import com.config.model.Playlist;
 import com.config.model.User;
 import com.config.model.Video;
@@ -62,13 +64,103 @@ public class UsersController {
 	
 	@RequestMapping(value="/video", method=RequestMethod.GET)
 	public String video(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
+		String listName = req.getParameter("name");
+		String username = req.getParameter("username");
+		if(listName!=null && username!=null){
+			User user = UserDAO.getInstance().getUserByUsername(username);
+			Playlist pl =user.getUserPlaylist(listName);
+			String videoname=pl.getFirstVideo().trim();
+			int index = 0;
+			Video video = VideoDAO.getInstance().getVideoByName(videoname);
+			VideoDAO.getInstance().viewVideo(video);
+			model.addAttribute("video", video);
+			model.addAttribute("comments", video.showVideoComments());
+			List<Video> videosInList =new ArrayList<>();
+			for(String videoName :pl.getVideosFromPlaylist()){
+				videosInList.add(VideoDAO.getInstance().getVideoByName(videoName.trim()));
+			}
+			model.addAttribute("index", index);
+			model.addAttribute("listOwner",username);
+			model.addAttribute("playlist", videosInList);
+			model.addAttribute("listname", listName);
+		}
+		else{
+			
+			String videoname = req.getParameter("name").trim();
+			Video video = VideoDAO.getInstance().getVideoByName(videoname);
+			VideoDAO.getInstance().viewVideo(video);
+			model.addAttribute("video", video);
+			model.addAttribute("comments", video.showVideoComments());
+		}
+		return "video";
+	}
+//	@RequestMapping(value="nextVideo", method=RequestMethod.GET)
+//	public String playlist(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
+//		
+//		String username = req.getParameter("username").trim();
+//		String videoName = req.getParameter("name").trim();
+//		String listName =req.getParameter("listName").trim();
+//		
+//		Set<Playlist> pl = PlayListDAO.getInstance().getUserPlayList(username);
+//		Playlist playList = null;
+//		for(Playlist play : pl){
+//			if(play.getName().equals(listName)){
+//				playList=play;
+//			}
+//		}
+//		if(playList!=null){
+//			int videoIndex =playList.getVideoIndex(videoName);
+//			String nextVideo =playList.getVideoByIndex(videoIndex+1);
+//			if(nextVideo==null){
+//				nextVideo=playList.getFirstVideo();
+//			}
+//			Video video = VideoDAO.getInstance().getVideoByName(nextVideo);
+//			model.addAttribute("video", video);
+//			model.addAttribute("comments", video.showVideoComments());
+//		}
+//		return "nextVideo";
+//	}
+	
+	@RequestMapping(value="nextVideo", method=RequestMethod.GET)
+	public String playlist(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
 		
-		String videoname = req.getParameter("name");
+		
+		String username = req.getParameter("username").trim();
+		String videoName = req.getParameter("name").trim();
+		String listName =req.getParameter("listName").trim();
+		
+		Set<Playlist> pl = PlayListDAO.getInstance().getUserPlayList(username);
+		Playlist playList = null;
+		for(Playlist play : pl){
+			if(play.getName().equals(listName)){
+				playList=play;
+			}
+		}
+		if(playList!=null){
+			int videoIndex =playList.getVideoIndex(videoName);
+			String nextVideo =playList.getVideoByIndex(videoIndex+1);
+			if(nextVideo==null){
+				nextVideo=playList.getFirstVideo();
+			}
+			System.out.println(nextVideo+"@");
+			Video video = VideoDAO.getInstance().getVideoByName(nextVideo);
+			model.addAttribute("video", video);
+			model.addAttribute("comments", video.showVideoComments());
+		}
+		return "video";
+		
+	}
+	
+	@RequestMapping(value="/videoNew", method=RequestMethod.GET)
+	public String newVideo( HttpServletRequest req, Model model){
+		String videoname = req.getParameter("name").trim();
+		System.out.println("VIDEO NEW"+videoname+"@");
 		Video video = VideoDAO.getInstance().getVideoByName(videoname);
 		VideoDAO.getInstance().viewVideo(video);
 		model.addAttribute("video", video);
+		model.addAttribute("asen", "ASENEE");
 		model.addAttribute("comments", video.showVideoComments());
-		return "video";
+		return "nextVideo";
 	}
 
 	@RequestMapping(value="/video/{video}", method=RequestMethod.GET)

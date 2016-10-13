@@ -106,4 +106,15 @@ public class Playlist {
 	public boolean isVideoInList(String videoName){
 		return videos.contains(videoName);
 	}
+	
+	public int getVideoIndex(String videoName){
+		return videos.indexOf(videoName);
+	}
+	
+	public String getVideoByIndex(int index){
+		if(index<videos.size()){
+			return videos.get(index);
+		}
+		return null;
+	}
 }

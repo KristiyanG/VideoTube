@@ -518,7 +518,7 @@ input::-webkit-input-placeholder {
 .right-content{
 	position: relative;
 	float:right;
-	right: 270px;
+	right: 100px;
 	top: 10px;
 	width: 20%;
 }

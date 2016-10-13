@@ -25,67 +25,8 @@
 	<c:set var="videoName" scope="page" value ="${video.getName()}"/>
 	<c:set var="username" scope="page" value ="${sessionScope.user.getUsername()}"/>
 
-	<!----start-wrap---->
-	<div class="wrap">
-		<!----start-Header---->
-		<div class="header">
-			<!----start-Logo---->
-			<div class="logo">
-				<a href="home"><img src="img/logo.png" title="logo" /></a>
-			</div>
-			<!----End-Logo---->
-	        <div class="searchbar">
-	            <div class="search-left">
-	            <p>Search</p>
-	                <select class="search-drop-down" id="search-drop-down">
-	                	<option>Video</option>
-	                	<option>Play List</option>
-	                	<option>Channel</option>
-	              	 </select>
-	            </div>
-	            <div class="search-right">
-	                <form>
-	                    <input type="text" id="search-field" placeholder="Search videos">
-	                    <input type="submit" value="" onmousedown="search()"  onsubmit="handle"/>
-	                </form>
-	            </div>
-	            <div class="clear"> </div>
-	        </div>
-			<div class="buttons">
-				<c:if test="${sessionScope.user == null}" > 
-				<button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
-				<button type="button" class="login-but"><a href="login">Login</a></button>
-				</c:if>
-				<c:if test="${sessionScope.user != null}">
-				<button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
-				<button type="button" class="login-but"><a href="myChannel"><div id="user"><c:out value="${username}"></c:out></div></a></button>
-				</c:if>
-				<button type="button" class="upload-but"><a href="upload">Upload</a></button>
-            	</div>
-			<!----start-top-nav---->
-				<div class="top-nav">
-					 <ul>
-	                    <li><a href="home">Home</a><p>My Forntpage</p></li>
-	                    <c:if test="${sessionScope.user != null}" >
-	                    <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
-	                    </c:if>
-	                    <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
-	                    <c:if test="${sessionScope.user != null}" >
-	                    <li><a href="likedVideos">Liked Videos</a></li>
-	                    <li><a href="myPlaylist">My Playlist</a></li>
-	                    <li><a href="abonatetChannel">Abonated Channel</a></li>
-	                    </c:if> 
-	                </ul>
-				</div>
-			<!----End-top-nav---->
-		</div>
 		<!----End-Header---->
-		<div class="content">
 		
-			<div id="newVideo"  style="display:block;" class="inner-page">
-			
-				
-				
 				<div class="title">
 					
 					<h3 id="videoName"><c:out value="${video.getName()}"></c:out> </h3>
@@ -264,49 +205,8 @@ checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
 				<div class="clear"> </div>
 				
 				<div class="clear"> </div>
-			</div>
-			<div id="videoNewa" ></div>
-		<div class="right-content">
 			
-			</div>
-		</div>
-		 <div id="pos">
-    </div>
-      <c:if test="${playlist!=null}">
-		<div class="right-content">
-    <div id="myDiv" style="overflow: auto; height: 400px; width: 250px;" onscroll="scollPos();">
-			<div class="popular">
-				<h3><c:out value="${listname}"/></h3>
-				<p><c:out value="${playlist.size()}"/></p>
-				<div class="clear"> </div>
-			</div>
-			<c:set var="playlist" value="${playlist}" />
-			<c:forEach items="${playlist}" var="videoList" varStatus="loop">
-			<div class="grid1">
-						<h3 >${loop.index}</h3> <h3 id="${loop.index}">${videoList.name}</h3>
-						<a id="${videoList.name}" onclick="nextVideo(this.id)"><img src="img/g7.jpg" title="video-name" /></a>
-						<div class="time1">
-							<span>Views ${videoList.view}</span>
-						</div>
-						
-						<div class="grid-info"><div class="video-watch">
-								<a href="#"></a>
-							</div>
-							<div class="clear"> </div>
-							<div class="lables">
-								<p>Uploader<a href="#"><c:out value= "${videoList.uploader}"/></a></p>
-							</div>
-						</div>
-					</div>
-					</c:forEach>
-					<div class="clear"> </div>
-					</div>
-		</div>
-		</c:if>
-    </div>
 	
-	
-	<!----End-wrap---->
 	
 </body>
 </html>

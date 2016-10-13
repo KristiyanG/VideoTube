@@ -128,7 +128,7 @@
 					<c:set var="playlists" value="${sessionScope.user.getPlayLists()}" />                	
                 	<c:forEach items="${playlists}" var="playlist">
 						<div class="playlists-frame">
-							<a href="video?name=${playlist.getFirstVideo()}">								
+							<a href="video?name=${playlist.name}&username=${sessionScope.user.getUsername()}">								
 								<img src="img/play.png" class="video-list-image" id="edit-but"></img>
 							</a>
 							<h2 class="list-video-title">${playlist.name}</h2>

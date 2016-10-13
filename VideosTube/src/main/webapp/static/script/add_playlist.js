@@ -25,4 +25,19 @@ function addPlaylist(listName){
 		}
 		
 	}
+function startNextVideo(id){
+	alert(document.getElementById("uploader"));
+	alert(uploader);
+	 $.get("nextVideo", {}, function(result){
+		  document.getElementById("newVideo").innerHTML = result;
+		    });
+}
+function nextVideo(video){
+	 $.get("videoNew", {name : video}, function(result){
+//		 document.getElementById('newVideo').style.display = "none";
+		 document.getElementById("newVideo").innerHTML =result;
+//	 document.getElementById("videoNewa").innerHTML = resu1lt;
+		    });
+}
+
 

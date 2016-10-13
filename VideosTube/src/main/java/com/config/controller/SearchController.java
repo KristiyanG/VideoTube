@@ -34,7 +34,7 @@ public class SearchController {
 		}
 		
 		User user = (User)ses.getAttribute("user");
-		Video video = VideoDAO.getInstance().likeVideo(videoName, user.getUsername());
+		Video video = VideoDAO.getInstance().likeVideo(videoName, user);
 		
 		if(video==null){
 			System.out.println("VIDEO IS NULL");
@@ -125,13 +125,12 @@ public class SearchController {
 		User user = (User)ses.getAttribute("user");
 		System.out.println("USERNAME -"+user.getUsername()+"-");
 	
-		PlayListDAO.getInstance().addVideoInPlaylist(user.getUsername(), videoName, playlistName);
 		
-		return "Raboti mai";
+		return PlayListDAO.getInstance().addVideoInPlaylist(user.getUsername(), videoName, playlistName);
 	}
 
 	
-
+	
 
 	
 }

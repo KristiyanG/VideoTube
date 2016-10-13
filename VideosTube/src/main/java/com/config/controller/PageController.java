@@ -18,6 +18,11 @@ import com.config.model.Video;
 @Controller
 public class PageController {
 
+	@RequestMapping("/index.jsp")
+	public String hello() {
+	    return "home";
+	}
+	
 	@RequestMapping(value="/myChannel", method=RequestMethod.GET)
 	public String getMyChannelPage(Model model, HttpSession ses){
 		
@@ -44,7 +49,7 @@ public class PageController {
 		return "home";
 	}
 	
-	@RequestMapping(value="", method = RequestMethod.GET)
+	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String getIndexPage(){
 		return "home";
 	}
@@ -53,4 +58,5 @@ public class PageController {
 	public String getSearchPage(){
 		return "search";
 	}
+	
 }
