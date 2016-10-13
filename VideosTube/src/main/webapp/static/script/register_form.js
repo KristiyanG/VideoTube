@@ -172,9 +172,6 @@ function showDiv() {
 			msg.innerHTML = "Login for like comment";
 	    }
 		else{
-			
-			
-			
 			$.post(
 				"comment/like", 
 				{ commentId: id,
@@ -194,15 +191,12 @@ function showDiv() {
 			msg.innerHTML = "Login for subscribe comment";
 	    }
 		else{
-			
-			
-			
 			$.post(
 				"subscribe", 
 				{ channel: document.getElementById('up').innerHTML
 				}).done(
 						
 				function(data){
-					document.getElementById('sub').innerHTML =data;
+					document.getElementById('sub').innerHTML = data;
 			    });}
 	}

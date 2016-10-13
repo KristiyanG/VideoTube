@@ -239,26 +239,31 @@ public class VideoDAO {
 		return randomVideos;
 	}
 	
-	public Video likeVideo(String videoName,String username){
-		Video video = VideoDAO.getInstance().getVideoByName(videoName);
-		if(video==null){
-			System.out.println("Like video return null video");
-			return null;
-		}
-		if(video.isUserLikeVideo(username)){
-			video.removeFromLike(username);
-			removeLikeFromDB(username,video.getName());
-		}
-		else{
-			if(video.isUserDislikeVideo(username)){
-				video.removeFromDislike(username);
-				removeDisLikeFromDB(video.getName(),username);
-			}
-			video.likeVideo(username);
-			saveLikeInDB(video.getName(),username);
-		}
-		return video;
-	}
+	 public Video likeVideo(String videoName,User user){
+		  String username=user.getUsername();
+		  Video video = VideoDAO.getInstance().getVideoByName(videoName);
+		  if(video==null){
+		   System.out.println("Like video return null video");
+		   return null;
+		  }
+		  if(video.isUserLikeVideo(username)){
+		   
+		   video.removeFromLike(username);
+		   removeLikeFromDB(username,video.getName());
+		   user.removeVideoFromLikedVideos(video);
+		  }
+		  else{
+		   if(video.isUserDislikeVideo(username)){
+		    video.removeFromDislike(username);
+		    removeDisLikeFromDB(video.getName(),username);
+		   }
+		   video.likeVideo(username);
+		   saveLikeInDB(video.getName(),username);
+		   user.addVideoInLikedVideos(video);
+		  }
+		 
+		  return video;
+		 }
 
 	public Video dislikeVideo(String videoName, String username) {
 		Video video = VideoDAO.getInstance().getVideoByName(videoName);

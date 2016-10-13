@@ -12,137 +12,99 @@
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
 	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />		
 	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
-	
-	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>	
 	
 </head>
-	<body>
-	<!----start-wrap---->
+<body>
 	<div class="wrap">
-		<!----start-Header---->
-	
-			<!----start-Logo---->
-			
-			<div class="logo">
-				<a href="index.html"><img src="img/logo.png" title="logo" /></a>
-			</div>
-			<!----End-Logo---->
-	        <div class="searchbar">
-	            <div class="search-left">
+		<div class="logo">
+			<a href="home"><img src="img/logo.png" title="logo" /></a>
+		</div>
+		<div class="searchbar">
+			<div class="search-left">
 	            <p>Search</p>
-	                <select class="search-drop-down" id="search-drop-down">
-	                	<option>Video</option>
-	                	<option>Play List</option>
-	                	<option>Channel</option>
-	              	 </select>
-	            </div>
-	            <div class="search-right">
-	                <form>
-	                    <input type="text" id="search-field" placeholder="Search videos">
-	                    <input type="submit" value="" onmousedown="search()"  onsubmit="handle"/>
-	                </form>
-	            </div>
-	            <div class="clear"> </div>
-	        </div>
-			<!----start-top-nav---->
-			<div class="top-nav" >
-				 <ul>
-                	
-                    <li><a href="home">Home</a><p>My Forntpage</p></li>
-                    
-                    <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
-                    
-                    <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
-                    
-                    <li><a href="likedVideos">Liked Videos</a></li>
-                    <li><a href="history">History</a><p>Watched videos</p></li>
-                    <li><a href="myPlaylist">My Playlist</a></li>
-                    <li><a href="abonatetChannel">Abonated Channel</a></li>
-                    <li><a href="#">Search</a><p>Search users or videos</p></li>
-                </ul>
-			</div>
-			<div class="clear"> </div>
-			<!----End-top-nav---->
-		<!----End-Header---->		
+				<select class="search-drop-down" id="search-drop-down">
+                	<option>Video</option>
+                	<option>Play List</option>
+                	<option>Channel</option>
+              	 </select>
+            </div>
+            <div class="search-right">
+                <form action="javascript:search()">
+                    <input type="text" id="search-field" placeholder="Search videos">
+                    <input type="submit" value="" />
+                </form>
+            </div>
+            <div class="clear"> </div>
+        </div>
+		<div class="top-nav" >
+			<ul>
+				<li><a href="home">Home</a><p>My Forntpage</p></li>
+				<li><a href="myChannel">My Channel</a></li>                    
+            </ul>
+		</div>
+		<div class="clear"> </div>
 		<div class="buttons">
-                 <c:if test="${sessionScope.user == null}" > 
-                    <button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
-                    <button type="button" class="login-but"><a href="login">Login</a></button>
-                    </c:if>
-                    <c:if test="${sessionScope.user != null}">
-                    <button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
-                    <button type="button" class="login-but"><a href="myChannel"><c:out value="${sessionScope.user.getUsername() }"></c:out></a></button>
-                    </c:if>
-                    <button type="button" class="upload-but"><a href="upload">Upload</a></button>
-        </div> 	<!-- Channel start  -->
-					<!-- code start -->
-					<div class="twPc-div">
-						<a class="twPc-bg twPc-block"></a>
-						
-						<div>
-							<div class="twPc-button">
-								<!-- Twitter Button | you can get from: https://about.twitter.com/tr/resources/buttons#follow -->
-								<a href="#" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false" data-dnt="true">Subscribe</a>
-								<!-- Twitter Button -->   
-							</div>
-
-							<div title="#" href="#" class="twPc-avatarLink">
-								<img   src="myChannel/${userChannel.username}" class="twPc-avatarImg">`
-								
-							</div>
-
-							<div class="twPc-divUser">
-								<div class="twPc-divName">
-									<a href="#"><c:out value="${userChannel.username}"></c:out></a>
-								</div>
-							</div>
-							<br><br>
-							<div class="twPc-divStats">
-								<ul class="twPc-Arrange">
-									<li class="twPc-ArrangeSizeFit">
-										<a href="#">
-											<span >Videos</span>
-										</a>
-									</li>
-									<li class="twPc-ArrangeSizeFit">
-										<a href="#">
-											<span >Playlists</span>
-										</a>
-									</li>
-									
-								</ul>
-							</div>
-						</div>
-						<div id="videosList"  class="box">		
-					<div class="grids">
-                		<div id="videoBox" >
-                		
-	                	<c:set var="videosList" value="${videos}" />                	
-	                	<c:forEach items="${videosList}" var="video">
-							<div class="grid">
-								<h3> ${video.name}</h3>
-								<a href="video?name=${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
-								<div class="time">
-								<span>Views<c:out value="${ video.view}"/></span>
-								</div>
-								<div class="grid-info">
-									
-									<div class="clear"> </div>
-									<div class="lables">
-										<p>Uploader:<a href="myChannel">${video.uploader}</a></p>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-                		</div>
-                		
-                		</div>
-                	</div>
+			<c:if test="${sessionScope.user == null}" > 
+				<button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
+				<button type="button" class="login-but"><a href="login">Login</a></button>
+			</c:if>
+			<c:if test="${sessionScope.user != null}">
+				<button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
+				<button type="button" class="login-but"><a href="myChannel"><c:out value="${sessionScope.user.getUsername() }"></c:out></a></button>
+			</c:if>
+			<button type="button" class="upload-but"><a href="upload">Upload</a></button>
+		</div> 	
+		<div class="twPc-div" id="twPc-div">
+			<a class="twPc-bg twPc-block"></a>
+			<div>
+				<div title="#" href="#" class="twPc-avatarLink">
+					<img   src="profilePic/${userChannel.getProfilePic()}" class="twPc-avatarImg">
+				</div>
+				<div class="twPc-divUser">
+					<div class="twPc-divName">
+						<a href="#"><c:out value="${userChannel.username}"></c:out></a>
 					</div>
-					<!-- code end -->
-				<!-- Channel end  -->		
+				</div><br><br>
+				<div class="twPc-divStats">
+					<ul class="twPc-Arrange">
+						<li class="twPc-ArrangeSizeFit">
+							<a href="#" onclick="showMyVideos('${userChannel.username}')">
+								<span >Videos</span>
+							</a>
+						</li>
+						<li class="twPc-ArrangeSizeFit">
+							<a href="#" onclick="showPlaylists('${userChannel.username}')">
+								<span >Playlists</span>
+							</a>
+						</li>
+						<li>
+							<a href="#" >		
+								<c:choose>
+    								<c:when test="${flag==true }">
+							      		<span id="subs"onclick="unsubscribe('${userChannel.username}', '${sessionScope.user}')" >Unsubscribe</span>
+							    	</c:when>
+							    	<c:otherwise>
+							        	<span id="subs"onclick="unsubscribe('${userChannel.username}', '${sessionScope.user}')">Subscribe</span>
+							    	</c:otherwise>
+								</c:choose>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 	</div>
-	<!----End-wrap---->
-	</body>
+	<div class="content">	
+		<div class="left-content">            
+			<div id="searchResults"></div>
+		</div>
+	</div>
+	<div class="my_channel_content" id="my_channel_content">
+		<div id="resultList"  class="box"></div>	
+	</div>
+
+<script src="script/user_scripts.js"></script>
+</body>
 </html>
 

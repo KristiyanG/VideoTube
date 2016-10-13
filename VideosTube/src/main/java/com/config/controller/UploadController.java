@@ -1,10 +1,19 @@
 package com.config.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
+
+import org.jcodec.api.JCodecException;
+import org.jcodec.api.awt.FrameGrab;
+import org.jcodec.api.awt.SequenceEncoder;
+import org.jcodec.common.FileChannelWrapper;
+import org.jcodec.common.NIOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +27,7 @@ import com.config.model.User;
 @Controller
 @SessionAttributes("user")
 public class UploadController {
-	private static final String FILE_LOCATION = "C:/Users/Kristian/Desktop/VideosFolder";
+	private static final String FILE_LOCATION = "C:/Users/Parapanov/Desktop/VideosFolder";
 
 	@RequestMapping(value="/upload", method=RequestMethod.GET)
 	public String prepareForUpload() {
@@ -33,6 +42,19 @@ public class UploadController {
 			@RequestParam("description") String description,
 			Model model, HttpSession ses) throws IOException{
 					
+		if(videoName == null || videoName.isEmpty() || videoName.length() > 100){
+			model.addAttribute("status", "Invalid video name.");
+			return "upload";
+		}
+		if(category == null || category.isEmpty() || category.length() > 50){
+			model.addAttribute("status", "Invalid category.");
+			return "upload";
+		}
+		if(description == null || description.isEmpty() || description.length() > 220){
+			model.addAttribute("status", "Invalid description.");
+			return "upload";
+		}
+
 		User user = (User) ses.getAttribute("user");
 		
 		if(!validateVideoFormat(multiPartFile.getContentType())){
@@ -41,7 +63,13 @@ public class UploadController {
 			return "upload";
 		}
 		
-		String fileFullName = videoName.concat(".mp4");
+		String type = ".";
+		String[] format = multiPartFile.getContentType().split("/");
+		if(format[0].equals("video")){
+			type.concat(format[1]);
+		}
+
+		String fileFullName = videoName.concat(type);
 
 	    File dir = new File(FILE_LOCATION);
 	    if(!dir.exists()){
@@ -58,7 +86,8 @@ public class UploadController {
 
 	private boolean validateVideoFormat(String contentType) {
 		String[] contentParams = contentType.split("/");
-		if(contentParams.length < 2 || contentParams.length > 2 || !contentParams[1].equals("mp4")){
+		if(contentParams.length < 2 || 
+				contentParams.length > 2 || (!contentParams[1].equals("mp4") || !contentParams[1].equals("ogg"))){
 			return false;
 		}
 		return true;

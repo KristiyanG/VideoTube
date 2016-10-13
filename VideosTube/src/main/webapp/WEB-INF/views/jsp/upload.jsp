@@ -83,7 +83,7 @@
 												
 						<div class="video-upload-name">
 						      <label for="comment" id="video-name-label">Video name:</label>
-						      <input class="form-control" rows="5" id="comment" maxlength="30" 
+						      <input class="form-control" rows="5" id="comment" maxlength="30" minlength="3"
 						      		id="videoName" onblur="validateName(this)" name="videoName" placeholder="Type here..."></input>
     					</div>
 						
@@ -109,7 +109,7 @@
 						<div class="video-upload-description">
 						      <label for="comment">Description:</label>
 						      <textarea class="form-control" rows="5" id="comment" name="description" onkeyup ="ValidateText(this)"
-						      		maxlength="255" placeholder="Type here..."></textarea>
+						      		maxlength="220" placeholder="Type here..."></textarea>
     					</div>						
 						
 						<button type="submit" name="submit" class="btn btn-sm btn-primary"							

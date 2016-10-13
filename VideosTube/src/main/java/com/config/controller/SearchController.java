@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.config.dao.ChannelDAO;
 import com.config.dao.CommentDAO;
 import com.config.dao.PlayListDAO;
 import com.config.dao.UserDAO;
@@ -25,23 +26,23 @@ import com.config.model.Video;
 public class SearchController {
 
 	@RequestMapping(value="video/like", method=RequestMethod.GET)
-	public @ResponseBody Video likeVideo(HttpSession ses,HttpServletRequest req){
-		String videoName = req.getParameter("videoName").trim();
-		if(ses.getAttribute("user")==null){
-			Video video = VideoDAO.getInstance().getVideoByName(videoName);
-			return video;
-		}
-		
-		User user = (User)ses.getAttribute("user");
-		Video video = VideoDAO.getInstance().likeVideo(videoName, user.getUsername());
-		
-		if(video==null){
-			System.out.println("VIDEO IS NULL");
-			return null;
-		}
-		
-		return video;
-	}
+	 public @ResponseBody Video likeVideo(HttpSession ses,HttpServletRequest req){
+	  String videoName = req.getParameter("videoName").trim();
+	  if(ses.getAttribute("user")==null){
+	   Video video = VideoDAO.getInstance().getVideoByName(videoName);
+	   return video;
+	  }
+	  
+	  User user = (User)ses.getAttribute("user");
+	  Video video = VideoDAO.getInstance().likeVideo(videoName, user);
+	  
+	  if(video==null){
+	   System.out.println("VIDEO IS NULL");
+	   return null;
+	  }
+	  
+	  return video;
+	 }
 	
 	@RequestMapping(value="video/dislike", method=RequestMethod.GET)
 	public @ResponseBody Video dislikeVideo(HttpSession ses,HttpServletRequest req){
@@ -78,18 +79,20 @@ public class SearchController {
 	}
 	
 	@RequestMapping(value="subscribe", method=RequestMethod.POST)
-	public @ResponseBody String subscribe(HttpSession ses,HttpServletRequest req){
-		String channelName =req.getParameter("channel");
-		System.out.println("Channel name "+channelName);
-		if(ses.getAttribute("user")==null){
+	public @ResponseBody String subscribe(HttpSession ses, HttpServletRequest req){
+		
+		String channelName = req.getParameter("channel");
+		
+		System.out.println("Channel name " + channelName);
+		if(ses.getAttribute("user") == null){
 			return "No user";
 		}
 		User user = (User)ses.getAttribute("user");
-		System.out.println("USERNAME -"+user.getUsername()+"-");
 	
+		String result = ChannelDAO.getInstance().subscribeChannel(user.getUsername(), channelName);
+		System.out.println("USERNAME -"+user.getUsername()+"-" + result);
 		
-		
-		return ChannelDAO.getInstance().subscribeChannel(user.getUsername(), channelName);
+		return result;
 	}
 	
 	@RequestMapping(value="/addPlaylist", method=RequestMethod.POST)

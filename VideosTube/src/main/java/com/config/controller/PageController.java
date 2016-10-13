@@ -1,5 +1,6 @@
 package com.config.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
+import com.config.model.Channel;
 import com.config.model.User;
 import com.config.model.Video;
 
@@ -31,10 +33,15 @@ public class PageController {
 	}
 	
 	@RequestMapping(value="/userProfile", method=RequestMethod.GET)
-	public String getUserChannel(@RequestParam("name") String searchedUser,Model model){
+	public String getUserChannel(@RequestParam("name") String searchedUser, Model model, HttpSession ses){
 		User user = UserDAO.getInstance().getUserByUsername(searchedUser);
-		model.addAttribute("userChannel",user );
-		model.addAttribute("videos",VideoDAO.getInstance().getUserVideos(searchedUser) );
+		model.addAttribute("userChannel", user);
+		model.addAttribute("videos", VideoDAO.getInstance().getUserVideos(searchedUser) );
+		
+		User userOnSession =  (User) ses.getAttribute("user");
+		if(user == userOnSession){
+			return "myChannel";
+		}
 		return "user";
 	}
 	
@@ -45,8 +52,10 @@ public class PageController {
 		return "home";
 	}
 	
-	@RequestMapping(value="", method = RequestMethod.GET)
-	public String getIndexPage(){
+	@RequestMapping(value="/*", method = RequestMethod.GET)
+	public String getIndexPage(Model model){
+		List<Video> videos = VideoDAO.getInstance().getAllVideos();
+		model.addAttribute("videos", videos);
 		return "home";
 	}
 
@@ -71,5 +80,58 @@ public class PageController {
 		User user = (User) ses.getAttribute("user");
 		model.addAttribute("likedVideos", user.getLikedVideos());
 		return "likedVideos";	
+	}
+	
+	@RequestMapping(value="abonatedChannals", method = RequestMethod.GET)
+	public String abonatedChannals(Model model, HttpSession ses){
+		
+		User user = (User) ses.getAttribute("user");
+		List<User> users = new ArrayList<>();
+		for (Channel chan : user.getChannels()) {
+			users.add(UserDAO.getInstance().getUserByUsername(chan.getName()));
+		}
+		model.addAttribute("channels", users);
+		return "channels";	
+	}
+	
+	@RequestMapping(value="myPlaylists", method = RequestMethod.GET)
+	public String myPlaylists(Model model, HttpSession ses){
+
+		User user = (User) ses.getAttribute("user");
+		model.addAttribute("playlists", user.getPlayLists());
+		return "playlists";	
+	}
+	
+	@RequestMapping(value="myVideos", method = RequestMethod.GET)
+	public String myVideos(Model model, HttpSession ses){
+		
+		User user = (User) ses.getAttribute("user");
+		model.addAttribute("likedVideos", VideoDAO.getInstance().getUserVideos(user.getUsername()));
+		return "likedVideos";	
+	}
+	
+	@RequestMapping(value="userPlaylists", method = RequestMethod.GET)
+	public String userPlaylists(
+			@RequestParam("username") String username, 
+			Model model, 
+			HttpSession ses){
+
+		User user = UserDAO.getInstance().getUserByUsername(username);
+		model.addAttribute("playlists", user.getPlayLists());
+		return "playlists";	
+	}
+	
+	
+	@RequestMapping(value="userVideos", method = RequestMethod.GET)
+	public String userVideos(
+			@RequestParam("username") String username, 
+			Model model){
+
+		User user = UserDAO.getInstance().getUserByUsername(username);
+		if(user == null){
+			System.out.println("#########################################");
+		}
+		model.addAttribute("playlists", VideoDAO.getInstance().getUserVideos(user.getUsername()));
+		return "playlists";	
 	}
 }

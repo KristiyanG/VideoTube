@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.config.model.Playlist;
@@ -15,7 +17,7 @@ import com.config.model.User;
 
 public class PlayListDAO {
 	
-	private static HashMap<String, Set<Playlist>>playlist = new HashMap<String, Set<Playlist>>();// username - > set playlist
+	private static HashMap<String, Set<Playlist>> playlist = new HashMap<String, Set<Playlist>>();// username - > set playlist
 
 	private static PlayListDAO instance;
 
@@ -82,6 +84,14 @@ public class PlayListDAO {
 	public Playlist createPlaylist(String name, String username) {
 		User user = UserDAO.getInstance().getUserByUsername(username);
 		
+		if(playlist.containsKey(username)){
+			for (Playlist playlist : playlist.get(username)) {
+				if(playlist.getName().equals(name)){
+					return null;
+				}
+			}
+		}
+		
 		try {
 			this.connection = DBManager.getInstance().getConnection();
 			String query = "INSERT INTO playlists (name, user_name) VALUES (?, ?);";
@@ -96,7 +106,14 @@ public class PlayListDAO {
 				return null;
 			}
 
-		return user.createPlaylist(name);
+		if(!playlist.containsKey(user)){
+			playlist.put(username, new HashSet<>());
+		}
+		
+		Playlist pl = user.createPlaylist(name);
+		playlist.get(username).add(pl);
+		
+		return pl;
 	}
 
 	public Set<Playlist> getPlaylists(String username){
@@ -152,4 +169,11 @@ public class PlayListDAO {
 		
 	}
 	
+	public List<Playlist> getAllPlaylists(){
+		List<Playlist> allPlaylists = new ArrayList<>();
+		for (Set<Playlist> playlists : PlayListDAO.playlist.values()) {
+			allPlaylists.addAll(playlists);
+		}
+		return allPlaylists;
+	}
 }

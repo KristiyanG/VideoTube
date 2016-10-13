@@ -18,7 +18,6 @@
 	<script src="script/register_form.js"></script>
 
 	<script src="script/add_playlist.js"></script>
-
 </head>
 
 <body>
@@ -37,52 +36,54 @@
 			<!----End-Logo---->
 	        <div class="searchbar">
 	            <div class="search-left">
-	            <p>Search</p>
+		            <p>Search</p>
 	                <select class="search-drop-down" id="search-drop-down">
 	                	<option>Video</option>
 	                	<option>Play List</option>
 	                	<option>Channel</option>
-	              	 </select>
+	              	</select>
 	            </div>
 	            <div class="search-right">
-	                <form>
+	                <form action="javascript:search()">
 	                    <input type="text" id="search-field" placeholder="Search videos">
-	                    <input type="submit" value="" onmousedown="search()"  onsubmit="handle"/>
+	                    <input type="submit" value=""/>
 	                </form>
 	            </div>
 	            <div class="clear"> </div>
 	        </div>
 			<div class="buttons">
 				<c:if test="${sessionScope.user == null}" > 
-				<button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
-				<button type="button" class="login-but"><a href="login">Login</a></button>
+					<button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
+					<button type="button" class="login-but"><a href="login">Login</a></button>
 				</c:if>
 				<c:if test="${sessionScope.user != null}">
-				<button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
-				<button type="button" class="login-but"><a href="myChannel"><div id="user"><c:out value="${username}"></c:out></div></a></button>
+					<button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
+					<button type="button" class="login-but"><a href="myChannel"><div id="user"><c:out value="${username}"></c:out></div></a></button>
 				</c:if>
 				<button type="button" class="upload-but"><a href="upload">Upload</a></button>
-            	</div>
+			</div>
 			<!----start-top-nav---->
-				<div class="top-nav">
-					 <ul>
-	                    <li><a href="home">Home</a><p>My Forntpage</p></li>
-	                    <c:if test="${sessionScope.user != null}" >
-	                    <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
-	                    </c:if>
-	                    <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
-	                    <c:if test="${sessionScope.user != null}" >
-	                    <li><a href="likedVideos">Liked Videos</a></li>
-	                    <li><a href="myPlaylist">My Playlist</a></li>
-	                    <li><a href="abonatetChannel">Abonated Channel</a></li>
-	                    </c:if> 
-	                </ul>
-				</div>
+			<div class="top-nav">
+				 <ul>
+	                 <li><a href="home">Home</a><p>My Forntpage</p></li>
+	                 <c:if test="${sessionScope.user != null}" >
+		                 <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
+	                 </c:if>
+	                 <c:if test="${sessionScope.user != null}" >
+		                 <li><a href="likedVideos">Liked Videos</a></li>
+		                 <li><a href="myPlaylist">My Playlist</a></li>
+		                 <li><a href="abonatetChannel">Abonated Channel</a></li>
+	                 </c:if> 
+	             </ul>
+			</div>
 			<!----End-top-nav---->
 		</div>
 		<!----End-Header---->
 		<div class="content">
-			<div class="inner-page">
+            <div class="left-content">            
+				<div id="searchResults"></div>
+			</div>
+			<div class="inner-page" id="inner-page" style="display:block;">
 				<c:set var="uploader" scope="page" value="${video.getUploader()}"/>
 				<c:set var="description" scope="page" value="${video.getDescription()}"/>
 				<div class="title">
@@ -91,72 +92,46 @@
 							<li><h4>By:</h4></li>
 
 							<li><a href="userProfile?name=${uploader}"><div id="up"><c:out value="${uploader}"></c:out></div></a></li>
-							<c:if test="${sessionScope.user==null }">
-							<li><img onclick="subscribe()" src="img/sub.png" title="Unsubscribe" /><button onclick="subscribe()" type="button"><div id="sub">Subscribe</div></button><a href="login" id="confirmM" class="confirmMessage"> </a></li>
-							
-							</c:if>
-							
-							<c:if test="${sessionScope.user != null}">
-							
-							<c:if test="${sessionScope.user.isSubscribeChannel(channelName)}">
-							<li><img onclick="subscribe()" src="img/sub.png" title="Unsubscribe" /><button onclick="subscribe()" type="button"><div id="sub">Unsubscribe</div></button><a href="login" id="confirmM" class="confirmMessage"> </a></li>
-							</c:if>
-							<c:if test="${!sessionScope.user.isSubscribeChannel(channelName)}">
-							<li><img  src="img/sub.png" title="subscribe" /><button onclick="subscribe()" type="button"><div id="sub">Subscribe</div></button><a href="login" id="confirmM" class="confirmMessage"> </a></li>
-							</c:if>
-							
-							</c:if>
-						<li></li>
-						
-						<li> <div id="list1" class="dropdown-check-list" tabindex="100">
-        <span class="anchor">Add to playlist</span>
-        <ul class="items">
-        <c:if test="${sessionScope.user!=null}">
-        <c:forEach items="${sessionScope.user.getPlayLists()}" var="list">
-        
-            <li><input id="${list.name}" type="checkbox" onchange="addPlaylist(this.id)"/><c:out value="${list.name}"/> </li>
-        </c:forEach>
-        <li><a href="login" id="addToList" class="confirmMessage"> </a></li>
-        </c:if>
-        </ul>
-    </div>
-<script type="text/javascript">
-
-var checkList = document.getElementById('list1');
-checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
+			
+								<c:out value="${sessionScope.user.isSubscribeChannel(uploader)} "></c:out>
+								<c:set var="flag" value="${sessionScope.user.isSubscribeChannel(uploader)} "></c:set>		
+								<c:choose>
+    								<c:when test="${sessionScope.user.isSubscribeChannel(uploader) }">
+										<li><img onclick="subscribe()" src="img/sub.png" title="Unsubscribe" /><button onclick="subscribe()" type="button"><div id="sub">Unsubscribe</div></button><a href="login" id="confirmM" class="confirmMessage"> </a></li>
+							    	</c:when>
+							    	<c:otherwise>
+										<li><img  src="img/sub.png" title="subscribe" /><button onclick="subscribe()" type="button"><div id="sub">Subscribe</div></button><a href="login" id="confirmM" class="confirmMessage"> </a></li>
+							    		
+							    	</c:otherwise>
+								</c:choose>
 	
-    if (checkList.classList.contains('visible'))
-        checkList.classList.remove('visible');
-    else
-        checkList.classList.add('visible');
-}
-
-checkList.onblur = function(evt) {
-    checkList.classList.remove('visible');
-}
-
-checkList.onblur = function(evt) {
-    checkList.classList.remove('visible');
-}
-</script>
-   </li>
+							<li></li>
+							<li> 
+								<div id="list1" class="dropdown-check-list" tabindex="100">
+		        					<span class="anchor">Add to playlist</span>
+		        					<ul class="items">
+			        					<c:if test="${sessionScope.user!=null}">
+			        						<c:forEach items="${sessionScope.user.getPlayLists()}" var="list">        
+			            						<li><input id="${list.name}" type="checkbox" onchange="addPlaylist(this.id)"/><c:out value="${list.name}"/> </li>
+			        						</c:forEach>
+			        						<li><a href="login" id="addToList" class="confirmMessage"> </a></li>
+			        					</c:if>
+		        					</ul>
+		    					</div>
+	   						</li>
 						</ul>
-							
-							<c:set var="videoDislikes" scope ="page" value ="${video.getDislikes()}"></c:set>
-							<c:set var="views" scope ="page" value ="${video.getView()}"></c:set>
-							<c:set var="videoDate" scope ="page" value ="${video.getDate().toString() }"></c:set>
-						  	<c:set var="video" scope="page" value="${requestScope.video.getName()}"/>
-							<video id="my-video" class="video-js"   controls preload="auto" width="640" height="264"
-						  			 data-setup="{}">
-							        <source src="video/${video}"  type='video/mp4'>
+						<c:set var="videoDislikes" scope ="page" value ="${video.getDislikes()}"></c:set>
+						<c:set var="views" scope ="page" value ="${video.getView()}"></c:set>
+						<c:set var="videoDate" scope ="page" value ="${video.getDate().toString() }"></c:set>
+					  	<c:set var="video" scope="page" value="${requestScope.video.getName()}"/>
+						<video id="my-video" class="video-js"   controls preload="auto" width="640" height="264" data-setup="{}">
+							<source src="video/${video}"  type='video/mp4'>
 							<p class="vjs-no-js">
-						      		To view this video please enable JavaScript, and consider upgrading to a web browser that
-						    </p>
-						  </video>
-
+					      		To view this video please enable JavaScript, and consider upgrading to a web browser that
+					    	</p>
+					  	</video>
 				</div>
-				<div class="video-inner">
-					
+				<div class="video-inner">					
 				</div>
 				<div class="viwes">
 					<div class="view-links">
@@ -268,5 +243,18 @@ checkList.onblur = function(evt) {
 		</div>
 	</div>
 	<!----End-wrap---->
+<script type="text/javascript">
+
+var checkList = document.getElementById('list1');
+checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
+    if (checkList.classList.contains('visible'))
+        checkList.classList.remove('visible');
+    else{
+        checkList.classList.add('visible');
+    }
+}
+
+</script>
+	
 </body>
 </html>

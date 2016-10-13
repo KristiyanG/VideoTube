@@ -13,7 +13,6 @@
     <link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
     
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="script/search_bar.js"></script>
 	<script src="script/home_page_scripts.js"></script>
 </head>
 <body>
@@ -56,15 +55,14 @@
             <!----start-top-nav---->
         <div class="top-nav" >
             <ul>
-                <li><a href="home">Home</a><p>My Forntpage</p></li>
+                <li><a href="home">Home</a></li>
                 <c:if test="${sessionScope.user != null}" >
-                <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
+                <li><a href="myChannel">My Channel</a></li>
                 </c:if>
-                <li><a href="categories">Categories</a><p>Be Ur Self</p></li>
                 <c:if test="${sessionScope.user != null}" >
                 <li><a href="#" onclick="showLikedVideos()">Liked Videos</a></li>
-                <li><a href="myPlaylist">My Playlist</a></li>
-                <li><a href="abonatetChannel">Abonated Channel</a></li>
+                <li><a href="#" onclick="showMyPlaylists()">My Playlist</a></li>
+                <li><a href="#" onclick="showAbonatedChannals()">Abonated Channels</a></li>
                 </c:if> 
             </ul>
         </div>
@@ -78,26 +76,26 @@
 
 				<div id="liked-videos-div"></div>
 				<div id="videosList"  class="box">		
-
+				<div id="channelsList"></div>
 					<div class="grids">
                 		<div id="videoBox" >                		             		
-	                	<c:set var="videosList" value="${videos}" />                	
-	                	<c:forEach items="${videosList}" var="video">
-							<div class="grid">
-								<h3> ${video.name}</h3>
-								<a href="video?name=${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
-								<div class="time">
-								<span>Views<c:out value="${ video.view}"/></span>
-								</div>
-								<div class="grid-info">
-									
-									<div class="clear"> </div>
-									<div class="lables">
-										<p>Uploader:<a href="userProfile?name=${video.uploader}">${video.uploader}</a></p>
+		                	<c:set var="videosList" value="${videos}" />                	
+		                	<c:forEach items="${videosList}" var="video">
+								<div class="grid">
+									<h3> ${video.name}</h3>
+									<a href="video?name=${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
+									<div class="time">
+									<span>Views<c:out value="${ video.view}"/></span>
+									</div>
+									<div class="grid-info">
+										
+										<div class="clear"> </div>
+										<div class="lables">
+											<p>Uploader:<a href="userProfile?name=${video.uploader}">${video.uploader}</a></p>
+										</div>
 									</div>
 								</div>
-							</div>
-						</c:forEach>
+							</c:forEach>
                 		</div>
                 		
                 		</div>

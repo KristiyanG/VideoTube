@@ -158,12 +158,12 @@ public class User {
 	}
 	
 	public boolean isSubscribeChannel(String channelName){
-		
 		for(Channel channel: this.subscriptions){
 			if(channel.getName().equals(channelName)){
 				return true;
 			}
 		}
+		System.out.println("FALSE");
 		return false;
 	}
 

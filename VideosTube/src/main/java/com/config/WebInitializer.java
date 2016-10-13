@@ -33,7 +33,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		return multipartConfigElement;
 	}
 	
-	 private static final String LOCATION = "C:/Users/Kristian/Desktop/VideosFolder"; // Temporary location where files will be stored
+	 private static final String LOCATION = "C:/Users/Parapanov/Desktop/VideosFolder"; // Temporary location where files will be stored
 	 
 	    private static final long MAX_FILE_SIZE = 524288000; // 5MB : Max file size.
 	                                                        // Beyond that size spring will throw exception.
