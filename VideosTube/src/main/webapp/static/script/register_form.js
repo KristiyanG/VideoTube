@@ -117,6 +117,7 @@ function dislikeVideo() {
 		    });}
 	
 }
+
 function showDiv() {
 	
 	if(document.getElementById('commentsDiv').style.display == "block"){
@@ -205,5 +206,3 @@ function showDiv() {
 					document.getElementById('sub').innerHTML =data;
 			    });}
 	}
-
-

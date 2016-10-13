@@ -91,9 +91,6 @@ public class Comment {
 		return likes.size();
 	}
 	
-	public int getLikes(){
-		return likes.size();
-	}
 	
 	
 }

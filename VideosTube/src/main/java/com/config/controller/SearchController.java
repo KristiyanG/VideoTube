@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.config.dao.ChannelDAO;
 import com.config.dao.CommentDAO;
 import com.config.dao.PlayListDAO;
 import com.config.dao.UserDAO;
@@ -63,10 +62,7 @@ public class SearchController {
 	}
 
 
-
-	@RequestMapping(value="writeComment", method=RequestMethod.POST)
-
-
+	@RequestMapping(value="writeComment", method=RequestMethod.GET)
 	public @ResponseBody Comment commentVideo(HttpSession ses,HttpServletRequest req){
 		String comment =req.getParameter("commentText").trim();
 		String videoName =req.getParameter("videoName").trim();
@@ -79,24 +75,6 @@ public class SearchController {
 			return null;
 		}
 		return com;
-
-	}
-
-	@RequestMapping(value="comment/like", method=RequestMethod.POST)
-	public @ResponseBody long commentLike(HttpSession ses,HttpServletRequest req){
-		Long commentId =new Long(req.getParameter("commentId"));
-		String videoName =req.getParameter("videoName").trim();
-		System.out.println("Video name is @"+videoName+"@commentID="+commentId);
-		if(ses.getAttribute("user")==null){
-			return 0;
-		}
-		User user = (User)ses.getAttribute("user");
-		System.out.println("USERNAME -"+user.getUsername()+"-");
-	
-		int commentLikes =CommentDAO.getInstance().likeComment(user.getUsername(), videoName, commentId);
-		System.out.println("Comment likes are "+ commentLikes);
-		
-		return commentLikes;
 	}
 	
 	@RequestMapping(value="subscribe", method=RequestMethod.POST)
@@ -124,13 +102,9 @@ public class SearchController {
 		}
 		User user = (User)ses.getAttribute("user");
 		System.out.println("USERNAME -"+user.getUsername()+"-");
-	
+
 		
 		return PlayListDAO.getInstance().addVideoInPlaylist(user.getUsername(), videoName, playlistName);
 	}
 
-	
-	
-
-	
 }

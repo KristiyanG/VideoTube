@@ -64,7 +64,6 @@ public class UserDAO {
 		} catch (CreateUserException e) {
 			System.out.println(e.getMessage() + " error in loading users from DB ");
 		}
-
 	}
 
 	private void loadPlaylists(User user) {
@@ -72,7 +71,6 @@ public class UserDAO {
 		if(list != null){
 			user.createPlaylist(list);
 		}
-
 	}
 
 	private void loadLikedVideos(User user) {

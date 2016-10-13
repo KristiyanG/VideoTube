@@ -70,12 +70,5 @@ public class Channel {
 		return subscribes.size();
 	}
 	
-	public boolean checkUserSubscribe(String username){
-		if(subscribes.contains(username)){
-			return true;
-		}
-		return false;
-	}
-	
 	
 }

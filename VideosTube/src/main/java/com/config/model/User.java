@@ -121,7 +121,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = CryptWithMD5.cryptWithMD5(password);
-		;
+	}
+
+	public List<Video> getLikedVideos() {
+		return Collections.unmodifiableList(likedVideos);
+	}
+
+	public void setLikedVideos(List<Video> likedVideos) {
+		this.likedVideos = likedVideos;
 	}
 
 	public String getProfilePic() {
@@ -149,7 +156,6 @@ public class User {
 		return ((!enteredEmail.isEmpty()) && (enteredEmail != null) && (matcher.matches()));
 
 	}
-
 	
 	public boolean isSubscribeChannel(String channelName){
 		
@@ -167,12 +173,10 @@ public class User {
 		return pl;
 	}
 
-	
 	public void createPlaylist(Set<Playlist> userPlayList) {
 		for (Playlist playlist : userPlayList) {
 			this.playLists.add(playlist);
 		}	
-
 	}
 	
 	public Playlist getUserPlaylist(String playlistName){

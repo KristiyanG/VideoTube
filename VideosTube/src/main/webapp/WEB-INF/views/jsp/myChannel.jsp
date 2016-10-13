@@ -12,7 +12,33 @@
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
 	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />		
 	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>	
+	
+	<style>
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+</style>
 	
 </head>
 	<body>
@@ -115,13 +141,15 @@
 						<li class="twPc-ArrangeSizeFit">
 							<a href="#" onclick="openDialog()">
 								<span class="twPc-StatLabel twPc-block">Create Playlist</span>
+								  <span class="tooltiptext">Tooltip text</span>
 							</a>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<div class="my_channel_content">
+		<div class="my_channel_content" id="my_channel_content">
+			<div id="subscriptionsDiv"></div>
 
 				<div class="my-playlists" id="my-playlists" style="display:none;">
 	
