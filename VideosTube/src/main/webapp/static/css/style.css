@@ -518,8 +518,8 @@ input::-webkit-input-placeholder {
 .right-content{
 	position: relative;
 	float:right;
-	right: 270px;
-	top: 10px;
+	right: 340px;
+	top: 60px;
 	width: 20%;
 }
 .popular h3{

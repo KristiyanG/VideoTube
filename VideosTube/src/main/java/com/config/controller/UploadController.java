@@ -76,6 +76,12 @@ public class UploadController {
 	    	dir.mkdir();
 	    }
 	    File videoFile = new File(dir, fileFullName);
+	    try {
+			st(videoFile);
+		} catch (JCodecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Files.copy(multiPartFile.getInputStream(), videoFile.toPath(), StandardCopyOption.REPLACE_EXISTING);		
 		
 		model.addAttribute("status", "Video: " + videoName + " uploaded.");
@@ -83,11 +89,27 @@ public class UploadController {
 		VideoDAO.getInstance().uploadVideo(videoName, category, description, user.getUsername(), address);
 		return "upload";
 	}
+	
+    static void st(File videoFile) throws IOException, JCodecException {
+        double msec = 10000;
+        BufferedImage frame = getFrame(videoFile, msec / 1000);
+        ImageIO.write(frame, "jpg", new File("test.jpg"));
+    }
+
+    static BufferedImage getFrame(File file, double sec) throws IOException, JCodecException {
+        FileChannelWrapper ch = null;
+        try {
+            ch = NIOUtils.readableFileChannel(file);
+            return ((FrameGrab) new FrameGrab(ch).seekToSecondPrecise(sec)).getFrame();
+        } finally {
+            NIOUtils.closeQuietly(ch);
+        }
+    }
 
 	private boolean validateVideoFormat(String contentType) {
 		String[] contentParams = contentType.split("/");
 		if(contentParams.length < 2 || 
-				contentParams.length > 2 || (!contentParams[1].equals("mp4") || !contentParams[1].equals("ogg"))){
+				contentParams.length > 2 || !contentParams[1].equals("mp4")){
 			return false;
 		}
 		return true;

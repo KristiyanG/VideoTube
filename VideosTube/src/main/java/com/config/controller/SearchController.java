@@ -63,20 +63,20 @@ public class SearchController {
 	}
 
 
-	@RequestMapping(value="writeComment", method=RequestMethod.GET)
-	public @ResponseBody Comment commentVideo(HttpSession ses,HttpServletRequest req){
-		String comment =req.getParameter("commentText").trim();
-		String videoName =req.getParameter("videoName").trim();
-		User user = (User)ses.getAttribute("user");
-		Video video = VideoDAO.getInstance().getVideoByName(videoName);
-		Comment com = CommentDAO.getInstance().saveComment(user, comment, video);
-		
-		if(com==null){
-			System.out.println("VIDEO IS NULL");
-			return null;
-		}
-		return com;
-	}
+	@RequestMapping(value="writeComment", method=RequestMethod.POST)
+	 public @ResponseBody Comment commentVideo(HttpSession ses,HttpServletRequest req){
+	  String comment =req.getParameter("commentText").trim();
+	  String videoName =req.getParameter("videoName").trim();
+	  User user = (User)ses.getAttribute("user");
+	  Video video = VideoDAO.getInstance().getVideoByName(videoName);
+	  Comment com = CommentDAO.getInstance().saveComment(user, comment, video);
+	  
+	  if(com==null){
+	   System.out.println("VIDEO IS NULL");
+	   return null;
+	  }
+	  return com;
+	 }
 	
 	@RequestMapping(value="subscribe", method=RequestMethod.POST)
 	public @ResponseBody String subscribe(HttpSession ses, HttpServletRequest req){
@@ -105,7 +105,25 @@ public class SearchController {
 		}
 		User user = (User)ses.getAttribute("user");
 		System.out.println("USERNAME -"+user.getUsername()+"-");
-		
+
 		return PlayListDAO.getInstance().addVideoInPlaylist(user.getUsername(), videoName, playlistName);
 	}
+
+	
+	@RequestMapping(value="comment/like", method=RequestMethod.POST)
+	 public @ResponseBody long commentLike(HttpSession ses,HttpServletRequest req){
+	  Long commentId =new Long(req.getParameter("commentId"));
+	  String videoName =req.getParameter("videoName").trim();
+	  System.out.println("Video name is @"+videoName+"@commentID="+commentId);
+	  if(ses.getAttribute("user")==null){
+	   return 0;
+	  }
+	  User user = (User)ses.getAttribute("user");
+	  System.out.println("USERNAME -"+user.getUsername()+"-");
+	 
+	  int commentLikes = CommentDAO.getInstance().likeComment(user.getUsername(), videoName, commentId);
+	  System.out.println("Comment likes are "+ commentLikes);
+	  
+	  return commentLikes;
+	 }
 }

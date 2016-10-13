@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,11 @@ import com.config.model.Video;
 @Controller
 public class PageController {
 
+	@RequestMapping("/index.jsp")
+	public String hello() {
+	    return "home";
+	}
+	
 	@RequestMapping(value="/myChannel", method=RequestMethod.GET)
 	public String getMyChannelPage(Model model, HttpSession ses){
 		
@@ -40,6 +46,8 @@ public class PageController {
 		
 		User userOnSession =  (User) ses.getAttribute("user");
 		if(user == userOnSession){
+			List<Video> userVideos = VideoDAO.getInstance().getUserVideos(user.getUsername());
+			model.addAttribute("userVideos", userVideos);
 			return "myChannel";
 		}
 		return "user";
@@ -52,6 +60,7 @@ public class PageController {
 		return "home";
 	}
 	
+
 	@RequestMapping(value="/*", method = RequestMethod.GET)
 	public String getIndexPage(Model model){
 		List<Video> videos = VideoDAO.getInstance().getAllVideos();
@@ -64,6 +73,7 @@ public class PageController {
 		return "search";
 	}
 	
+
 	@RequestMapping(value="simple", method = RequestMethod.GET)
 	public String searchBar(Model model, HttpSession ses){
 		
@@ -110,6 +120,15 @@ public class PageController {
 		return "likedVideos";	
 	}
 	
+	@RequestMapping(value="myVideos/{user}", method = RequestMethod.GET)
+	public String myVideos(@PathVariable("user") String username, Model model, HttpSession ses){
+		
+		User user = UserDAO.getInstance().getUserByUsername(username.trim());
+		model.addAttribute("likedVideos", user.getLikedVideos());
+		
+		return "likedVideos";	
+	}
+	
 	@RequestMapping(value="userPlaylists", method = RequestMethod.GET)
 	public String userPlaylists(
 			@RequestParam("username") String username, 
@@ -120,7 +139,6 @@ public class PageController {
 		model.addAttribute("playlists", user.getPlayLists());
 		return "playlists";	
 	}
-	
 	
 	@RequestMapping(value="userVideos", method = RequestMethod.GET)
 	public String userVideos(

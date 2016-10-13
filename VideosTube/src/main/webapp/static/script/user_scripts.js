@@ -1,6 +1,7 @@
+
+
 function showMyVideos(username) {	
 	$.get("myVideos", {username : username}, function(result){
-		alert("HEREEE")
 		document.getElementById("resultList").innerHTML = result;
     });
 }
