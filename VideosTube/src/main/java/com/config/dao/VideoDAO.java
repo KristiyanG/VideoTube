@@ -35,15 +35,15 @@ public class VideoDAO {
 			String category, 
 			String description, 
 			String uploader, 
-			String address) {
+			String address, String posterLocation) {
 		
 		LocalDate localDate = LocalDate.now();
 		Date date = Date.valueOf(localDate);
 		
 		if (videos.containsKey(name)) {
 			return false;
-		} else if (addVideoInCollection(name, category, description, uploader, address, localDate)) {
-			return saveVideoInDB(name, category, description, uploader, address, date);
+		} else if (addVideoInCollection(name, category, description, uploader, address, localDate,posterLocation)) {
+			return saveVideoInDB(name, category, description, uploader, address, date,posterLocation);
 		}
 		return false;
 	}
@@ -87,14 +87,14 @@ public class VideoDAO {
 			Statement st = connection.createStatement();
 			ResultSet resultSet = st
 					.executeQuery(
-							"SELECT name, views, category, description, video_address, user_name, date_upload FROM videos;");
+							"SELECT name, views, category, description, video_address, user_name, date_upload,poster FROM videos;");
 			while (resultSet.next()) {
 				Date input = resultSet.getDate("date_upload");
 				
 				LocalDate date = input.toLocalDate();
 				Video video = new Video(resultSet.getString("name"), resultSet.getString("user_name"),
 						resultSet.getString("category"), resultSet.getInt("views"), date,
-						resultSet.getString("description"), resultSet.getString("video_address"));
+						resultSet.getString("description"), resultSet.getString("video_address"),resultSet.getString("poster"));
 				loadVideoLikes(video);
 				loadVideoDislikes(video);
 				loadVideoComments(video);
@@ -160,26 +160,25 @@ public class VideoDAO {
 			String description, 
 			String uploader, 
 			String address,
-			Date date) {
+			Date date, String posterLocation) {
 		
 		try {
 			this.connection = DBManager.getInstance().getConnection();
 
-			String sql = "insert into videos(name, views, likes, dislikes, "
+			String sql = "insert into videos(name, views, "
 					+ "date_upload, description, video_address, category, "
-					+ "channel_name, user_name) "
-					+ "values(?,?,?,?,?,?,?,?,?,?);";
+					+ "channel_name, user_name,poster) "
+					+ "values(?,?,?,?,?,?,?,?,?);";
 			PreparedStatement stm = connection.prepareStatement(sql);
 			stm.setString(1, name);
 			stm.setInt(2, 0);
-			stm.setInt(3, 0);
-			stm.setInt(4, 0);
-			stm.setDate(5, date);
-			stm.setString(6, description);
-			stm.setString(7, address);
-			stm.setString(8, category);
-			stm.setString(9, uploader);
-			stm.setString(10, uploader);
+			stm.setDate(3, date);
+			stm.setString(4, description);
+			stm.setString(5, address);
+			stm.setString(6, category);
+			stm.setString(7, uploader);
+			stm.setString(8, uploader);
+			stm.setString(9, posterLocation);
 
 			stm.executeUpdate();
 
@@ -198,9 +197,9 @@ public class VideoDAO {
 			String description, 
 			String uploader,
 			String address, 
-			LocalDate date) {
+			LocalDate date, String poster) {
 		
-		Video video = new Video(name, uploader, category, 0, date, description, address);
+		Video video = new Video(name, uploader, category, 0, date, description, address,poster);
 		videos.put(name, video);
 		return true;
 	}
@@ -334,5 +333,9 @@ public class VideoDAO {
 		} catch (SQLException e) {
 			System.out.println("remove like from dDB -"+e.getMessage());
 		}
+	}
+	
+	public boolean isFreeVideoName(String videoName){
+		return !videos.containsKey(videoName);
 	}
 }

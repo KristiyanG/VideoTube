@@ -60,6 +60,7 @@ public class UsersController {
 		return "login";
 	}
 	
+	
 	@RequestMapping(value="/video", method=RequestMethod.GET)
 	public String video(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
 		String listName = req.getParameter("name");
@@ -93,32 +94,7 @@ public class UsersController {
 		}
 		return "video";
 	}
-//	@RequestMapping(value="nextVideo", method=RequestMethod.GET)
-//	public String playlist(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
-//		
-//		String username = req.getParameter("username").trim();
-//		String videoName = req.getParameter("name").trim();
-//		String listName =req.getParameter("listName").trim();
-//		
-//		Set<Playlist> pl = PlayListDAO.getInstance().getUserPlayList(username);
-//		Playlist playList = null;
-//		for(Playlist play : pl){
-//			if(play.getName().equals(listName)){
-//				playList=play;
-//			}
-//		}
-//		if(playList!=null){
-//			int videoIndex =playList.getVideoIndex(videoName);
-//			String nextVideo =playList.getVideoByIndex(videoIndex+1);
-//			if(nextVideo==null){
-//				nextVideo=playList.getFirstVideo();
-//			}
-//			Video video = VideoDAO.getInstance().getVideoByName(nextVideo);
-//			model.addAttribute("video", video);
-//			model.addAttribute("comments", video.showVideoComments());
-//		}
-//		return "nextVideo";
-//	}
+
 	
 	@RequestMapping(value="nextVideo", method=RequestMethod.GET)
 	public String playlist(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
@@ -148,6 +124,7 @@ public class UsersController {
 		}
 		return "video";
 	}
+	
 	
 	@RequestMapping(value="/videoNew", method=RequestMethod.GET)
 	public String newVideo( HttpServletRequest req, Model model){
@@ -227,6 +204,26 @@ public class UsersController {
 		}
 	}
 
+	@RequestMapping(value = "videoPoster/{videoName}", method = RequestMethod.GET)
+	@ResponseBody
+	public void getVideoPoster(@PathVariable("videoName") String videoName, HttpSession ses, HttpServletResponse resp,
+			Model model) {
+		System.out.println("VIDEO NAME IS "+videoName);
+		String videoPoster = VideoDAO.getInstance().getVideoByName(videoName).getPoster();
+		System.out.println("VIdeo poster address is "+videoPoster);
+		if(videoPoster == null){
+			System.out.println("NO PIC");
+			return;
+		}
+		File file = new File( videoPoster);
+		
+		try {
+			Files.copy(file.toPath(), resp.getOutputStream());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
 	@RequestMapping(value = "/myChannel", method = RequestMethod.POST)
 	public String receiveUpload(@RequestParam("userPic") MultipartFile multiPartFile, Model model, HttpSession ses)
 			throws IOException {

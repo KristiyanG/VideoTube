@@ -41,6 +41,8 @@ function CheckLength(){
 		statusUsername.style.color = "#ff6666";
 		statusUsername.innerHTML = "Username shoud be between 4 and 12 symbols."
 	}else{
+		
+		
 		val.style.backgroundColor = "#ffffff";
 		statusUsername.innerHTML = ""
 	}

@@ -3,12 +3,14 @@
     <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="msg" uri="http://www.springframework.org/tags" %>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 
 <!DOCTYPE HTML>
 <html>
 <head>
 	<title>Register form</title>
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
 	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
 	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>	

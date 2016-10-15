@@ -19,7 +19,8 @@ public class Video {
 	private int view;
 	private String address;
 	private LocalDate date;
-	public Video(String name, String uploader, String category, int view, LocalDate date, String description,String address) {
+	private String poster;
+	public Video(String name, String uploader, String category, int view, LocalDate date, String description,String address, String poster) {
 		this.name = name;
 		this.uploader = uploader;
 		this.address = address;
@@ -27,11 +28,15 @@ public class Video {
 		this.view = view;
 		this.date = date;
 		this.description = description;
+		this.poster=poster;
 		this.likes = new HashSet<>();
 		this.dislikes = new HashSet<>();
 		this.comments = new TreeSet<Comment>((v1,v2)-> v2.getDateInDate().compareTo(v1.getDateInDate()));
 	}
 	
+	public String getPoster(){
+		return this.poster;
+	}
 	public String getAddress() {
 		return address;
 	}

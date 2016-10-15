@@ -55,7 +55,7 @@ public class UserDAO {
 				loadPlaylists(user);
 				
 				users.put(resultSet.getString("username"), user);
-
+				
 			}
 		} catch (SQLException e) {
 			System.out.println("Oops, cannot make statement.");
@@ -226,7 +226,10 @@ public class UserDAO {
 			}
 		}
 	}
-
+	
+	public boolean isUserExist(String username){
+		return users.containsKey(username);
+	}
 }
 
 /*

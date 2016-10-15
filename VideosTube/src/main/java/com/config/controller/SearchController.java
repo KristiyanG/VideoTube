@@ -44,6 +44,23 @@ public class SearchController {
 	  return video;
 	 }
 	
+	@RequestMapping(value = "validateUsername", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean isUserFree(HttpSession ses,HttpServletRequest req) {
+		String username = req.getParameter("username");
+		System.out.println("RAboti li");
+		return UserDAO.getInstance().isUserExist(username);
+	}
+	
+	@RequestMapping(value = "validateVideoName", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean isVideoNameFree(HttpSession ses,HttpServletRequest req) {
+		String videoName = req.getParameter("videoName");
+		System.out.println("RAboti li");
+		return VideoDAO.getInstance().isFreeVideoName(videoName);
+	}
+	
+	
 	@RequestMapping(value="video/dislike", method=RequestMethod.GET)
 	public @ResponseBody Video dislikeVideo(HttpSession ses,HttpServletRequest req){
 		String videoName = req.getParameter("videoName").trim();

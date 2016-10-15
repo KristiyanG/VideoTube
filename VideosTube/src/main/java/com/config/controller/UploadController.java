@@ -27,76 +27,87 @@ import com.config.model.User;
 @Controller
 @SessionAttributes("user")
 public class UploadController {
-	private static final String FILE_LOCATION = "C:/Users/Parapanov/Desktop/VideosFolder";
+ 
+ private static final String POSTERS_LOCATION ="posters";
+ private static final String VIDEOS_LOCATION ="videos";
 
-	@RequestMapping(value="/upload", method=RequestMethod.GET)
-	public String prepareForUpload() {
-		return "upload";
-	}
-	
-	@RequestMapping(value="/upload", method=RequestMethod.POST)
-	public String receiveUpload(
-			@RequestParam("video") MultipartFile multiPartFile, 
-			@RequestParam("videoName") String videoName, 
-			@RequestParam("category") String category,
-			@RequestParam("description") String description,
-			Model model, HttpSession ses) throws IOException{
-					
-		if(videoName == null || videoName.isEmpty() || videoName.length() > 100){
-			model.addAttribute("status", "Invalid video name.");
-			return "upload";
-		}
-		if(category == null || category.isEmpty() || category.length() > 50){
-			model.addAttribute("status", "Invalid category.");
-			return "upload";
-		}
-		if(description == null || description.isEmpty() || description.length() > 220){
-			model.addAttribute("status", "Invalid description.");
-			return "upload";
-		}
-
-		User user = (User) ses.getAttribute("user");
-		
-		if(!validateVideoFormat(multiPartFile.getContentType())){
-			System.out.println("invalid format");
-			model.addAttribute("status", "Invalid video format.");
-			return "upload";
-		}
-		
-		String type = ".";
-		String[] format = multiPartFile.getContentType().split("/");
-		if(format[0].equals("video")){
-			type.concat(format[1]);
-		}
-
-		String fileFullName = videoName.concat(type);
-
-	    File dir = new File(FILE_LOCATION);
-	    if(!dir.exists()){
-	    	dir.mkdir();
-	    }
-	    File videoFile = new File(dir, fileFullName);
-	    try {
-			st(videoFile);
-		} catch (JCodecException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Files.copy(multiPartFile.getInputStream(), videoFile.toPath(), StandardCopyOption.REPLACE_EXISTING);		
-		
-		model.addAttribute("status", "Video: " + videoName + " uploaded.");
-		String address = FILE_LOCATION.concat("/").concat(fileFullName);
-		VideoDAO.getInstance().uploadVideo(videoName, category, description, user.getUsername(), address);
-		return "upload";
-	}
-	
-    static void st(File videoFile) throws IOException, JCodecException {
-        double msec = 10000;
+ @RequestMapping(value="/upload", method=RequestMethod.GET)
+ public String prepareForUpload() {
+  return "upload";
+ }
+ 
+ @RequestMapping(value="/upload", method=RequestMethod.POST)
+ public String receiveUpload(
+   @RequestParam("video") MultipartFile multiPartFile, 
+   @RequestParam("videoName") String videoName, 
+   @RequestParam("category") String category,
+   @RequestParam("description") String description,
+   Model model, HttpSession ses) throws IOException{
+     
+  if(videoName == null || videoName.isEmpty() || videoName.length() > 100){
+	  model.addAttribute("status", "Invalid video name.");
+   return "upload";
+  }
+  if(category == null || category.isEmpty() || category.length() > 50){
+   model.addAttribute("status", "Invalid category.");
+   return "upload";
+  }
+  if(description == null || description.isEmpty() || description.length() > 220){
+   model.addAttribute("status", "Invalid description.");
+   return "upload";
+  }
+  
+  if(!VideoDAO.getInstance().isFreeVideoName(videoName)){
+	  model.addAttribute("status", "Video with this name already exist !");
+	   return "upload";
+  }
+  User user = (User) ses.getAttribute("user");
+  
+  if(!validateVideoFormat(multiPartFile.getContentType())){
+   System.out.println("invalid format");
+   model.addAttribute("status", "Invalid video format.");
+   return "upload";
+  }
+  
+  String type = ".";
+  String[] format = multiPartFile.getContentType().split("/");
+  if(format[0].equals("video")){
+   type += format[1];
+  }
+  
+  String fileFullName = videoName.concat(type);
+  String poster = videoName.concat(".jpg");
+     File videoDir = new File(VIDEOS_LOCATION);
+     if(!videoDir.exists()){
+      videoDir.mkdir();
+     }
+     File videoFile = new File(videoDir, fileFullName);
+  Files.copy(multiPartFile.getInputStream(), videoFile.toPath(), StandardCopyOption.REPLACE_EXISTING);  
+  try {
+   st(videoFile, poster);
+  } catch (JCodecException e) {
+   e.printStackTrace();
+  }
+  
+  model.addAttribute("status", "Video: " + videoName + " uploaded.");
+  String address = VIDEOS_LOCATION.concat("/").concat(fileFullName);
+  String posterLocation = POSTERS_LOCATION.concat("/").concat(poster); // todo set in DB
+  System.out.println("poster location"+posterLocation);
+  VideoDAO.getInstance().uploadVideo(videoName, category, description, user.getUsername(), address,posterLocation);
+  return "upload";
+ }
+ 
+ private void st(File videoFile, String poster) throws IOException, JCodecException {
+  File posterDir = new File(POSTERS_LOCATION); 
+     if(!posterDir.exists()){
+      posterDir.mkdir();
+     }
+        double msec = 5000;
         BufferedImage frame = getFrame(videoFile, msec / 1000);
-        ImageIO.write(frame, "jpg", new File("test.jpg"));
+        ImageIO.write(frame, "jpg", new File(posterDir, poster));
     }
 
-    static BufferedImage getFrame(File file, double sec) throws IOException, JCodecException {
+    private BufferedImage getFrame(File file, double sec) throws IOException, JCodecException {
         FileChannelWrapper ch = null;
         try {
             ch = NIOUtils.readableFileChannel(file);
@@ -106,12 +117,12 @@ public class UploadController {
         }
     }
 
-	private boolean validateVideoFormat(String contentType) {
-		String[] contentParams = contentType.split("/");
-		if(contentParams.length < 2 || 
-				contentParams.length > 2 || !contentParams[1].equals("mp4")){
-			return false;
-		}
-		return true;
-	}
+ private boolean validateVideoFormat(String contentType) {
+  String[] contentParams = contentType.split("/");
+  if(contentParams.length < 2 || 
+    contentParams.length > 2 || !contentParams[1].equals("mp4")){
+   return false;
+  }
+  return true;
+ }
 }

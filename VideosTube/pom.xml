@@ -27,8 +27,7 @@
 	<dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-jdbc</artifactId>
-    <version>4.3.3.RELEASE</version>
-</dependency>
+    </dependency>
 <dependency>
     <groupId>commons-logging</groupId>
     <artifactId>commons-logging-api</artifactId>
@@ -68,6 +67,18 @@
 			<artifactId>not-yet-commons-ssl</artifactId>
 			<version>0.3.9</version>
 		</dependency>
+			<dependency>
+		<groupId>org.jcodec</groupId>
+			<artifactId>jcodec-javase</artifactId>
+			<version>0.1.9</version>
+	</dependency>
+ <dependency>
+            <groupId>org.jcodec</groupId>
+            <artifactId>jcodec</artifactId>
+            <version>0.1.6-3</version>
+        </dependency>
+       
+		
 	</dependencies>
 
 	<build>
