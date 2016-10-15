@@ -59,31 +59,30 @@ public class UsersController {
 
 		return "login";
 	}
-	
-	@RequestMapping(value="/video", method=RequestMethod.GET)
-	public String video(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
+
+	@RequestMapping(value = "/video", method = RequestMethod.GET)
+	public String video(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException {
 		String listName = req.getParameter("name");
 		String username = req.getParameter("username");
-		if(listName!=null && username!=null){
+		if (listName != null && username != null) {
 			User user = UserDAO.getInstance().getUserByUsername(username);
-			Playlist pl =user.getUserPlaylist(listName);
-			String videoname=pl.getFirstVideo().trim();
+			Playlist pl = user.getUserPlaylist(listName);
+			String videoname = pl.getFirstVideo().trim();
 			int index = 0;
 			Video video = VideoDAO.getInstance().getVideoByName(videoname);
 			VideoDAO.getInstance().viewVideo(video);
 			model.addAttribute("video", video);
 			model.addAttribute("comments", video.showVideoComments());
-			List<Video> videosInList =new ArrayList<>();
-			for(String videoName :pl.getVideosFromPlaylist()){
+			List<Video> videosInList = new ArrayList<>();
+			for (String videoName : pl.getVideosFromPlaylist()) {
 				videosInList.add(VideoDAO.getInstance().getVideoByName(videoName.trim()));
 			}
 			model.addAttribute("index", index);
-			model.addAttribute("listOwner",username);
+			model.addAttribute("listOwner", username);
 			model.addAttribute("playlist", videosInList);
 			model.addAttribute("listname", listName);
-		}
-		else{
-			
+		} else {
+
 			String videoname = req.getParameter("name").trim();
 			Video video = VideoDAO.getInstance().getVideoByName(videoname);
 			VideoDAO.getInstance().viewVideo(video);
@@ -93,66 +92,59 @@ public class UsersController {
 		}
 		return "video";
 	}
-//	@RequestMapping(value="nextVideo", method=RequestMethod.GET)
-//	public String playlist(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
-//		
-//		String username = req.getParameter("username").trim();
-//		String videoName = req.getParameter("name").trim();
-//		String listName =req.getParameter("listName").trim();
-//		
-//		Set<Playlist> pl = PlayListDAO.getInstance().getUserPlayList(username);
-//		Playlist playList = null;
-//		for(Playlist play : pl){
-//			if(play.getName().equals(listName)){
-//				playList=play;
-//			}
-//		}
-//		if(playList!=null){
-//			int videoIndex =playList.getVideoIndex(videoName);
-//			String nextVideo =playList.getVideoByIndex(videoIndex+1);
-//			if(nextVideo==null){
-//				nextVideo=playList.getFirstVideo();
-//			}
-//			Video video = VideoDAO.getInstance().getVideoByName(nextVideo);
-//			model.addAttribute("video", video);
-//			model.addAttribute("comments", video.showVideoComments());
-//		}
-//		return "nextVideo";
-//	}
-	
-	@RequestMapping(value="nextVideo", method=RequestMethod.GET)
-	public String playlist(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
-		
-		
+
+	@RequestMapping(value = "videoPoster/{videoName}", method = RequestMethod.GET)
+	@ResponseBody
+	public void getVideoPoster(@PathVariable("videoName") String videoName, HttpSession ses, HttpServletResponse resp,
+			Model model) {
+		System.out.println("VIDEO NAME IS " + videoName);
+		String videoPoster = VideoDAO.getInstance().getVideoByName(videoName).getPoster();
+		System.out.println("VIdeo poster address is " + videoPoster);
+		if (videoPoster == null) {
+			System.out.println("NO PIC");
+			return;
+		}
+		File file = new File(videoPoster);
+
+		try {
+			Files.copy(file.toPath(), resp.getOutputStream());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@RequestMapping(value = "nextVideo", method = RequestMethod.GET)
+	public String playlist(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException {
+
 		String username = req.getParameter("username").trim();
 		String videoName = req.getParameter("name").trim();
-		String listName =req.getParameter("listName").trim();
-		
+		String listName = req.getParameter("listName").trim();
+
 		Set<Playlist> pl = PlayListDAO.getInstance().getUserPlayList(username);
 		Playlist playList = null;
-		for(Playlist play : pl){
-			if(play.getName().equals(listName)){
-				playList=play;
+		for (Playlist play : pl) {
+			if (play.getName().equals(listName)) {
+				playList = play;
 			}
 		}
-		if(playList!=null){
-			int videoIndex =playList.getVideoIndex(videoName);
-			String nextVideo =playList.getVideoByIndex(videoIndex+1);
-			if(nextVideo==null){
-				nextVideo=playList.getFirstVideo();
+		if (playList != null) {
+			int videoIndex = playList.getVideoIndex(videoName);
+			String nextVideo = playList.getVideoByIndex(videoIndex + 1);
+			if (nextVideo == null) {
+				nextVideo = playList.getFirstVideo();
 			}
-			System.out.println(nextVideo+"@");
+			System.out.println(nextVideo + "@");
 			Video video = VideoDAO.getInstance().getVideoByName(nextVideo);
 			model.addAttribute("video", video);
 			model.addAttribute("comments", video.showVideoComments());
 		}
 		return "video";
 	}
-	
-	@RequestMapping(value="/videoNew", method=RequestMethod.GET)
-	public String newVideo( HttpServletRequest req, Model model){
+
+	@RequestMapping(value = "/videoNew", method = RequestMethod.GET)
+	public String newVideo(HttpServletRequest req, Model model) {
 		String videoname = req.getParameter("name").trim();
-		System.out.println("VIDEO NEW"+videoname+"@");
+		System.out.println("VIDEO NEW" + videoname + "@");
 		Video video = VideoDAO.getInstance().getVideoByName(videoname);
 		VideoDAO.getInstance().viewVideo(video);
 		model.addAttribute("video", video);
@@ -214,12 +206,12 @@ public class UsersController {
 			Model model) {
 
 		String userPic = UserDAO.getInstance().getUserByUsername(username).getProfilePic();
-		if(userPic == null){
+		if (userPic == null) {
 			System.out.println("NO PIC");
 			return;
 		}
 		File file = new File("profilePic/" + userPic);
-		
+
 		try {
 			Files.copy(file.toPath(), resp.getOutputStream());
 		} catch (IOException e) {
@@ -232,17 +224,17 @@ public class UsersController {
 			throws IOException {
 
 		User user = (User) ses.getAttribute("user");
-		if(user == null){
+		if (user == null) {
 			System.out.println("CANT GET USER FROM SESSION");
 		}
 		String fileName = multiPartFile.getOriginalFilename();
 		UserDAO.getInstance().changeProfilePicture(fileName, user.getUsername());
-		
+
 		File dir = new File("profilePic");
-		File file = new File (dir, fileName);
-		
+		File file = new File(dir, fileName);
+
 		Files.copy(multiPartFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		
+
 		// String fileName = multiPartFile.getOriginalFilename();
 		// UserDAO.getInstance().changeProfilePicture(fileName,
 		// user.getUsername());

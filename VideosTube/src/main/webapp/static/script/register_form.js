@@ -182,21 +182,4 @@ function showDiv() {
 					document.getElementById(index).innerHTML =data;
 			    });}
 	}
-	function subscribe(){
-		
-		var user =  document.getElementById('user');
-		if(user == null){
-			var msg = document.getElementById('confirmM');
-			 msg.style.color = "#ff6666";
-			msg.innerHTML = "Login for subscribe comment";
-	    }
-		else{
-			$.post(
-				"subscribe", 
-				{ channel: document.getElementById('up').innerHTML
-				}).done(
-						
-				function(data){
-					document.getElementById('sub').innerHTML = data;
-			    });}
-	}
+

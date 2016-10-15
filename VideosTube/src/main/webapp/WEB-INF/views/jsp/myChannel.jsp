@@ -14,50 +14,13 @@
 	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>	
 	
-	
-	
-<style>
-
-.tooltiptext {
-    visibility: hidden;
-    width: 100px;
-    border: solid;
-    border-color: red;
-    color: red;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
-}
-.subscribeError{
-    visibility: hidden;
-    width: 120px;
-    color: red;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-	
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
-    top: 73px;
-    left: 730px;
-}
-</style>
-	
 </head>
 	<body>
-	<!----start-wrap---->
 	<div class="wrap">
-		<!----start-Header---->
-		<!----start-Logo---->
 			<div class="logo">
 				<a href="home"><img src="img/logo.png" title="logo" /></a>
 			</div>
-			<!----End-Logo---->
+			
 	        <div class="searchbar">
 	            <div class="search-left">
 	            	<p>Search</p>
@@ -75,7 +38,7 @@
 	            </div>
 	            <div class="clear"> </div>
 	        </div>
-			<!----start-top-nav---->
+	        
 			<div class="top-nav" >
 				 <ul>
                     <li><a href="home">Home</a></li>
@@ -85,9 +48,8 @@
                     <li><a href="#" onclick="swohSubscriptions()">Abonated Channel</a></li>
                 </ul>
 			</div>
-			<div class="clear"> </div>
-			<!----End-top-nav---->
-			<!----End-Header---->		
+			<div class="clear"> </div>	
+			
 			<div class="buttons">
                  <c:if test="${sessionScope.user == null}" > 
                     <button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
@@ -98,18 +60,16 @@
                     <button type="button" class="login-but"><a href="myChannel"><c:out value="${sessionScope.user.getUsername() }"></c:out></a></button>
                  </c:if>
                     <button type="button" class="upload-but"><a href="upload">Upload</a></button>
-	        </div> 	<!-- Channel start  -->
-					<!-- code start -->
+	        </div>
+	        
 		<div class="twPc-div">
 			<a class="twPc-bg twPc-block"></a>		
 			<div>
 				<div class="twPc-button">
-					<!-- Twitter Button | you can get from: https://about.twitter.com/tr/resources/buttons#follow -->
 					<a href="#" class="twitter-follow-button" data-show-count="false" 
 							data-size="large" data-show-screen-name="false" data-dnt="true" 
 							onmouseover="showError()" onmouseout="hideError()">Subscribe</a>
 					<span id="subscribeError" class="subscribeError" >Can't subscribe for yourself.</span>
-					<!-- Twitter Button -->   
 				</div>
 	
 				<div title="#" href="#" class="twPc-avatarLink">
@@ -182,11 +142,9 @@
 					</div>
 				</c:forEach>
       		</div>
-		</div>
-	<!-- code end -->
-	<!-- Channel end  -->		
+		</div>		
 	</div>
-	<!----End-wrap---->
+
 	<div id="myModal" class="modal">
 	  <!-- Modal content -->
 		 <div class="modal-content">
