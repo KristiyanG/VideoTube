@@ -86,7 +86,6 @@ public class PageController {
 	
 	@RequestMapping(value="likeds", method = RequestMethod.GET)
 	public String likedVideos(Model model, HttpSession ses){
-		
 		User user = (User) ses.getAttribute("user");
 		model.addAttribute("likedVideos", user.getLikedVideos());
 		return "likedVideos";	
@@ -114,20 +113,20 @@ public class PageController {
 	
 	@RequestMapping(value="myVideos", method = RequestMethod.GET)
 	public String myVideos(Model model, HttpSession ses){
-		
 		User user = (User) ses.getAttribute("user");
-		model.addAttribute("likedVideos", VideoDAO.getInstance().getUserVideos(user.getUsername()));
-		return "likedVideos";	
+		model.addAttribute("videos", VideoDAO.getInstance().getUserVideos(user.getUsername()));
+		return "videos";	
 	}
 	
 	@RequestMapping(value="myVideos/{user}", method = RequestMethod.GET)
 	public String myVideos(@PathVariable("user") String username, Model model, HttpSession ses){
-		
+
 		User user = UserDAO.getInstance().getUserByUsername(username.trim());
 		model.addAttribute("likedVideos", user.getLikedVideos());
 		
 		return "likedVideos";	
 	}
+	
 	
 	@RequestMapping(value="userPlaylists", method = RequestMethod.GET)
 	public String userPlaylists(
@@ -144,12 +143,8 @@ public class PageController {
 	public String userVideos(
 			@RequestParam("username") String username, 
 			Model model){
-
 		User user = UserDAO.getInstance().getUserByUsername(username);
-		if(user == null){
-			System.out.println("#########################################");
-		}
-		model.addAttribute("playlists", VideoDAO.getInstance().getUserVideos(user.getUsername()));
-		return "playlists";	
+		model.addAttribute("videos", VideoDAO.getInstance().getUserVideos(user.getUsername()));
+		return "videos";	
 	}
 }

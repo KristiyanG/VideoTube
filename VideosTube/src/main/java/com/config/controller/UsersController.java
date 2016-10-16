@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,13 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.config.dao.CommentDAO;
 import com.config.dao.PlayListDAO;
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
 import com.config.exception.CreateUserException;
-
-import com.config.model.Comment;
 
 import com.config.model.Playlist;
 import com.config.model.User;
@@ -67,7 +63,12 @@ public class UsersController {
 		if (listName != null && username != null) {
 			User user = UserDAO.getInstance().getUserByUsername(username);
 			Playlist pl = user.getUserPlaylist(listName);
-			String videoname = pl.getFirstVideo().trim();
+			String videoname = pl.getFirstVideo();
+			if(videoname == null){
+				model.addAttribute("playlists", user.getPlayLists());
+				model.addAttribute("message", "Can't Load Empty Playlist");
+				return "myChannel";
+			}
 			int index = 0;
 			Video video = VideoDAO.getInstance().getVideoByName(videoname);
 			VideoDAO.getInstance().viewVideo(video);
@@ -181,14 +182,16 @@ public class UsersController {
 			model.addAttribute("channels", UserDAO.getInstance().searchUsers(name));
 			return "channels";
 		} else {
-			model.addAttribute("playlists", PlayListDAO.getInstance().getAllPlaylists());
+			model.addAttribute("playlists", PlayListDAO.getInstance().searchPlaylists(name));
 			return "playlists";
 		}
 	}
 
 	@RequestMapping(value = "/searchChannel", method = RequestMethod.GET)
-	public @ResponseBody List<User> searchChannel(@RequestParam("search") String name,
-			@RequestParam("type") String type, Model model) throws CreateUserException {
+	public @ResponseBody List<User> searchChannel(
+			@RequestParam("search") String name,
+			@RequestParam("type") String type, 
+			Model model) throws CreateUserException {
 
 		List<User> res = UserDAO.getInstance().searchUsers(name);
 		List<User> users = new ArrayList<>();
@@ -235,32 +238,42 @@ public class UsersController {
 
 		Files.copy(multiPartFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-		// String fileName = multiPartFile.getOriginalFilename();
-		// UserDAO.getInstance().changeProfilePicture(fileName,
-		// user.getUsername());
-
-		// File file = new File ( fileName);
-		// Files.copy(multiPartFile.getInputStream(), file.toPath(),
-		// StandardCopyOption.REPLACE_EXISTING);
-
 		List<Video> userVideos = VideoDAO.getInstance().getUserVideos(user.getUsername());
 		model.addAttribute("videos", userVideos);
 		return "myChannel";
 	}
 
 	@RequestMapping(value = "/createPlaylist", method = RequestMethod.POST)
-	@ResponseBody
-	public Playlist createPlaylist(@RequestParam("name") String name, HttpSession ses) {
+	public String createPlaylist(@RequestParam("name") String name, Model model, HttpSession ses) {
 		User user = (User) ses.getAttribute("user");
 		if (user == null) {
 			System.out.println("No user in session to create playlist");
 			return null;
 		}
 
-		Playlist pl = PlayListDAO.getInstance().createPlaylist(name, user.getUsername());
+		boolean isPlaylistCreated = PlayListDAO.getInstance().createPlaylist(name, user.getUsername());
+		System.out.println("PLAYLIST CREATED? " + isPlaylistCreated);
+		model.addAttribute("playlists", user.getPlayLists());
+		if(isPlaylistCreated){
+			model.addAttribute("message", "Playist " + name + " created.");			
+		}else{
+			model.addAttribute("message", "List " + name + " already exists.");			
 
-		System.out.println(pl == null);
-
-		return pl;
+		}
+		return "playlists";
+	}
+	
+	@RequestMapping(value="/isUsernameAllowed", method = RequestMethod.GET)
+	public @ResponseBody Boolean isUsernameAllowed(@RequestParam("username") String username){
+		System.out.println("IS USER ALLOED");
+		User user = UserDAO.getInstance().getUserByUsername(username);
+		Boolean alloed = user == null ? true : false; 
+		return user == null;
+	}
+	
+	@RequestMapping(value="/isVideoNameAllowed", method=RequestMethod.GET)
+	public @ResponseBody Boolean isVideoNameAllowed(@RequestParam("videoName") String videoname){
+		
+		return VideoDAO.getInstance().getVideoByName(videoname) == null ? true : false; 	
 	}
 }

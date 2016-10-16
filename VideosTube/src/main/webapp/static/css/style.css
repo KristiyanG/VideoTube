@@ -63,6 +63,15 @@ body, html{
 /* Drag-drop end */
 
 /* Channel start */
+.emptyPlaylistMessage{
+	position: fixed;
+	color: red;
+	text-align: center;
+	visibility: hidden;
+	font-size: large;
+	left: 22%;
+	top: 51%;
+}
 .twPc-div {
 	position: absolute;
     background: #fff none repeat scroll 0 0;
@@ -292,6 +301,7 @@ hr{
 
 .input-group input{
 	height: 24px;
+	width: 100%;
 }
 .input-group span{
 	height: 26px;
@@ -317,6 +327,15 @@ input::-webkit-input-placeholder {
 	width: 90%;
 	height: 18px;
 	border-radius : 5px;
+}
+
+.usernameAllowedMsg{
+	visibility: hidden;
+	position: absolute;
+	color: red;
+	left: 105%;
+	top: 28%;
+	width: 230px;
 }
 
 .main-login{
@@ -347,14 +366,14 @@ input::-webkit-input-placeholder {
 	top: 100px;
 	left: 30%;
 	width: 40%;
-	height: 400px;
+	height: 65%;
+	display:block;
 }
 .main-center{
  	margin-top: 30px;
  	margin: 0 auto;
  	max-width: 330px;
     padding: 40px 40px;
-
 }
 
 .login-button{
@@ -377,7 +396,6 @@ input::-webkit-input-placeholder {
 .login-register a{
 	color: white;
 }
-
 
 .wrap{
 	width:70%;
@@ -1155,10 +1173,20 @@ ul.dc_paginationA03 li a:hover, ul.dc_paginationA03 li a.current {
 	color:#fff;
 }
 /*  UPLOAD VIDEO  PAGE  */
+.videonameAllowedMsg{
+	visibility: hidden;
+	position: relative;
+	color: red;
+	left: 0%;
+	top: 39%;
+	width: 230px;
+}
+
+
 .panel-body{
 	position: absolute;
-	left: 100px;
-	top: 100px;
+	left: 5%;
+	top:  30%;
 }
 
 .video-upload-name label{
@@ -1173,7 +1201,7 @@ ul.dc_paginationA03 li a:hover, ul.dc_paginationA03 li a.current {
 	border-radius: 5px;
 }
 .video-category-drop{
-	top: 50px;
+	top: 59px;
 	left: 230px;
 	position: absolute;
 }

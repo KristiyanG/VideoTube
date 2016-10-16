@@ -1,7 +1,6 @@
 
-
 function showMyVideos(username) {	
-	$.get("myVideos", {username : username}, function(result){
+	$.get("userVideos", {username : username}, function(result){
 		document.getElementById("resultList").innerHTML = result;
     });
 }
@@ -44,4 +43,3 @@ function unsubscribe(name, user) {
 				document.getElementById('subs').innerHTML = data;
 		    });}
 }
-window.onload = showMyVideos;

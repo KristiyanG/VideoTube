@@ -15,7 +15,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>	
 	
 </head>
-<body>
+<body onload="showMyVideos('${userChannel.username}')">
 	<div class="wrap">
 		<div class="logo">
 			<a href="home"><img src="img/logo.png" title="logo" /></a>
@@ -39,7 +39,7 @@
         </div>
 		<div class="top-nav" >
 			<ul>
-				<li><a href="home">Home</a><p>My Forntpage</p></li>
+				<li><a href="home">Home</a></li>
 				<li><a href="myChannel">My Channel</a></li>                    
             </ul>
 		</div>
@@ -79,9 +79,13 @@
 							</a>
 						</li>
 						<li>
-							<a href="#" >		
+							<a href="#" >
+								
+								<c:set var="sessionUser" value="${sessionScope.user.getUsername()}"></c:set>
+								<c:set var="isSubscribed" value="${userChannel.getMyChannel().checkUserSubscribe(sessionUser)}"></c:set>
+																
 								<c:choose>
-    								<c:when test="${flag==true }">
+    								<c:when test="${isSubscribed==true }">
 							      		<span id="subs"onclick="unsubscribe('${userChannel.username}', '${sessionScope.user}')" >Unsubscribe</span>
 							    	</c:when>
 							    	<c:otherwise>

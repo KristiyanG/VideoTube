@@ -32,15 +32,11 @@
 	<c:set var="username" scope="page"
 		value="${sessionScope.user.getUsername()}" />
 
-	<!----start-wrap---->
 	<div class="wrap">
-		<!----start-Header---->
 		<div class="header">
-			<!----start-Logo---->
 			<div class="logo">
 				<a href="home"><img src="img/logo.png" title="logo" /></a>
 			</div>
-			<!----End-Logo---->
 			<div class="searchbar">
 				<div class="search-left">
 					<p>Search</p>
@@ -82,18 +78,20 @@
 					<a href="upload">Upload</a>
 				</button>
 			</div>
-			<!----start-top-nav---->
-			<div class="top-nav">
-				<ul>
-					<li><a href="home">Home</a></li>
-					<c:if test="${sessionScope.user != null}">
-						<li><a href="myChannel">My Channel</a></li>
-					</c:if>
-				</ul>
-			</div>
-			<!----End-top-nav---->
+	        <div class="top-nav" >
+	            <ul>
+	                <li><a href="home">Home</a></li>
+	                <c:if test="${sessionScope.user != null}" >
+	                	<li><a href="myChannel">My Channel</a></li>
+	                </c:if>
+	                <c:if test="${sessionScope.user != null}" >
+	                	<li><a href="#" onclick="showLikedVideos()">Liked Videos</a></li>
+	                	<li><a href="#" onclick="showMyPlaylists()">My Playlist</a></li>
+	                	<li><a href="#" onclick="showAbonatedChannals()">Abonated Channels</a></li>
+	                </c:if> 
+	            </ul>
+	        </div>
 		</div>
-		<!----End-Header---->
 		<div class="content">
 			<div class="left-content">
 				<div id="searchResults"></div>

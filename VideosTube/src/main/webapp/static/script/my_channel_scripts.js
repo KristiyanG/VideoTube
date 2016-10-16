@@ -1,5 +1,7 @@
-window.onload = hideEditButton;
-
+window.onload = function(){
+	showMyVideos();
+	hideEditButton();
+}
 function viewEditButton() {
 	var img = document.getElementById ('edit-but') ;
 	img.style.visibility = 'visible';
@@ -41,25 +43,15 @@ playlistSpan.onclick = function() {
 }
 
 function createPlaylist() {
-	document.getElementById("tooltiptext").style.visibility = "visible" ;
+	hideAll();
+//	document.getElementById("tooltiptext").style.visibility = "visible" ;
+	document.getElementById("my-playlists").style.display = "block";
 
 	var playlistName = document.getElementById("playlist-name").value;
 	playlistModal.style.display = "none";
 	$.post("createPlaylist", {name: playlistName}, function(result){
-
-		if(result.name != null){
-			
-			document.getElementById("new-playlist").style.display = "block";
-			document.getElementById('new-paylist-name').innerHTML = result.name;
-			document.getElementById('new-playlist-count').innerHTML = "Videos: " + result.count;
-			document.getElementById("tooltiptext").style.visibility = "hidden" ;
-
-		}else{
-			document.getElementById("tooltiptext").style.visibility = "visible" ;
-		}
+		document.getElementById("my-playlists").innerHTML = result;
     });
-	
-	document.getElementById("playlist-button").click();
 }
 function showLikedVideos() {
 	hideAll();
@@ -78,7 +70,10 @@ function showPlaylists() {
 
 function showMyVideos() {
 	hideAll();
-	document.getElementById("videoBox").style.display = "block";
+	document.getElementById("liked-videos-div").style.display = "block";
+	$.get("myVideos", {}, function(result){
+		document.getElementById("liked-videos-div").innerHTML = result;
+    });
 }
 
 function swohSubscriptions() {
@@ -98,7 +93,7 @@ function hideAll() {
 }
 
 function Validate(txt) {
-    txt.value = txt.value.replace(/[^a-zA-Z _\n\r.0-9]+/g, '');
+    txt.value = txt.value.replace(/[^a-zA-Z _\n\r. 0-9]+/g, '');
 }
 
 function showError() {
@@ -106,4 +101,30 @@ function showError() {
 }
 function hideError() {
 	document.getElementById("subscribeError").style.visibility = "hidden" ;
+}
+
+function search() {
+	hideAll();
+	document.getElementById("liked-videos-div").style.display = "block";
+	var searchField = document.getElementById("search-field").value;
+	var searchType = document.getElementById("search-drop-down").value;
+	
+	$.get(
+			"doSearch", 
+			{ search: searchField, 
+				type: searchType
+			},
+			function(result){		
+				document.getElementById('liked-videos-div').innerHTML = result;
+		    });
+}
+
+function printMessage() {
+	document.getElementById("subsErrMsg").style.visibility = "visible" ;
+    setTimeout(hideErrMsg, 3000);
+}
+
+function hideErrMsg(){
+	document.getElementById("subsErrMsg").style.visibility = "hidden" ;
+	return;
 }

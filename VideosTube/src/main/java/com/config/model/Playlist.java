@@ -12,15 +12,12 @@ public class Playlist {
 	private List<String> videos;//videoname
 	private int count;
 	
-	
 	public Playlist(String user, String name) {
 		this.user = user;
 		this.name = name;
 		this.videos = new ArrayList<>();
 		this.count = 0;
 	}
-
-	
 
 	public long getId() {
 		return id;
@@ -85,12 +82,10 @@ public class Playlist {
 		return true;
 	}
 
-	
 	public int getCount() {
 		return videos.size();
 	}
 	
-
 	public void setCount(int count) {
 		this.count = count;
 	}
@@ -100,7 +95,7 @@ public class Playlist {
 			return null;
 		}
 		
-		return videos.get(0);
+		return videos.get(0).trim();
 	}
 	
 	public boolean isVideoInList(String videoName){

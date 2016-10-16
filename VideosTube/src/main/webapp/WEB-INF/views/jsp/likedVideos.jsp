@@ -8,11 +8,14 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<c:if test="${likedVideos.size() == 0}">
+		<h3 style="color:red;">No Liked Videos!</h3>
+	</c:if>
 	<c:set var="videosList" value="${likedVideos}" />                	
 	<c:forEach items="${videosList}" var="video">
 		<div class="grid">
 			<h3> ${video.name}</h3>
-			<a href="video?name=${video.name}"><img src="img/g1 copy.png" title= "${video.name}" /></a>
+			<a href="video?name=${video.name}"><img src="videoPoster/${video.name}" title= "${video.name}" /></a>
 			<div class="time">
 				<span>Views<c:out value="${ video.view}"/></span>
 			</div>
