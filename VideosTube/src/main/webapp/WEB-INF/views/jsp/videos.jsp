@@ -9,6 +9,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<c:if test="${videos.size() == 0}">
+		<h3 style="color:red;">No Videos!</h3>
+	</c:if>
+	
 	<c:set var="videosList" value="${videos}" />                	
 	<c:forEach items="${videosList}" var="video">
 		<div class="grid">

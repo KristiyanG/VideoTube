@@ -9,6 +9,11 @@
 <title>Channels</title>
 </head>
 <body>
+	
+	<c:if test="${channels.size() == 0}">
+		<h3 style="color:red;">No Channels!</h3>
+	</c:if>
+
 	<c:set var="channelsList" value="${channels}" />                	
 	<c:forEach items="${channelsList}" var="user">
 		<div class="grid">

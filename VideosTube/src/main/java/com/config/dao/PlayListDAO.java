@@ -90,15 +90,18 @@ public class PlayListDAO {
 		return new HashSet<Playlist>();
 	}
 
-	public Playlist createPlaylist(String name, String username) {
+	public boolean createPlaylist(String name, String username) {
 		User user = UserDAO.getInstance().getUserByUsername(username);
 		
 		if(playlist.containsKey(username)){
 			for (Playlist playlist : playlist.get(username)) {
+				System.out.println(playlist.getName() + " --- "+ name);
 				if(playlist.getName().equals(name)){
-					return null;
+					return false;
 				}
 			}
+		}else{
+			playlist.put(username, new HashSet<>());
 		}
 		
 		try {
@@ -112,17 +115,13 @@ public class PlayListDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				System.out.println(e.getMessage());
-				return null;
+				return false;
 			}
 
-		if(!playlist.containsKey(user)){
-			playlist.put(username, new HashSet<>());
-		}
-		
 		Playlist pl = user.createPlaylist(name);
 		playlist.get(username).add(pl);
 		
-		return pl;
+		return true;
 	}
 
 	public Set<Playlist> getPlaylists(String username){
@@ -179,10 +178,22 @@ public class PlayListDAO {
 	}
 	
 	public List<Playlist> getAllPlaylists(){
+		System.out.println(playlist.size() + " SIZE");
+		
 		List<Playlist> allPlaylists = new ArrayList<>();
 		for (Set<Playlist> playlists : PlayListDAO.playlist.values()) {
 			allPlaylists.addAll(playlists);
 		}
 		return allPlaylists;
+	}
+
+	public List<Playlist> searchPlaylists(String name) {
+		List<Playlist> result = new ArrayList<>();
+		for (Playlist pl : getAllPlaylists()) {
+			if(pl.getName().toLowerCase().equals(name.toLowerCase())){
+				result.add(pl);
+			}
+		}
+		return result;
 	}
 }

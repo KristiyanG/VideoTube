@@ -16,14 +16,10 @@
 	<script src="script/home_page_scripts.js"></script>
 </head>
 <body>
-    <!----start-wrap---->
     <div class="wrap">
-        <!----start-Header---->
-        <!----start-Logo---->
         <div class="logo">
             <a href="home"><img src="img/logo.png" title="logo" /></a>
         </div>
-            <!----End-Logo---->
         <div class="searchbar">
             <div class="search-left">
             <p>Search</p>
@@ -35,7 +31,7 @@
             </div>
             <div class="search-right">
                 <form action="javascript:search()">
-                    <input type="text" id="search-field" placeholder="Search videos">
+                    <input type="text" id="search-field" placeholder="Search videos" pattern=".{1,}" required title="1 characters minimum">
                     <input type="submit" value=""/>
                 </form>
             </div>
@@ -43,67 +39,58 @@
         </div>
         <div class="buttons">
          	 <c:if test="${sessionScope.user == null}" > 
-            <button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
-            <button type="button" class="login-but"><a href="login">Login</a></button>
+            	<button type="button" class="register-but" ><a href="register" style="color:white;" >Register</a></button>
+            	<button type="button" class="login-but"><a href="login">Login</a></button>
             </c:if>
             <c:if test="${sessionScope.user != null}">
-            <button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
-            <button type="button" class="login-but"><a href="myChannel"><c:out value="${sessionScope.user.getUsername() }"></c:out></a></button>
+            	<button type="button" class="register-but" ><a href="login" style="color:white;" >Log out</a></button>
+            	<button type="button" class="login-but"><a href="myChannel"><c:out value="${sessionScope.user.getUsername() }"></c:out></a></button>
             </c:if>
             <button type="button" class="upload-but"><a href="upload">Upload</a></button>
         </div>
-            <!----start-top-nav---->
         <div class="top-nav" >
             <ul>
                 <li><a href="home">Home</a></li>
                 <c:if test="${sessionScope.user != null}" >
-                <li><a href="myChannel">My Channel</a></li>
+                	<li><a href="myChannel">My Channel</a></li>
                 </c:if>
                 <c:if test="${sessionScope.user != null}" >
-                <li><a href="#" onclick="showLikedVideos()">Liked Videos</a></li>
-                <li><a href="#" onclick="showMyPlaylists()">My Playlist</a></li>
-                <li><a href="#" onclick="showAbonatedChannals()">Abonated Channels</a></li>
-                </c:if> 
+                	<li><a href="#" onclick="showLikedVideos()">Liked Videos</a></li>
+                	<li><a href="#" onclick="showMyPlaylists()">My Playlist</a></li>
+                	<li><a href="#" onclick="showAbonatedChannals()">Abonated Channels</a></li>
+                </c:if>
             </ul>
         </div>
-           
-            <!----End-top-nav---->
-        <!----End-Header---->
-        </div>
-        
-		<div class="content">    
-            <div class="left-content">            
-
-				<div id="liked-videos-div"></div>
-				<div id="videosList"  class="box">		
+	</div>
+	<div class="content">    
+		<div class="left-content">            
+			<div id="liked-videos-div"></div>
+			<div id="videosList"  class="box">		
 				<div id="channelsList"></div>
-					<div class="grids">
-                		<div id="videoBox" >                		             		
-		                	<c:set var="videosList" value="${videos}" />                	
-		                	<c:forEach items="${videosList}" var="video">
-								<div class="grid">
-									<h3> ${video.name}</h3>
 
-									<a href="video?name=${video.name}"><img style="width:274px;height:178px;" src="videoPoster/${video.name}" title= "${video.name}" /></a>
+				<div class="grids">
+               		<div id="videoBox" >                		             		
+	                	<c:set var="videosList" value="${videos}" />                	
+	                	<c:forEach items="${videosList}" var="video">
+							<div class="grid">
+								<h3> ${video.name}</h3>
+								<a href="video?name=${video.name}"><img style="width:274px;height:178px;" src="videoPoster/${video.name}" title= "${video.name}" /></a>
+								<div class="time">
 
-									<div class="time">
 									<span>Views<c:out value="${ video.view}"/></span>
-									</div>
-									<div class="grid-info">
-										
-										<div class="clear"> </div>
-										<div class="lables">
-											<p>Uploader:<a href="userProfile?name=${video.uploader}">${video.uploader}</a></p>
-										</div>
+								</div>
+								<div class="grid-info">
+									<div class="clear"> </div>
+									<div class="lables">
+										<p>Uploader:<a href="userProfile?name=${video.uploader}">${video.uploader}</a></p>
 									</div>
 								</div>
-							</c:forEach>
-                		</div>
-                		
-                		</div>
-                	</div>	
-		        </div>
-		    </div>
-    <!----End-wrap---->
-    </body>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+</body>
 </html>

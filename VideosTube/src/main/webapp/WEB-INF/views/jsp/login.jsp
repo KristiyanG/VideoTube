@@ -19,18 +19,14 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 	response.addHeader("Pragma", "no-cache"); 
 	response.addDateHeader ("Expires", 0);
 %>
-		<title>Videostube Website Template | Home :: W3layouts</title>
+		<title>Videostube Website</title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
 	<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />	
 	<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
-
-		<!-- Website CSS style -->
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-
-	<!-- Website Font style -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
 	
@@ -48,9 +44,9 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
            <!----start-top-nav---->
        <div class="top-nav" >
            <ul>
-               <li><a href="home">Home</a><p>My Forntpage</p></li>
+               <li><a href="home">Home</a></li>
                <c:if test="${sessionScope.user != null}" >
-               <li><a href="myChannel">My Channel</a><p>About this blog</p></li>
+               <li><a href="myChannel">My Channel</a></li>
                </c:if>
                <c:if test="${sessionScope.user != null}" >
                <li><a href="likedVideos">Liked Videos</a></li>
@@ -59,8 +55,6 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
                </c:if> 
            </ul>
        </div>        
-       <!----End-top-nav---->
-       <!----End-Header---->
        </div>
 		<!----End-Header---->
 		<div class="clear"> </div>
@@ -78,7 +72,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 						<label for="email" class="cols-sm-2 control-label">Username</label>
 						<div class="cols-sm-10">
 							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+								<span class="input-group-addon"></span>
 								<input type="text" class="form-control" name="username" maxlength="16" 
 									placeholder="Enter your username"/>
 							</div>
@@ -90,7 +84,7 @@ License URL: http://crea0tivecommons.org/licenses/by/3.0/
 						<label for="password" class="cols-sm-2 control-label">Password</label>
 						<div class="cols-sm-10">
 							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+								<span class="input-group-addon"></span>
 								<input type="password" class="form-control" name="password" id="password" minlength="4" maxlength="16"  
 										onblur="PasswordLength()" id="pass" placeholder="Enter your Password"/>
 							</div>

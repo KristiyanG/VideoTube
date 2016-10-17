@@ -33,3 +33,37 @@ function chechPlaylist(size) {
 		document.getElementById("popular").style.visibility = "hidden" ;
 	}
 }
+
+function showLikedVideos() {
+	$.get("likeds", {}, function(result){
+		document.getElementById("searchResults").innerHTML = result;
+		document.getElementById('newVideo').style.display = "none";
+    });
+}
+function showAbonatedChannals() {
+	$.get("abonatedChannals", {}, function(result){
+		document.getElementById("searchResults").innerHTML = result;
+		document.getElementById('newVideo').style.display = "none";
+    });
+}
+function showMyPlaylists() {
+	alert("sadasda")
+	$.get("myPlaylists", {}, function(result){
+		document.getElementById("searchResults").innerHTML = result;
+		document.getElementById('newVideo').style.display = "none";
+		
+    });
+}
+function search() {
+	var searchField = document.getElementById("search-field").value;
+	var searchType = document.getElementById("search-drop-down").value;
+	$.get(
+			"doSearch", 
+			{ search: searchField, 
+				type: searchType
+			},
+			function(result){		
+				document.getElementById('searchResults').innerHTML = result;
+				document.getElementById('newVideo').style.display = "none";
+		    });
+}

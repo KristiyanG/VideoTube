@@ -31,9 +31,9 @@
 	              	 </select>
 	            </div>
 	            <div class="search-right">
-	                <form>
-	                    <input type="text" id="search-field" placeholder="Search videos">
-	                    <input type="submit" value="" onmousedown="search()" onsubmit="handle"/>
+	                <form action="javascript:search()">
+	                    <input type="text" id="search-field" placeholder="Search videos" pattern=".{1,}" required title="1 characters minimum">
+	                    <input type="submit" value="" />
 	                </form>
 	            </div>
 	            <div class="clear"> </div>
@@ -112,15 +112,18 @@
 						<li class="twPc-ArrangeSizeFit">
 							<a href="#" onclick="openDialog()">
 								<span class="twPc-StatLabel twPc-block">Create Playlist</span>
-								  <span id="tooltiptext" class="tooltiptext">List already exists.</span>
+								  <span id="tooltiptext" class="tooltiptext" style="visibility: hidden;">List already exists.</span>
 							</a>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
+		<span id="subsErrMsg" class="emptyPlaylistMessage" align="center" >Can't Load Empty Playlist</span>
+		
 		<div class="my_channel_content" id="my_channel_content">
 			<div id="subscriptionsDiv"></div>
+			
 			<div class="my-playlists" id="my-playlists" style="display:none;"></div>
 			<div class="liked-videos-div" id="liked-videos-div" style="display:none;"></div>
           	<div id="videoBox" style="display:block;" >   

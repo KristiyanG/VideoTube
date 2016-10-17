@@ -8,20 +8,14 @@ function checkPass()
     //Set the colors we will be using ...
     var goodColor = "#66cc66";
     var badColor = "#ff6666";
-    //Compare the values in the password field 
-    //and the confirmation field	
 	
     if(pass1.value == pass2.value){		
-        //The passwords match. 
-        //Set the color to the good color and inform
-        //the user that they have entered the correct password 
+
         pass2.style.backgroundColor = goodColor;
         message.style.color = goodColor;
         message.innerHTML = "Passwords Match"
     }else{
-        //The passwords do not match.
-        //Set the color to the bad color and
-        //notify the user.
+
         pass2.style.backgroundColor = "#ff6666";
         message.style.color = badColor;
         message.innerHTML = "Passwords Do Not Match!"
@@ -31,6 +25,29 @@ function checkPass()
 // validates text only
 function Validate(txt) {
     txt.value = txt.value.replace(/[^a-zA-Z_\n\r.0-9]+/g, '');
+    check();
+}
+
+function check() {
+    var text = document.getElementById('username').value;
+    var val = document.getElementById('username');
+    var statusUsername = document.getElementById('usernameAllowedMsg');
+	if(text.length > 0){
+		$.get("isUsernameAllowed", {username : text}, function(result){
+				if(result){
+					val.style.backgroundColor = "#ffffff";
+					statusUsername.innerHTML = "";
+					statusUsername.style.visibility='hidden';
+
+				}else{
+					statusUsername.style.color = "#ff6666";
+					statusUsername.innerHTML = "username already exists";
+					statusUsername.style.visibility='visible';
+				}
+	    });
+	}else{
+		statusUsername.style.visibility='hidden';
+	}
 }
 
 function CheckLength(){
@@ -46,7 +63,7 @@ function CheckLength(){
 		val.style.backgroundColor = "#ffffff";
 		statusUsername.innerHTML = ""
 	}
-
+	check();
 }
 // validate email
 function email_validate(email)
@@ -65,7 +82,6 @@ function email_validate(email)
 
 //validate password length
 function PasswordLength(){
-	window.alert("Tyk sum. Proverqvam parolata ")
 	 var pass = document.getElementById('pass');
 	 var msg = document.getElementById('confirmMessage');
 
@@ -82,6 +98,7 @@ function PasswordLength(){
 function likeVideo() {
 	
 	var user =  document.getElementById('user');
+
 
 		if(user== null){
 			 var msg = document.getElementById('confirmMessage');
@@ -138,12 +155,13 @@ function dislikeVideo() {
 				
 				document.getElementById("likes").innerHTML =result.likes,
 				document.getElementById("dislikes").innerHTML = result.dislikes;
-		    });}
+    });}
 	
 }
 
 function showDiv() {
 	
+
 	$.get('comments',{videoName : document.getElementById('videoName').innerHTML},function(result){
 		 document.getElementById("comment21").innerHTML = result;
 	});
@@ -201,4 +219,3 @@ function showDiv() {
 					document.getElementById(index).innerHTML =data;
 			    });}
 	}
-
