@@ -83,7 +83,9 @@
 		                	<c:forEach items="${videosList}" var="video">
 								<div class="grid">
 									<h3> ${video.name}</h3>
-									<a href="video?name=${video.name}"><img src="videoPoster/${video.name}" title= "${video.name}" /></a>
+
+									<a href="video?name=${video.name}"><img style="width:274px;height:178px;" src="videoPoster/${video.name}" title= "${video.name}" /></a>
+
 									<div class="time">
 									<span>Views<c:out value="${ video.view}"/></span>
 									</div>

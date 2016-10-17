@@ -161,12 +161,10 @@ public class CommentDAO {
 		return Collections.unmodifiableList(comments.get(videoName));
 	}
 
-	private Comment getCommentById(String videoName,long comID){
+	public Comment getCommentById(String videoName,long comID){
 		  List<Comment> commentsVideo =getCommentsForVideo(videoName);
-		  System.out.println("CommentsVideo size="+commentsVideo.size());
 		  for(Comment com :commentsVideo){
 		   if(com.getId()==comID){
-		    System.out.println(com.getId()+"@@@"+comID);
 		    return com;
 		   }
 		  }

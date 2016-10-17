@@ -81,7 +81,7 @@ public class SearchController {
 
 
 	@RequestMapping(value="writeComment", method=RequestMethod.POST)
-	 public @ResponseBody Comment commentVideo(HttpSession ses,HttpServletRequest req){
+	 public String commentVideo(Model model,HttpSession ses,HttpServletRequest req){
 	  String comment =req.getParameter("commentText").trim();
 	  String videoName =req.getParameter("videoName").trim();
 	  User user = (User)ses.getAttribute("user");
@@ -92,7 +92,8 @@ public class SearchController {
 	   System.out.println("VIDEO IS NULL");
 	   return null;
 	  }
-	  return com;
+	  model.addAttribute("comments", video.getVideoComments());
+	  return "comments";
 	 }
 	
 	@RequestMapping(value="subscribe", method=RequestMethod.POST)
@@ -143,4 +144,6 @@ public class SearchController {
 	  
 	  return commentLikes;
 	 }
+	
+	
 }

@@ -97,6 +97,17 @@ function likeVideo() {
 					function(result){
 						document.getElementById("likes").innerHTML =result.likes,
 						document.getElementById("dislikes").innerHTML = result.dislikes;
+						var pathArray = document.getElementById( 'likeImg' ).src.split( '/' );
+						var disLikeArray = document.getElementById( 'disLikeImg' ).src.split( '/' );
+				         var src = ((pathArray[pathArray.length-1] === 'likeBlue.png')
+				            ? 'img/likeGreen.png'
+				            : 'img/likeBlue.png');
+				         if(disLikeArray[disLikeArray.length-1] == 'dislikeRed.png'){
+				        	 document.getElementById( 'disLikeImg' ).src='img/dislikeBlue.png';
+				         }
+						        
+				         document.getElementById( 'likeImg' ).src=src;
+						
 				    });
 		}
 	
@@ -114,6 +125,17 @@ function dislikeVideo() {
 			},
 			
 			function(result){
+				
+				var pathArray = document.getElementById( 'disLikeImg' ).src.split( '/' );
+				var likeArray = document.getElementById( 'likeImg' ).src.split( '/' );
+				         var src = ((pathArray[pathArray.length-1] === 'dislikeRed.png')
+				            ? 'img/dislikeBlue.png'
+				            : 'img/dislikeRed.png');
+				         document.getElementById( 'disLikeImg' ).src=src;
+				         if(likeArray[likeArray.length-1] == 'likeGreen.png'){
+				        	 document.getElementById( 'likeImg' ).src='img/likeBlue.png';
+				         }        
+				
 				document.getElementById("likes").innerHTML =result.likes,
 				document.getElementById("dislikes").innerHTML = result.dislikes;
 		    });}
@@ -122,16 +144,9 @@ function dislikeVideo() {
 
 function showDiv() {
 	
-	if(document.getElementById('commentsDiv').style.display == "block"){
-		document.getElementById('commentsDiv').style.display = "none";
-	}
-	else{
-		document.getElementById('commentsDiv').style.display = "block";}
-	   
-	   var user =  document.getElementById('user');
-		if(user != null){
-			document.getElementById('writeCommentLogin').style.display = "block";
-	    }
+	$.get('comments',{videoName : document.getElementById('videoName').innerHTML},function(result){
+		 document.getElementById("comment21").innerHTML = result;
+	});
 	}
 	function writeComment(){
 		var user =  document.getElementById('user');
@@ -154,12 +169,9 @@ function showDiv() {
 						},
 						
 						function(result){
+							showDiv();
+							document.getElementById("comment21").innerHTML =result;
 							
-							document.getElementById("commentContent").innerHTML =result.text;
-							document.getElementById("newCommentDate").innerHTML =result.date;
-							document.getElementById("commentAuthor").innerHTML =result.user;
-							$("#commentText").val('');
-							document.getElementById('newComment').style.display = "block";
 					    });
 			}
 			
@@ -181,24 +193,12 @@ function showDiv() {
 				}).done(
 				
 				function(data){
+					var pathArray = document.getElementById(id).src.split( '/' );
+			         var src = ((pathArray[pathArray.length-1] === 'likeBlue.png')
+			            ? 'img/likeGreen.png'
+			            : 'img/likeBlue.png');
+			         document.getElementById( id ).src=src;
 					document.getElementById(index).innerHTML =data;
 			    });}
 	}
-	function subscribe(){
-		
-		var user =  document.getElementById('user');
-		if(user == null){
-			var msg = document.getElementById('confirmM');
-			 msg.style.color = "#ff6666";
-			msg.innerHTML = "Login for subscribe comment";
-	    }
-		else{
-			$.post(
-				"subscribe", 
-				{ channel: document.getElementById('up').innerHTML
-				}).done(
-						
-				function(data){
-					document.getElementById('sub').innerHTML = data;
-			    });}
-	}
+

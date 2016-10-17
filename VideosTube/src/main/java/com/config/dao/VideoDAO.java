@@ -15,10 +15,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.config.model.Comment;
 import com.config.model.User;
 import com.config.model.Video;
+import com.config.util.SendEmail;
 
 public class VideoDAO {
 
@@ -75,9 +78,21 @@ public class VideoDAO {
 		return video;
 	}
 
-	public List<Video> getAllVideos(){
-		List<Video> vids = new ArrayList<>(videos.values());
-		return  Collections.unmodifiableList(vids);
+	public Set<Video> getAllVideos(){
+		Set<Video> vids = new TreeSet<>((v1,v2)->{
+			
+			if(v1.getView()==v2.getView())
+			{
+				if(v1.getLikes()==v2.getLikes()){
+					return v2.getName().compareTo(v1.getName());
+				}
+				return v2.getLikes()-v1.getLikes();
+			}
+			return v2.getView()-v1.getView();
+		
+		});
+		vids.addAll(videos.values());
+		return  Collections.unmodifiableSet(vids);
 	}
 	
 	private void loadVideos() {
@@ -181,7 +196,7 @@ public class VideoDAO {
 			stm.setString(9, posterLocation);
 
 			stm.executeUpdate();
-
+			sendEmail(uploader,name);
 			return true;
 
 		} catch (SQLException e) {
@@ -189,6 +204,17 @@ public class VideoDAO {
 			return false;
 		} 
 		
+	}
+
+	private void sendEmail(String uploader, String name) {
+		User user = UserDAO.getInstance().getUserByUsername(uploader);
+		List<User> emails = new ArrayList<>();
+		for(String username : user.getMyChannel().getAllUsersInChannel()){
+			User u = UserDAO.getInstance().getUserByUsername(username);
+			emails.add(u);
+		}
+		SendEmail send = new SendEmail(emails,name,user.getUsername());
+		send.start();
 	}
 
 	private boolean addVideoInCollection(
@@ -266,6 +292,7 @@ public class VideoDAO {
 
 	public Video dislikeVideo(String videoName, String username) {
 		Video video = VideoDAO.getInstance().getVideoByName(videoName);
+		User user = UserDAO.getInstance().getUserByUsername(username);
 		if(video==null){
 			System.out.println("Like video return null video");
 			return null;
@@ -277,7 +304,8 @@ public class VideoDAO {
 		else{
 			if(video.isUserLikeVideo(username)){
 				video.removeFromLike(username);
-				removeLikeFromDB(video.getName(),username);
+				removeLikeFromDB(username,video.getName());
+				user.removeVideoFromLikedVideos(video);
 			}
 			video.dislikeVideo(username);
 			saveDislikeInDB(video.getName(),username);
@@ -338,4 +366,6 @@ public class VideoDAO {
 	public boolean isFreeVideoName(String videoName){
 		return !videos.containsKey(videoName);
 	}
+	
+	
 }

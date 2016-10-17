@@ -37,6 +37,7 @@ public class Video {
 	public String getPoster(){
 		return this.poster;
 	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -64,9 +65,11 @@ public class Video {
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getUploader() {
 		return uploader;
 	}
@@ -74,12 +77,15 @@ public class Video {
 	public String getCategory() {
 		return category;
 	}
+
 	public void setCategory(String category) {
 		this.category = category;
 	}
+
 	public int getView() {
 		return this.view;
 	}
+
 	public void setView(int view) {
 		this.view = view;
 	}
@@ -99,6 +105,7 @@ public class Video {
 	public int commentsCount(){
 		return comments.size();
 	}
+
 	public boolean isUserLikeVideo(String user){
 		return likes.contains(user);
 	}
@@ -134,13 +141,15 @@ public class Video {
 	public Set<Comment> showVideoComments(){
 		return (Set<Comment>) Collections.unmodifiableSet(comments);
 	}
-	public ArrayList<Comment> getVideoComments(){
-		ArrayList<Comment> comments = new ArrayList<Comment>();
+
+	public Set<Comment> getVideoComments(){
+		Set<Comment> comments = new TreeSet<Comment>((v1,v2)-> v1.getDateInDate().compareTo(v2.getDateInDate()));
 		comments.addAll(this.comments);
 		return comments;
 	}
 	
 	public String getComments(){
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 		comments.addAll(this.comments);
 		return comments.toString();

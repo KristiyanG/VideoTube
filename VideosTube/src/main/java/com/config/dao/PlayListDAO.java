@@ -39,6 +39,7 @@ public class PlayListDAO {
 		
 		this.connection = DBManager.getInstance().getConnection();
 		try {
+			this.connection.setAutoCommit(false);
 			Statement stm = connection.createStatement();
 			ResultSet rs = stm.executeQuery("Select name, user_name from playlists");
 			while(rs.next()){
@@ -46,20 +47,28 @@ public class PlayListDAO {
 				String username = rs.getString("user_name");
 				Playlist pl = new Playlist(username, name);
 				loadPlaylistVideos(pl);
-				
+				connection.commit();
 				if(!playlist.containsKey(username)){
 					playlist.put(username, new HashSet<>());
 				}
 				playlist.get(username).add(pl);
+				connection.setAutoCommit(true);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException e1) {
+			try {
+				connection.rollback();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			e1.printStackTrace();
 		}
+		
+			
+		
 	}
 
 	private void loadPlaylistVideos(Playlist pl) {
 		
-		this.connection = DBManager.getInstance().getConnection();
 		String sql = "Select video_name FROM playlist_video where playlist_name = ?";
 		try {
 			PreparedStatement stm = connection.prepareStatement(sql);
@@ -127,7 +136,7 @@ public class PlayListDAO {
 		
 		User user = UserDAO.getInstance().getUserByUsername(username);
 		Playlist pl = user.getUserPlaylist(playlistName);
-		if(pl.isVideoInList(videoName)){
+		if(pl.isVideoInList(videoName.trim())){
 			pl.removeVideoFromList(videoName);
 			removeVideoFromDB(username,videoName,playlistName);
 			return "Removed from playlist";

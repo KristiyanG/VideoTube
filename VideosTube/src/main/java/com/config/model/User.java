@@ -10,6 +10,8 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.config.dao.CommentDAO;
+import com.config.dao.PlayListDAO;
 import com.config.exception.CreateUserException;
 
 public class User {
@@ -187,5 +189,22 @@ public class User {
 			}
 		}
 		return null;
+	}
+	
+	public boolean isVideoInList(String listName,String videoName){
+		Playlist list =null;
+		for(Playlist pl : playLists){
+			if(pl.getName().equals(listName)){
+				list = pl;
+			}
+		}
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@"+list.isVideoInList(videoName));
+		return list.isVideoInList(videoName);
+	}
+	
+	public boolean isLikeComment(String videoName,long comId){
+		Comment com =CommentDAO.getInstance().getCommentById(videoName, comId);
+		
+		return com.isLikeComment(this.getUsername());
 	}
 }

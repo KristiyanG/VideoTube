@@ -45,7 +45,9 @@ public class UploadController {
    Model model, HttpSession ses) throws IOException{
      
   if(videoName == null || videoName.isEmpty() || videoName.length() > 100){
+
 	  model.addAttribute("status", "Invalid video name.");
+
    return "upload";
   }
   if(category == null || category.isEmpty() || category.length() > 50){
@@ -56,11 +58,13 @@ public class UploadController {
    model.addAttribute("status", "Invalid description.");
    return "upload";
   }
+
   
   if(!VideoDAO.getInstance().isFreeVideoName(videoName)){
 	  model.addAttribute("status", "Video with this name already exist !");
 	   return "upload";
   }
+
   User user = (User) ses.getAttribute("user");
   
   if(!validateVideoFormat(multiPartFile.getContentType())){
@@ -102,7 +106,9 @@ public class UploadController {
      if(!posterDir.exists()){
       posterDir.mkdir();
      }
+
         double msec = 5000;
+
         BufferedImage frame = getFrame(videoFile, msec / 1000);
         ImageIO.write(frame, "jpg", new File(posterDir, poster));
     }

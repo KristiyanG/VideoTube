@@ -104,7 +104,12 @@ public class Playlist {
 	}
 	
 	public boolean isVideoInList(String videoName){
-		return videos.contains(videoName);
+		for(String s: videos){
+			if(s.trim().equals(videoName)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public int getVideoIndex(String videoName){

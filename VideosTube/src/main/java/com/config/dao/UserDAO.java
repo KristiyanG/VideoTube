@@ -38,9 +38,14 @@ public class UserDAO {
 	}
 
 	private void loadUsers() {
+		this.connection = DBManager.getInstance().getConnection();
 		try {
-
-			this.connection = DBManager.getInstance().getConnection();
+			connection.setAutoCommit(false);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
 			Statement st = connection.createStatement();
 			ResultSet resultSet = st.executeQuery("SELECT username, password, profilePic, email FROM users;");
 			while (resultSet.next()) {
@@ -53,17 +58,25 @@ public class UserDAO {
 				loadAbonatedChannels(user);
 				loadLikedVideos(user);
 				loadPlaylists(user);
-				
+				connection.commit();
 				users.put(resultSet.getString("username"), user);
-				
+				connection.setAutoCommit(true);
+				}	
+			} 
+		catch (SQLException e1) {
+			try {
+				connection.rollback();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
 			}
-		} catch (SQLException e) {
-			System.out.println("Oops, cannot make statement.");
-			System.out.println(e.getMessage());
-
 		} catch (CreateUserException e) {
-			System.out.println(e.getMessage() + " error in loading users from DB ");
+			System.out.println(e.getMessage());
 		}
+		
+	
+	
+
+		
 	}
 
 	private void loadPlaylists(User user) {
@@ -74,7 +87,7 @@ public class UserDAO {
 	}
 
 	private void loadLikedVideos(User user) {
-		this.connection = DBManager.getInstance().getConnection();
+		
 		String sql = "Select video_name from user_liked_videos where user_name = ?";
 		try {
 			PreparedStatement stm = connection.prepareStatement(sql);
@@ -95,7 +108,7 @@ public class UserDAO {
 
 	private void loadAbonatedChannels(User user) {
 
-		this.connection = DBManager.getInstance().getConnection();
+		
 		
 		try {
 			PreparedStatement st = connection.prepareStatement("SELECT channel_name FROM subscribes where user_name = ?;");

@@ -20,12 +20,11 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="script/register_form.js"></script>
 <script src="script/add_playlist.js"></script>
-<script src="script/video_page_scripts.js"></script>
 
 
 </head>
 
-<body onload="chechPlaylist('${playlist.size()}')">
+<body >
 
 	<c:set var="videoLikes" scope="page" value="${video.getLikes()}"></c:set>
 	<c:set var="videoName" scope="page" value="${video.getName()}" />
@@ -152,13 +151,14 @@
 							</c:if>
 						</c:if>
 						<li>
-							<div id="list1" class="dropdown-check-list" tabindex="100">
+							<div id="list1" class="dropdown-check-list" tabindex="100" >
 								<span class="anchor">Add to playlist</span>
 								<ul class="items">
 									<c:if test="${sessionScope.user!=null}">
 										<c:forEach items="${sessionScope.user.getPlayLists()}"
 											var="list">
 											<li><input id="${list.name}" type="checkbox"
+									<c:if test="${sessionScope.user.isVideoInList(list.name,requestScope.video.getName())}">checked</c:if>
 												onchange="addPlaylist(this.id)" />
 											<c:out value="${list.name}" /></li>
 										</c:forEach>
@@ -166,15 +166,7 @@
 										</a></li>
 									</c:if>
 								</ul>
-							</div> <script type="text/javascript">
-	var checkList = document.getElementById('list1');
-	checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
-    	if (checkList.classList.contains('visible'))
-        	checkList.classList.remove('visible');
-    	else
-        	checkList.classList.add('visible');
-}
-</script>
+							</div> 
 						</li>
 					</ul>
 
@@ -195,31 +187,35 @@
 					<div class="view-links">
 						<ul>
 							<li><h4>Like video:</h4></li>
+							
 							<li>
-								<button type="button" onclick="likeVideo()">
-									<c:if test="${requestScope.video.isUserLikeVideo(userName)}">
-										<img src="img/likeGreen.png" title="likes" />
+									
+									<c:set var="image" value="img/likeBlue.png" /> 
+									<c:if test="${requestScope.video.isUserLikeVideo(sessionScope.user.getUsername())}">
+										<c:set var="image" value="img/likeGreen.png" /> 
 									</c:if>
-									<c:if test="${!requestScope.video.isUserLikeVideo(userName)}">
-										<img src="img/likeBlue.png" title="likes" />
+									<c:if test="${!requestScope.video.isUserLikeVideo(sessionScope.user.getUsername())}">
 									</c:if>
+									<img id="likeImg" src="${image}"  onclick="likeVideo()">
 									<div id="likes">
+									
 										<c:out value="${videoLikes}" />
 									</div>
 							</li>
 							<li>
-								<button type="button" onclick="dislikeVideo()">
 									<c:if
-										test="${!requestScope.video.isUserDislikeVideo(userName)}">
-										<img src="img/dislikeBlue.png" title="dislikes" />
+										test="${!requestScope.video.isUserDislikeVideo(sessionScope.user.getUsername())}">
+										<c:set var="image" value="img/dislikeBlue.png" />
 									</c:if>
-									<c:if test="${requestScope.video.isUserDislikeVideo(userName)}">
-										<img src="img/dislikeRed.png" title="dislikes" />
+									<c:if test="${requestScope.video.isUserDislikeVideo(sessionScope.user.getUsername())}">
+										<c:set var="image" value="img/dislikeRed.png" />
 									</c:if>
+								<img id="disLikeImg" src="${image}"  onclick="dislikeVideo()">
 									<div id="dislikes">
 										<c:out value="${videoDislikes}" />
 									</div>
 							</li>
+							
 						</ul>
 						<ul class="comment1">
 							<li><a onclick="showDiv()">View comments(<c:out
@@ -248,106 +244,7 @@
 						<li><p>Description for video :</p></li>
 						<li><span><c:out value="${description }"></c:out></span></li>
 
-						<div id="commentsDiv" style="display: none;"
-							class="comments-container">
-							<h1>Video comments</h1>
-
-							<ul id="comments-list" class="comments-list">
-
-								<li>
-									<div id="writeCommentLogin" style="display: none;"
-										class="comment-main-level">
-										<c:if test="${sessionScope.user!=null}">
-											<div class="comment-avatar">
-												<a href="myChannel"><img
-													src="myChannel/${sessionScope.user.getUsername()}" alt=""></a>
-											</div>
-										</c:if>
-										<div class="comment-box">
-											<div class="comment-head">
-												<h6 class="comment-name">
-													<a href="myChannel">You</a>
-												</h6>
-											</div>
-											<form action="javascript:writeComment()">
-												<div class="comment-content">
-													<input id="commentText" type="text" style="heigh:10px;"
-														placeholder="Write comment..." maxlength="90"></input>
-													<button type="submit">Add</button>
-												</div>
-											</form>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div id="newComment" style="display: none;"
-										class="comment-main-level">
-										<!-- Avatar -->
-										<c:if test="${sessionScope.user!=null}">
-											<div class="comment-avatar">
-												<a href="myChannel"><img
-													src="myChannel/${sessionScope.user.getUsername()}" alt=""></a>
-											</div>
-										</c:if>
-										<!-- Contenedor del Comentario -->
-										<div class="comment-box">
-											<div class="comment-head">
-												<h6 id="commentAuthor" class="comment-name"></h6>
-												<span><div id="newCommentDate"></div></span> <i
-													class="fa fa-reply"></i> <i class="fa fa-heart"></i>
-											</div>
-											<div id="commentContent" class="comment-content"></div>
-										</div>
-									</div>
-								</li>
-
-								<c:forEach items="${comments}" var="com" varStatus="loop">
-									<li>
-
-
-
-										<div class="comment-main-level">
-											<!-- Avatar -->
-											<div class="comment-avatar">
-												<a href="userProfile?name=${com.user}"><img
-													src="myChannel/${com.user}" alt=""></a>
-											</div>
-											<!-- Contenedor del Comentario -->
-											<div class="comment-box">
-												<div id="commentId" style="display: none;">
-													<c:out value="${com.id }"></c:out>
-												</div>
-												<div class="comment-head">
-													<c:if test="${com.user==uploader}">
-														<h6 class="comment-name by-author">
-															<c:out value="${com.user}" />
-														</h6>
-													</c:if>
-													<c:if test="${com.user!=uploader}">
-														<h6 class="comment-name ">
-															<c:out value="${com.user}" />
-														</h6>
-													</c:if>
-													<span><c:out value="${com.date}" /> <a href="login"
-														id="confirmMes${loop.index}" class="confirmMessage"> </a></span>
-													<div>
-														<i id="${loop.index}" class="fa fa-reply"><c:out
-																value="${com.likes}" /></i>
-													</div>
-													<i class="fa fa-heart"><img
-														onclick="likeComment(${loop.index},${com.id})"
-														src="img/001.png" /></i>
-												</div>
-												<div class="comment-content">
-													<c:out value="${com.text}" />
-												</div>
-											</div>
-										</div>
-									</li>
-								</c:forEach>
-
-							</ul>
-						</div>
+						<div id="comment21"></div>
 						<li><a href="login" id="confirmMessage"
 							class="confirmMessage"> </a></li>
 					</ul>
@@ -400,6 +297,15 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+	var checkList = document.getElementById('list1');
+	checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
+    	if (checkList.classList.contains('visible'))
+        	checkList.classList.remove('visible');
+    	else
+        	checkList.classList.add('visible');
+}
+</script>
 	<!----End-wrap---->
 </body>
 </html>

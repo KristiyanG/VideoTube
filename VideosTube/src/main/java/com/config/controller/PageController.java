@@ -2,7 +2,9 @@ package com.config.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.config.dao.CommentDAO;
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
 import com.config.model.Channel;
@@ -55,7 +58,7 @@ public class PageController {
 	
 	@RequestMapping(value="home", method=RequestMethod.GET)
 	public String getHome(Model model){
-		List<Video> videos = VideoDAO.getInstance().getAllVideos();
+		Set<Video> videos = VideoDAO.getInstance().getAllVideos();
 		model.addAttribute("videos", videos);
 		return "home";
 	}
@@ -63,7 +66,7 @@ public class PageController {
 
 	@RequestMapping(value="/*", method = RequestMethod.GET)
 	public String getIndexPage(Model model){
-		List<Video> videos = VideoDAO.getInstance().getAllVideos();
+		Set<Video> videos = VideoDAO.getInstance().getAllVideos();
 		model.addAttribute("videos", videos);
 		return "home";
 	}
@@ -152,4 +155,5 @@ public class PageController {
 		model.addAttribute("playlists", VideoDAO.getInstance().getUserVideos(user.getUsername()));
 		return "playlists";	
 	}
+	
 }
