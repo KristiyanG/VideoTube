@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.config.dao.ChannelDAO;
 import com.config.dao.PlayListDAO;
 import com.config.dao.UserDAO;
 import com.config.dao.VideoDAO;
@@ -33,178 +34,25 @@ import com.config.model.Video;
 @Controller
 public class UsersController {
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(Model model, HttpSession ses, @RequestParam("username") String username,
-			@RequestParam("password") String password) {
-
-		if (UserDAO.getInstance().login(username, password)) {
-			System.out.println("User exist");
-			model.addAttribute("videos", VideoDAO.getInstance().getAllVideos());
-			ses.setAttribute("user", UserDAO.getInstance().getUserByUsername(username));
-			return "home";
+	
+	@RequestMapping(value="subscribe", method=RequestMethod.POST)
+	public @ResponseBody String subscribe(HttpSession ses, HttpServletRequest req){
+		
+		String channelName = req.getParameter("channel");
+		
+		System.out.println("Channel name " + channelName);
+		if(ses.getAttribute("user") == null){
+			return "No user";
 		}
-
-		System.out.println("User do not exist");
-		model.addAttribute("msg", "Invalid username or password !");
-		return "login";
+		User user = (User)ses.getAttribute("user");
+	
+		String result = ChannelDAO.getInstance().subscribeChannel(user.getUsername(), channelName);
+		System.out.println("USERNAME -"+user.getUsername()+"-" + result);
+		
+		return result;
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage(HttpSession ses) {
-		ses.removeAttribute("user");
-
-		return "login";
-	}
-
-	@RequestMapping(value="/video", method=RequestMethod.GET)
-	public String video(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
-
-		String listName = req.getParameter("name");
-		String username = req.getParameter("username");
-		if (listName != null && username != null) {
-			User user = UserDAO.getInstance().getUserByUsername(username);
-			Playlist pl = user.getUserPlaylist(listName);
-			String videoname = pl.getFirstVideo();
-			if(videoname == null){
-				model.addAttribute("playlists", user.getPlayLists());
-				model.addAttribute("message", "Can't Load Empty Playlist");
-				return "myChannel";
-			}
-			int index = 0;
-			Video video = VideoDAO.getInstance().getVideoByName(videoname);
-			VideoDAO.getInstance().viewVideo(video);
-			model.addAttribute("video", video);
-			List<Video> videosInList = new ArrayList<>();
-			for (String videoName : pl.getVideosFromPlaylist()) {
-				videosInList.add(VideoDAO.getInstance().getVideoByName(videoName.trim()));
-			}
-			model.addAttribute("index", index);
-			model.addAttribute("listOwner", username);
-			model.addAttribute("playlist", videosInList);
-			model.addAttribute("listname", listName);
-		} else {
-
-			String videoname = req.getParameter("name").trim();
-			Video video = VideoDAO.getInstance().getVideoByName(videoname);
-			VideoDAO.getInstance().viewVideo(video);
-			model.addAttribute("video", video);
-			System.out.println(video.showVideoComments().size());
-		}
-		return "video";
-	}
-
-	@RequestMapping(value = "videoPoster/{videoName}", method = RequestMethod.GET)
-	@ResponseBody
-	public void getVideoPoster(@PathVariable("videoName") String videoName, HttpSession ses, HttpServletResponse resp,
-			Model model) {
-		System.out.println("VIDEO NAME IS " + videoName);
-		String videoPoster = VideoDAO.getInstance().getVideoByName(videoName).getPoster();
-		System.out.println("VIdeo poster address is " + videoPoster);
-		if (videoPoster == null) {
-			System.out.println("NO PIC");
-			return;
-		}
-		File file = new File(videoPoster);
-
-		try {
-			Files.copy(file.toPath(), resp.getOutputStream());
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
-	@RequestMapping(value = "nextVideo", method = RequestMethod.GET)
-	public String playlist(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException {
-
-
-		String username = req.getParameter("username").trim();
-		String videoName = req.getParameter("name").trim();
-		String listName = req.getParameter("listName").trim();
-
-		Set<Playlist> pl = PlayListDAO.getInstance().getUserPlayList(username);
-		Playlist playList = null;
-		for (Playlist play : pl) {
-			if (play.getName().equals(listName)) {
-				playList = play;
-			}
-		}
-		if (playList != null) {
-			int videoIndex = playList.getVideoIndex(videoName);
-			String nextVideo = playList.getVideoByIndex(videoIndex + 1);
-			if (nextVideo == null) {
-				nextVideo = playList.getFirstVideo();
-			}
-			System.out.println(nextVideo + "@");
-			Video video = VideoDAO.getInstance().getVideoByName(nextVideo);
-			model.addAttribute("video", video);
-			model.addAttribute("comments", video.showVideoComments());
-		}
-		return "video";
-	}
-
-
-	@RequestMapping(value = "/videoNew", method = RequestMethod.GET)
-	public String newVideo(HttpServletRequest req, Model model) {
-
-		String videoname = req.getParameter("name").trim();
-		System.out.println("VIDEO NEW" + videoname + "@");
-		Video video = VideoDAO.getInstance().getVideoByName(videoname);
-		VideoDAO.getInstance().viewVideo(video);
-		model.addAttribute("video", video);
-		model.addAttribute("comments", video.showVideoComments());
-		return "nextVideo";
-	}
-
-	@RequestMapping(value = "/video/{video}", method = RequestMethod.GET)
-	@ResponseBody
-	public void videoAddress(@PathVariable("video") String videoName, HttpServletResponse resp, Model model) {
-
-		Video video = VideoDAO.getInstance().getVideoByName(videoName);
-		if (video == null) {
-			System.out.println("NO SUCH VIDEO ");
-			return;
-		}
-
-		File file = new File(video.getAddress());
-
-		try {
-			Files.copy(file.toPath(), resp.getOutputStream());
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
-	@RequestMapping(value = "/doSearch", method = RequestMethod.GET)
-	public String searchBar(@RequestParam("search") String name, @RequestParam("type") String type, Model model) {
-
-		if (type.equals("Video")) {
-			model.addAttribute("videos", VideoDAO.getInstance().searchVideos(name));
-			return "videos";
-		} else if (type.equals("Channel")) {
-			model.addAttribute("channels", UserDAO.getInstance().searchUsers(name));
-			return "channels";
-		} else {
-			model.addAttribute("playlists", PlayListDAO.getInstance().searchPlaylists(name));
-			return "playlists";
-		}
-	}
-
-	@RequestMapping(value = "/searchChannel", method = RequestMethod.GET)
-	public @ResponseBody List<User> searchChannel(
-			@RequestParam("search") String name,
-			@RequestParam("type") String type, 
-			Model model) throws CreateUserException {
-
-		List<User> res = UserDAO.getInstance().searchUsers(name);
-		List<User> users = new ArrayList<>();
-		for (User user : res) {
-			User u = new User(user.getUsername(), user.getPassword(), user.getProfilePic(), user.getEmail());
-			users.add(u);
-		}
-
-		return users;
-	}
-
+	
 	@RequestMapping(value = "/myChannel/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public void getProfilePic(@PathVariable("username") String username, HttpSession ses, HttpServletResponse resp,
@@ -226,70 +74,10 @@ public class UsersController {
 
 	
 	
-	@RequestMapping(value = "/myChannel", method = RequestMethod.POST)
-	public String receiveUpload(@RequestParam("userPic") MultipartFile multiPartFile, Model model, HttpSession ses)
-			throws IOException {
-
-		User user = (User) ses.getAttribute("user");
-		if (user == null) {
-			System.out.println("CANT GET USER FROM SESSION");
-		}
-		String[] contentType = multiPartFile.getContentType().split("/");
-		String fileName = user.getUsername().concat(".").concat(contentType[contentType.length-1]);
-		System.out.println("CONTENT TYPE IS -"+contentType+"@");
-		
-		UserDAO.getInstance().changeProfilePicture(fileName, user.getUsername());
-
-		File dir = new File("profilePic");
-		File file = new File(dir, fileName);
-
-		Files.copy(multiPartFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-		List<Video> userVideos = VideoDAO.getInstance().getUserVideos(user.getUsername());
-		model.addAttribute("videos", userVideos);
-		return "myChannel";
-	}
-
-	@RequestMapping(value = "/createPlaylist", method = RequestMethod.POST)
-	public String createPlaylist(@RequestParam("name") String name, Model model, HttpSession ses) {
-		User user = (User) ses.getAttribute("user");
-		if (user == null) {
-			System.out.println("No user in session to create playlist");
-			return null;
-		}
-
-		boolean isPlaylistCreated = PlayListDAO.getInstance().createPlaylist(name, user.getUsername());
-		System.out.println("PLAYLIST CREATED? " + isPlaylistCreated);
-		model.addAttribute("playlists", user.getPlayLists());
-		if(isPlaylistCreated){
-			model.addAttribute("message", "Playist " + name + " created.");			
-		}else{
-			model.addAttribute("message", "List " + name + " already exists.");			
-
-		}
-		return "playlists";
-	}
 	
-	@RequestMapping(value="/isUsernameAllowed", method = RequestMethod.GET)
-	public @ResponseBody Boolean isUsernameAllowed(@RequestParam("username") String username){
-		System.out.println("IS USER ALLOED");
-		User user = UserDAO.getInstance().getUserByUsername(username);
-		Boolean alloed = user == null ? true : false; 
-		return user == null;
-	}
 	
-	@RequestMapping(value="/isVideoNameAllowed", method=RequestMethod.GET)
-	public @ResponseBody Boolean isVideoNameAllowed(@RequestParam("videoName") String videoname){
-		
-		return VideoDAO.getInstance().getVideoByName(videoname) == null ? true : false; 	
-	}
 	
-	@RequestMapping(value="comments", method=RequestMethod.GET)
-	public String getComments(Model model,HttpServletRequest req){
-	  
-	  String videoName =req.getParameter("videoName").trim();
-	  model.addAttribute("videoName", videoName);
-	  model.addAttribute("comments", VideoDAO.getInstance().getVideoByName(videoName).showVideoComments());
-	  return "comments";
-	 }
+	
+	
+
 }

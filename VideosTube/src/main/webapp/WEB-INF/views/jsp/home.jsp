@@ -6,12 +6,10 @@
 <html>
 <head>
     <title>Video Tube </title>
-
     <link rel="shortcut icon" type="image/x-icon" href=img/pageicon.png" />
     <link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
     <link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
     <link rel="shortcut icon" type="image/x-icon" href="img/pageicon.png" />
-    
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="script/home_page_scripts.js"></script>
 </head>
@@ -67,16 +65,15 @@
 			<div id="liked-videos-div"></div>
 			<div id="videosList"  class="box">		
 				<div id="channelsList"></div>
-
 				<div class="grids">
                		<div id="videoBox" >                		             		
-	                	<c:set var="videosList" value="${videos}" />                	
+	                	<c:set var="videosList" value="${videos}" />  
+	                	<h1 style="text-align:center">Top viewed videos</h1>              	
 	                	<c:forEach items="${videosList}" var="video">
 							<div class="grid">
 								<h3> ${video.name}</h3>
 								<a href="video?name=${video.name}"><img style="width:274px;height:178px;" src="videoPoster/${video.name}" title= "${video.name}" /></a>
 								<div class="time">
-
 									<span>Views<c:out value="${ video.view}"/></span>
 								</div>
 								<div class="grid-info">

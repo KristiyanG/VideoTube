@@ -73,7 +73,7 @@
 		<form id="js-upload-form" enctype="multipart/form-data" method="POST">
 			<div class="form-inline">
 				<div class="form-group">
-					<input type="file" name="video" id="js-upload-files"  
+					<input type="file" name="video" id="js-upload-files" onchange="fileSize()" 
 						pattern=".{3,}" required title="3 characters minimum" 
 						accept="video/mp4" value="select file">
 				</div>

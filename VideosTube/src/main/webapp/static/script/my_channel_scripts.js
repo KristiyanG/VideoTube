@@ -44,7 +44,6 @@ playlistSpan.onclick = function() {
 
 function createPlaylist() {
 	hideAll();
-//	document.getElementById("tooltiptext").style.visibility = "visible" ;
 	document.getElementById("my-playlists").style.display = "block";
 
 	var playlistName = document.getElementById("playlist-name").value;

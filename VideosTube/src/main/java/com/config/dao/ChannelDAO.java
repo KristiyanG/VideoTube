@@ -35,7 +35,7 @@ public class ChannelDAO {
 
 	private void loadChannels() {
 		this.connection = DBManager.getInstance().getConnection();
-		String sql = "Select name,description,user_name from channels";
+		String sql = "Select name, description, user_name from channels";
 		try {
 			Statement stm = connection.createStatement();
 			ResultSet rs = stm.executeQuery(sql);

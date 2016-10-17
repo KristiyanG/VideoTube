@@ -67,14 +67,12 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"></span>
-									<sf:input type="password" path="password" class="form-control"   id="pass" 
+									<sf:input type="password" path="password" class="form-control" id="pass" 
 											minlength="4" maxlength="16"  
 											 placeholder="Enter your Password"/>
-											
 								</div>
 							</div><br>
 							
-							  
 							<label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
@@ -88,8 +86,6 @@
 							 
 						</div>
 
-		
-				
 							<span id="confirmMessage" class="confirmMessage"></span>
 						
 						<div class="form-group ">

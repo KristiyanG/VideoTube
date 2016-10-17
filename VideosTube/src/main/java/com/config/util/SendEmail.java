@@ -21,24 +21,20 @@ public class SendEmail extends Thread {
 	    private String videoName;
 	    private String channelName;
 	    
-	    public SendEmail(List<User> users,String videoName,String channelName){
+	    public SendEmail(List<User> users, String videoName, String channelName){
 	    	this.recipients= users;
 	    	this.videoName=videoName;
 	    	this.channelName=channelName;
 	    }
 	    
-	    
 	    @Override
 	    public void run() {
-	    	 
-		        List<User> to =recipients ; // list of recipient email addresses
+		        List<User> to = recipients ; // list of recipient email addresses
 		        String subject = "Hello! New video was added in channel "+channelName;
-		        String body = "Hello ! New video"+videoName+ "was added in channel "+channelName;
+		        String body = "Hello ! New video "+ videoName + " was added in channel "+channelName;
 
 		        sendFromGMail( to, subject, body);
-	    	
 	    }
-	   
 
 	    private  void sendFromGMail(List<User> to, String subject, String body) {
 	        Properties props = System.getProperties();
@@ -75,10 +71,11 @@ public class SendEmail extends Thread {
 	        }
 	        catch (AddressException ae) {
 	            ae.printStackTrace();
+	            System.out.println(ae.getMessage());
 	        }
 	        catch (MessagingException me) {
 	            me.printStackTrace();
+	            System.out.println(me.getMessage());
 	        }
 	    }
-	
 }

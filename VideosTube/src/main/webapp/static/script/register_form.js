@@ -197,25 +197,25 @@ function showDiv() {
 		
 	}
 	function likeComment(index,id){
-		var user =  document.getElementById('user');
-		if(user == null){
-			var msg = document.getElementById('confirmMes'+index);
-			 msg.style.color = "#ff6666";
-			msg.innerHTML = "Login for like comment";
-	    }
-		else{
-			$.post(
-				"comment/like", 
-				{ commentId: id,
-					videoName: document.getElementById("videoName").innerHTML
-				}).done(
-				
-				function(data){
-					var pathArray = document.getElementById(id).src.split( '/' );
-			         var src = ((pathArray[pathArray.length-1] === 'likeBlue.png')
-			            ? 'img/likeGreen.png'
-			            : 'img/likeBlue.png');
-			         document.getElementById( id ).src=src;
-					document.getElementById(index).innerHTML =data;
-			    });}
-	}
+		  var user =  document.getElementById('user');
+		  if(user == null){
+		   var msg = document.getElementById('confirmMes'+index);
+		    msg.style.color = "#ff6666";
+		   msg.innerHTML = "Login for like comment";
+		     }
+		  else{
+		   $.post(
+		    "comment/like", 
+		    { commentId: id,
+		     videoName: document.getElementById("videoName").innerHTML
+		    }).done(
+		    
+		    function(data){
+		     var pathArray = document.getElementById(id).src.split( '/' );
+		            var src = ((pathArray[pathArray.length-1] === 'likeBlue.png')
+		               ? 'img/likeGreen.png'
+		               : 'img/likeBlue.png');
+		            document.getElementById( id ).src=src;
+		     document.getElementById(index).innerHTML =data;
+		       });}
+		 }

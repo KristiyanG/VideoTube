@@ -20,11 +20,11 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="script/register_form.js"></script>
 <script src="script/add_playlist.js"></script>
-
+<script src="script/video_page_scripts.js"></script>
 
 </head>
 
-<body >
+<body  onload="chechPlaylist('${playlist.size()}')">
 
 	<c:set var="videoLikes" scope="page" value="${video.getLikes()}"></c:set>
 	<c:set var="videoName" scope="page" value="${video.getName()}" />
@@ -47,7 +47,7 @@
 				</div>
 				<div class="search-right">
 					<form action="javascript:search()">
-						<input type="text" id="search-field" placeholder="Search videos">
+						<input type="text" id="search-field" placeholder="Search videos" pattern=".{1,}" required title="1 characters minimum">
 						<input type="submit" value="" onmousedown="search()"
 							onsubmit="handle" />
 					</form>
@@ -216,9 +216,7 @@
 							
 						</ul>
 						<ul class="comment1">
-							<li><a onclick="showDiv()">View comments(<c:out
-										value="${ comments.size()}" />)
-							</a></li>
+							<li><a onclick="showDiv()">View comments</a></li>
 
 						</ul>
 					</div>
@@ -256,7 +254,7 @@
 			</div>
 			<div class="right-content">
 				<div id="myDiv" style="overflow: auto; height: 400px; width: 250px;"
-					onscroll="scollPos();">
+					>
 					<div class="popular" id="popular">
 						<h3>
 							<c:out value="${listname}" />

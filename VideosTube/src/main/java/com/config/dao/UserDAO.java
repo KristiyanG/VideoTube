@@ -39,12 +39,7 @@ public class UserDAO {
 
 	private void loadUsers() {
 		this.connection = DBManager.getInstance().getConnection();
-		try {
-			connection.setAutoCommit(false);
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		
 		try {
 			Statement st = connection.createStatement();
 			ResultSet resultSet = st.executeQuery("SELECT username, password, profilePic, email FROM users;");
@@ -58,25 +53,16 @@ public class UserDAO {
 				loadAbonatedChannels(user);
 				loadLikedVideos(user);
 				loadPlaylists(user);
-				connection.commit();
 				users.put(resultSet.getString("username"), user);
-				connection.setAutoCommit(true);
 				}	
 			} 
 		catch (SQLException e1) {
-			try {
-				connection.rollback();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-			}
+			
 		} catch (CreateUserException e) {
 			System.out.println(e.getMessage());
 		}
 		
-	
-	
 
-		
 	}
 
 	private void loadPlaylists(User user) {

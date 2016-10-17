@@ -13,11 +13,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Stream;
 
+import org.mockito.internal.util.collections.Iterables;
+
+import com.config.model.Channel;
 import com.config.model.Comment;
 import com.config.model.User;
 import com.config.model.Video;
@@ -78,7 +83,7 @@ public class VideoDAO {
 		return video;
 	}
 
-	public Set<Video> getAllVideos(){
+	public List<Video> getAllVideos(){
 		Set<Video> vids = new TreeSet<>((v1,v2)->{
 			
 			if(v1.getView()==v2.getView())
@@ -91,8 +96,18 @@ public class VideoDAO {
 			return v2.getView()-v1.getView();
 		
 		});
+
+		List<Video> results = new ArrayList<>();
 		vids.addAll(videos.values());
-		return  Collections.unmodifiableSet(vids);
+		int max = 6;
+		for (Iterator iterator = vids.iterator(); iterator.hasNext();) {
+			Video video = (Video) iterator.next();
+			results.add(video);
+			if(--max <= 0){
+				break;
+			}
+		}
+		return  Collections.unmodifiableList(results);
 	}
 	
 	private void loadVideos() {
@@ -209,11 +224,13 @@ public class VideoDAO {
 	private void sendEmail(String uploader, String name) {
 		User user = UserDAO.getInstance().getUserByUsername(uploader);
 		List<User> emails = new ArrayList<>();
-		for(String username : user.getMyChannel().getAllUsersInChannel()){
+		
+		for(Channel channel : user.getChannels()){
+			String username = channel.getName();
 			User u = UserDAO.getInstance().getUserByUsername(username);
 			emails.add(u);
 		}
-		SendEmail send = new SendEmail(emails,name,user.getUsername());
+		SendEmail send = new SendEmail(emails, name, user.getUsername());
 		send.start();
 	}
 

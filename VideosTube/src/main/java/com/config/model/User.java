@@ -68,10 +68,6 @@ public class User {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
 	public List<Video> getVideosWhereILike() {
 		return Collections.unmodifiableList(this.likedVideos);
 	}
@@ -124,8 +120,8 @@ public class User {
 	public void setPassword(String password) {
 		this.password = CryptWithMD5.cryptWithMD5(password);
 	}
-
-	public List<Video> getLikedVideos() {
+	
+ 	public List<Video> getLikedVideos() {
 		return Collections.unmodifiableList(likedVideos);
 	}
 
@@ -191,7 +187,7 @@ public class User {
 		return null;
 	}
 	
-	public boolean isVideoInList(String listName,String videoName){
+	public boolean isVideoInList(String listName, String videoName){
 		Playlist list =null;
 		for(Playlist pl : playLists){
 			if(pl.getName().equals(listName)){
@@ -202,9 +198,14 @@ public class User {
 		return list.isVideoInList(videoName);
 	}
 	
-	public boolean isLikeComment(String videoName,long comId){
+	public boolean isLikeComment(String videoName, long comId){
 		Comment com =CommentDAO.getInstance().getCommentById(videoName, comId);
 		
 		return com.isLikeComment(this.getUsername());
+	}
+
+	
+	public String getPassword() {
+		return password;
 	}
 }

@@ -137,3 +137,13 @@ function uploadByButton(file) {
 function ValidateText(txt) {
     txt.value = txt.value.replace(/[^a-zA-Z_.\s \n\r0-9!?@,()&]+/g, '');
 }
+
+function fileSize(){
+	if(document.getElementById('js-upload-files').files[0].size/1024/1024>500){
+		document.getElementById("js-upload-submit").disabled = true;
+	}
+	else{
+		document.getElementById("js-upload-submit").disabled = false;
+	}
+
+}

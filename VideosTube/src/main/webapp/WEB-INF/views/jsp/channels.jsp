@@ -9,17 +9,15 @@
 <title>Channels</title>
 </head>
 <body>
-	
 	<c:if test="${channels.size() == 0}">
 		<h3 style="color:red;">No Channels!</h3>
 	</c:if>
-
 	<c:set var="channelsList" value="${channels}" />                	
 	<c:forEach items="${channelsList}" var="user">
 		<div class="grid">
 			<h3>${user.username}</h3>
 			<a href="userProfile?name=${user.username}">
-				<img style="width:274px;height:178px;" src="profilePic/${user.profilePic}" title="${user.username }" />
+				<img style="width:274px;height:178px;" src="myChannel/${user.profilePic}" title="${user.username }" />
 			</a>	
     		<div class="grid-info">
 				<div class="video-share"></div>
@@ -27,6 +25,5 @@
 			</div>
 		</div>
 	</c:forEach>
-	
 </body>
 </html>

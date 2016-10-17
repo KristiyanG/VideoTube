@@ -17,6 +17,7 @@ public class Comment {
 	private String text;
 	private LocalDateTime date;
 	private HashSet<String> likes ;//username
+	
 	public Comment(long id,String user, String text, LocalDateTime date,String videoName) {
 		this.user = user;
 		this.id = id;
@@ -26,7 +27,6 @@ public class Comment {
 		this.likes = new HashSet<>();
 	}
 
-	
 	public long getId() {
 		return id;
 	}
@@ -94,6 +94,5 @@ public class Comment {
 	public int getLikes(){
 		return likes.size();
 	}
-	
 
 }

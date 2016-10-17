@@ -149,7 +149,6 @@
 	</div>
 
 	<div id="myModal" class="modal">
-	  <!-- Modal content -->
 		 <div class="modal-content">
 		   <div class="modal-header">
 		     <span class="close">x</span>

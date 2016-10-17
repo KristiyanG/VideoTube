@@ -33,11 +33,8 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		return multipartConfigElement;
 	}
 	
-	 private static final String LOCATION = "C:/Users/Kristian/Desktop/VideosFolder"; // Temporary location where files will be stored
-	 
-	    private static final long MAX_FILE_SIZE = 524288000; // 5MB : Max file size.
-	                                                        // Beyond that size spring will throw exception.
-	    private static final long MAX_REQUEST_SIZE = 2097152000; // 20MB : Total request size containing Multi part.
-	     
-	    private static final int FILE_SIZE_THRESHOLD = 0; // Size threshold after which files will be written to disk
+	 private static final String LOCATION = "C:/Users/Parapanov/Desktop/VideosFolder"; 
+     public static final long MAX_FILE_SIZE = 524288000;
+	 private static final long MAX_REQUEST_SIZE = 2097152000;    
+	 private static final int FILE_SIZE_THRESHOLD = 0;
 }

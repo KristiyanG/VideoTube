@@ -67,3 +67,4 @@ function search() {
 				document.getElementById('newVideo').style.display = "none";
 		    });
 }
+

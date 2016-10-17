@@ -1,5 +1,6 @@
 package com.config.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -62,7 +63,12 @@ public class Channel {
 	}
 
 	public List<String> getAllUsersInChannel() {
-		return Collections.unmodifiableList((List<String>) subscribes);
+		List<String> channels = new ArrayList<>();
+		for (String channel : subscribes) {
+			channels.add(channel);
+		}
+		
+		return channels;
 	}
 
 	public int usersInChannel() {
