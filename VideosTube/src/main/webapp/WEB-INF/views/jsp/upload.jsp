@@ -33,7 +33,8 @@
        </div>
        <div class="search-right">
            <form action="javascript:search()">
-               <input type="text" id="search-field" placeholder="Search videos" pattern=".{1,}" required title="1 characters minimum">
+               <input type="text" id="search-field" placeholder="Search videos" onkeyup="validate(this)"
+               		pattern=".{1,}" required title="1 characters minimum">
                <input type="submit" value=""/>
            </form>
        </div>
@@ -81,12 +82,12 @@
 				<div class="video-upload-name">
 				    <label for="comment" id="video-name-label" class="video-name-label">Video name:</label>
 					<input class="form-control" rows="5" id="comment" maxlength="30" minlength="3" id="videoName" pattern=".{1,}" required title="1 characters minimum"
-				      		onkeyup="checkName()" onblur="validateName(this)" name="videoName" placeholder="Type here..."></input>
+				      		onkeyup="checkName(this)" onblur="validateName(this)" name="videoName" placeholder="Type here..."></input>
 					<h1 id="videonameAllowedMsg" class="videonameAllowedMsg">text</h1>
 					
 				</div>
 				
-				<div class="video-category-drop">
+				<div class="video-category-drop" style="display: none;">
 					<label>Category:</label>
 					<select name="category">
 						<option>Autos and Vehicles</option>

@@ -29,7 +29,8 @@
             </div>
             <div class="search-right">
                 <form action="javascript:search()">
-                    <input type="text" id="search-field" placeholder="Search videos" pattern=".{1,}" required title="1 characters minimum">
+                    <input type="text" id="search-field" placeholder="Search videos" onkeyup="validate(this)"
+                    pattern=".{1,}" required title="1 characters minimum">
                     <input type="submit" value=""/>
                 </form>
             </div>

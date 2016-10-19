@@ -17,8 +17,7 @@
 
 <link href="http://vjs.zencdn.net/5.11.7/video-js.css" rel="stylesheet">
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="script/register_form.js"></script>
 <script src="script/add_playlist.js"></script>
 <script src="script/video_page_scripts.js"></script>
@@ -46,7 +45,7 @@
 							</div>
 							<form action="javascript:writeComment()">
 								<div class="comment-content">
-									<input id="commentText" type="text" style="heigh: 10px;"
+									<input id="commentText" type="text" style="heigh: 10px;" onkeyup="validateText(this)"
 										placeholder="Write comment..." maxlength="90"></input>
 									<button type="submit">Add</button>
 								</div>

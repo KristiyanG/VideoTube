@@ -22,7 +22,11 @@ import com.config.model.Video;
 
 public class CommentDAO {
 
-	private static HashMap<String, List<Comment>> comments = new HashMap<String, List<Comment>>();// videoName - list with comment
+	private static HashMap<String, List<Comment>> comments = new HashMap<String, List<Comment>>();// videoName
+																									// -
+																									// list
+																									// with
+																									// comment
 
 	private static CommentDAO instance;
 
@@ -60,7 +64,7 @@ public class CommentDAO {
 				comments.get(videoName).add(com);
 			}
 		} catch (SQLException e) {
-			System.out.println("load comments error "+e.getMessage());
+			System.out.println("load comments error " + e.getMessage());
 
 		}
 	}
@@ -83,19 +87,19 @@ public class CommentDAO {
 		}
 	}
 
-	public int likeComment(String user, String videoName,long comID) {
-		  Comment com = getCommentById(videoName, comID);
-		  if (com.isLikeComment(user)) {
-		   com.removeUserFromLikesComment(user);
-		   deleteComFromDB(com, user);
-		  } else {
-		   com.addUserInLikesComment(user);
-		   saveCommentLikeInDB(com, user);
-		  }
+	public int likeComment(String user, String videoName, long comID) {
+		Comment com = getCommentById(videoName, comID);
+		if (com.isLikeComment(user)) {
+			com.removeUserFromLikesComment(user);
+			deleteComFromDB(com, user);
+		} else {
+			com.addUserInLikesComment(user);
+			saveCommentLikeInDB(com, user);
+		}
 
-		  return com.getLikes();
+		return com.getLikes();
 
-		 }
+	}
 
 	private void saveCommentLikeInDB(Comment com, String user) {
 		this.connection = DBManager.getInstance().getConnection();
@@ -140,35 +144,37 @@ public class CommentDAO {
 			ResultSet rs = st.getGeneratedKeys();
 			rs.next();
 			long commentId = rs.getInt(1);
-
 			Comment com = new Comment(commentId, user.getUsername(), text, localDateTime, video.getName());
+			
 			if (!comments.containsKey(video.getName())) {
+
 				comments.put(video.getName(), new ArrayList<Comment>());
 			}
+
 			comments.get(video.getName()).add(com);
 			video.addComment(com);
 			return com;
 		} catch (SQLException e) {
-			System.out.println("Comment save error -- "+e.getMessage());
+			System.out.println("Comment save error -- " + e.getMessage());
 		}
 		return null;
 	}
-	
-	public List<Comment> getCommentsForVideo(String videoName){
-		if(!comments.containsKey(videoName)){
+
+	public List<Comment> getCommentsForVideo(String videoName) {
+		if (!comments.containsKey(videoName)) {
 			comments.put(videoName, new ArrayList<>());
 		}
 		return Collections.unmodifiableList(comments.get(videoName));
 	}
 
-	public Comment getCommentById(String videoName,long comID){
-		  List<Comment> commentsVideo =getCommentsForVideo(videoName);
-		  for(Comment com :commentsVideo){
-		   if(com.getId()==comID){
-		    return com;
-		   }
-		  }
-		  return null;
-		 }
-	
+	public Comment getCommentById(String videoName, long comID) {
+		List<Comment> commentsVideo = getCommentsForVideo(videoName.trim());
+		for (Comment com : commentsVideo) {
+			if (com.getId() == comID) {
+				return com;
+			}
+		}
+		return null;
+	}
+
 }

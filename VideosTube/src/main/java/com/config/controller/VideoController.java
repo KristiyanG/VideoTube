@@ -32,8 +32,8 @@ import com.config.model.Video;
 @Controller
 public class VideoController {
 
-	@RequestMapping(value="/video", method=RequestMethod.GET)
-	public String video(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException{
+	@RequestMapping(value = "/video", method = RequestMethod.GET)
+	public String video(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException {
 
 		String listName = req.getParameter("name");
 		String username = req.getParameter("username");
@@ -41,7 +41,7 @@ public class VideoController {
 			User user = UserDAO.getInstance().getUserByUsername(username);
 			Playlist pl = user.getUserPlaylist(listName);
 			String videoname = pl.getFirstVideo();
-			if(videoname == null){
+			if (videoname == null) {
 				model.addAttribute("playlists", user.getPlayLists());
 				model.addAttribute("message", "Can't Load Empty Playlist");
 				return "myChannel";
@@ -64,7 +64,6 @@ public class VideoController {
 			Video video = VideoDAO.getInstance().getVideoByName(videoname);
 			VideoDAO.getInstance().viewVideo(video);
 			model.addAttribute("video", video);
-			System.out.println(video.showVideoComments().size());
 		}
 		return "video";
 	}
@@ -73,9 +72,7 @@ public class VideoController {
 	@ResponseBody
 	public void getVideoPoster(@PathVariable("videoName") String videoName, HttpSession ses, HttpServletResponse resp,
 			Model model) {
-		System.out.println("VIDEO NAME IS " + videoName);
 		String videoPoster = VideoDAO.getInstance().getVideoByName(videoName).getPoster();
-		System.out.println("VIdeo poster address is " + videoPoster);
 		if (videoPoster == null) {
 			System.out.println("NO PIC");
 			return;
@@ -91,7 +88,6 @@ public class VideoController {
 
 	@RequestMapping(value = "nextVideo", method = RequestMethod.GET)
 	public String playlist(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException {
-
 
 		String username = req.getParameter("username").trim();
 		String videoName = req.getParameter("name").trim();
@@ -110,7 +106,6 @@ public class VideoController {
 			if (nextVideo == null) {
 				nextVideo = playList.getFirstVideo();
 			}
-			System.out.println(nextVideo + "@");
 			Video video = VideoDAO.getInstance().getVideoByName(nextVideo);
 			model.addAttribute("video", video);
 			model.addAttribute("comments", video.showVideoComments());
@@ -118,12 +113,10 @@ public class VideoController {
 		return "video";
 	}
 
-
 	@RequestMapping(value = "/videoNew", method = RequestMethod.GET)
 	public String newVideo(HttpServletRequest req, Model model) {
 
 		String videoname = req.getParameter("name").trim();
-		System.out.println("VIDEO NEW" + videoname + "@");
 		Video video = VideoDAO.getInstance().getVideoByName(videoname);
 		VideoDAO.getInstance().viewVideo(video);
 		model.addAttribute("video", video);
@@ -150,92 +143,89 @@ public class VideoController {
 		}
 	}
 
-	@RequestMapping(value="comments", method=RequestMethod.GET)
-	public String getComments(Model model,HttpServletRequest req){
-	  
-	  String videoName =req.getParameter("videoName").trim();
-	  model.addAttribute("videoName", videoName);
-	  model.addAttribute("comments", VideoDAO.getInstance().getVideoByName(videoName).showVideoComments());
-	  return "comments";
-	 }
-	
-	@RequestMapping(value="/isVideoNameAllowed", method=RequestMethod.GET)
-	public @ResponseBody Boolean isVideoNameAllowed(@RequestParam("videoName") String videoname){
-		
-		return VideoDAO.getInstance().getVideoByName(videoname) == null ? true : false; 	
-	}
-	
-	@RequestMapping(value="video/like", method=RequestMethod.GET)
-	 public @ResponseBody Video likeVideo(HttpSession ses,HttpServletRequest req){
-	  String videoName = req.getParameter("videoName").trim();
-	  if(ses.getAttribute("user")==null){
-	   Video video = VideoDAO.getInstance().getVideoByName(videoName);
-	   return video;
-	  }
-	  
-	  User user = (User)ses.getAttribute("user");
-	  Video video = VideoDAO.getInstance().likeVideo(videoName, user);
-	  
-	  if(video==null){
-	   System.out.println("VIDEO IS NULL");
-	   return null;
-	  }
-	  
-	  return video;
-	 }
-	
+	@RequestMapping(value = "comments", method = RequestMethod.GET)
+	public String getComments(Model model, HttpServletRequest req) {
 
-	@RequestMapping(value="video/dislike", method=RequestMethod.GET)
-	public @ResponseBody Video dislikeVideo(HttpSession ses,HttpServletRequest req){
 		String videoName = req.getParameter("videoName").trim();
-		if(ses.getAttribute("user")==null){
+		model.addAttribute("videoName", videoName);
+		model.addAttribute("comments", VideoDAO.getInstance().getVideoByName(videoName).showVideoComments());
+		return "comments";
+	}
+
+	@RequestMapping(value = "/isVideoNameAllowed", method = RequestMethod.GET)
+	public @ResponseBody Boolean isVideoNameAllowed(@RequestParam("videoName") String videoname) {
+
+		return VideoDAO.getInstance().getVideoByName(videoname) == null ? true : false;
+	}
+
+	@RequestMapping(value = "video/like", method = RequestMethod.GET)
+	public @ResponseBody Video likeVideo(HttpSession ses, HttpServletRequest req) {
+		String videoName = req.getParameter("videoName").trim();
+		if (ses.getAttribute("user") == null) {
 			Video video = VideoDAO.getInstance().getVideoByName(videoName);
 			return video;
 		}
-		
-		User user = (User)ses.getAttribute("user");
+
+		User user = (User) ses.getAttribute("user");
+		Video video = VideoDAO.getInstance().likeVideo(videoName, user);
+
+		if (video == null) {
+			System.out.println("VIDEO IS NULL");
+			return null;
+		}
+
+		return video;
+	}
+
+	@RequestMapping(value = "video/dislike", method = RequestMethod.GET)
+	public @ResponseBody Video dislikeVideo(HttpSession ses, HttpServletRequest req) {
+		String videoName = req.getParameter("videoName").trim();
+		if (ses.getAttribute("user") == null) {
+			Video video = VideoDAO.getInstance().getVideoByName(videoName);
+			return video;
+		}
+
+		User user = (User) ses.getAttribute("user");
 		Video video = VideoDAO.getInstance().dislikeVideo(videoName, user.getUsername());
-		
-		if(video==null){
+
+		if (video == null) {
 			System.out.println("VIDEO IS NULL");
 			return null;
 		}
 		return video;
 	}
 
+	@RequestMapping(value = "writeComment", method = RequestMethod.POST)
+	public String commentVideo(Model model, HttpSession ses, HttpServletRequest req) {
+		String comment = req.getParameter("commentText").trim();
+		String videoName = req.getParameter("videoName").trim();
+		User user = (User) ses.getAttribute("user");
+		Video video = VideoDAO.getInstance().getVideoByName(videoName);
+		Comment com = CommentDAO.getInstance().saveComment(user, comment, video);
+		System.out.println("COOOOOMENT " + com.getVideoName());
 
-	@RequestMapping(value="writeComment", method=RequestMethod.POST)
-	 public String commentVideo(Model model,HttpSession ses,HttpServletRequest req){
-	  String comment =req.getParameter("commentText").trim();
-	  String videoName =req.getParameter("videoName").trim();
-	  User user = (User)ses.getAttribute("user");
-	  Video video = VideoDAO.getInstance().getVideoByName(videoName);
-	  Comment com = CommentDAO.getInstance().saveComment(user, comment, video);
-	  
-	  if(com==null){
-	   System.out.println("VIDEO IS NULL");
-	   return null;
-	  }
-	  model.addAttribute("comments", video.getVideoComments());
-	  return "comments";
-	 }
-	
+		if (com == null) {
+			System.out.println("VIDEO IS NULL");
+			return null;
+		}
+		model.addAttribute("videoName",video.getName());
+		model.addAttribute("comments", video.getVideoComments());
+		
+		return "comments";
+	}
 
-	@RequestMapping(value="comment/like", method=RequestMethod.POST)
-	 public @ResponseBody long commentLike(HttpSession ses,HttpServletRequest req){
-	  Long commentId =new Long(req.getParameter("commentId"));
-	  String videoName =req.getParameter("videoName").trim();
-	  System.out.println("Video name is @"+videoName+"@commentID="+commentId);
-	  if(ses.getAttribute("user")==null){
-	   return 0;
-	  }
-	  User user = (User)ses.getAttribute("user");
-	  System.out.println("USERNAME -"+user.getUsername()+"-");
-	 
-	  int commentLikes = CommentDAO.getInstance().likeComment(user.getUsername(), videoName, commentId);
-	  System.out.println("Comment likes are "+ commentLikes);
-	  
-	  return commentLikes;
-	 }
-	
+	@RequestMapping(value = "comment/like", method = RequestMethod.POST)
+	public @ResponseBody long commentLike(HttpSession ses, HttpServletRequest req) {
+		Long commentId = new Long(req.getParameter("commentId"));
+		String videoName = req.getParameter("videoName").trim();
+		if (ses.getAttribute("user") == null) {
+			return 0;
+		}
+		User user = (User) ses.getAttribute("user");
+
+		int commentLikes = CommentDAO.getInstance().likeComment(user.getUsername(), videoName, commentId);
+
+		return commentLikes;
+	}
+
 }

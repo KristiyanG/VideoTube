@@ -17,8 +17,8 @@
 		<div class="grid">
 			<h3>${user.username}</h3>
 			<a href="userProfile?name=${user.username}">
-				<img style="width:274px;height:178px;" src="myChannel/${user.profilePic}" title="${user.username }" />
-			</a>	
+				<img style="width:274px;height:178px;" src="myChannel/${user.username}" title="${user.username }" />
+			</a>
     		<div class="grid-info">
 				<div class="video-share"></div>
 				<div class="clear"> </div>

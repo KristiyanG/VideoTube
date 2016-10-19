@@ -33,6 +33,3 @@ function nextVideo(video){
 //	 document.getElementById("videoNewa").innerHTML = resu1lt;
 		    });
 }
-
-
-

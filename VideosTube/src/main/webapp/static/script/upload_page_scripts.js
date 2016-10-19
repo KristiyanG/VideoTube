@@ -59,14 +59,16 @@ function validateName(input){
 	checkName();
 }
 
-function checkName() {
+function checkName(txt) {
+	
+    txt.value = txt.value.replace(/[^a-zA-Z 0-9]+/g, '');
 	var input = document.getElementById('comment').value;
     var status = document.getElementById('videonameAllowedMsg');
 	if(input.length > 0){
 		$.get("isVideoNameAllowed", {videoName : input}, function(result){
 				if(result){
 					status.style.color = "#66cc66";
-					status.innerHTML = "kyp";
+					status.innerHTML = "";
 					status.style.visibility = "hidden" ;
 
 				}else{
@@ -79,6 +81,11 @@ function checkName() {
 		statusUsername.style.visibility='hidden';
 	}
 }
+
+function validate(txt) {
+    txt.value = txt.value.replace(/[^a-zA-Z 0-9]+/g, '');
+}
+
 
 //window.onload = function() {
 //	var dropbox = document.getElementById("drop-zone");

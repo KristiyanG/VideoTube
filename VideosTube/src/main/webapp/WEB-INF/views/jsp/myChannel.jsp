@@ -171,7 +171,7 @@
 			<div style="color:red; id="create-playlist-report"></div>
 			<form action="javascript:createPlaylist()">
 				<div class="playlist-modal-body">
-					<input type="text" font size="9" maxlength="20" minlength="5" onkeyup ="Validate(this)"
+					<input type="text" font size="9" maxlength="20" minlength="5" onkeyup = "Validate(this)"
 						class="playlist-modal-input" id="playlist-name"  placeholder="type here">
 					<input type="submit" class="playlist-modal-submit" value="Create" ">
 			    </div>

@@ -67,7 +67,6 @@ public class RegisterController {
 	
 	@RequestMapping(value="/isUsernameAllowed", method = RequestMethod.GET)
 	public @ResponseBody Boolean isUsernameAllowed(@RequestParam("username") String username){
-		System.out.println("IS USER ALLOED");
 		User user = UserDAO.getInstance().getUserByUsername(username);
 		Boolean alloed = user == null ? true : false; 
 		return user == null;

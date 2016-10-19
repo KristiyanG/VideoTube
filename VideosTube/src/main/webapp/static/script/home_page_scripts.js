@@ -17,8 +17,6 @@ function showMyPlaylists() {
 		document.getElementById("liked-videos-div").innerHTML = result;
     });
 }
-
-
 function search() {
 	var searchField = document.getElementById("search-field").value;
 	var searchType = document.getElementById("search-drop-down").value;
@@ -31,4 +29,7 @@ function search() {
 			function(result){		
 				document.getElementById('videosList').innerHTML = result;
 		    });
+}
+function validate(txt) {
+    txt.value = txt.value.replace(/[^a-zA-Z 0-9]+/g, '');	
 }

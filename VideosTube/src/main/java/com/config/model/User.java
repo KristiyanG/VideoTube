@@ -194,13 +194,11 @@ public class User {
 				list = pl;
 			}
 		}
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@"+list.isVideoInList(videoName));
 		return list.isVideoInList(videoName);
 	}
 	
 	public boolean isLikeComment(String videoName, long comId){
-		Comment com =CommentDAO.getInstance().getCommentById(videoName, comId);
-		
+		Comment com = CommentDAO.getInstance().getCommentById(videoName.trim(), comId);
 		return com.isLikeComment(this.getUsername());
 	}
 

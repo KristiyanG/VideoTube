@@ -40,14 +40,12 @@ public class UsersController {
 		
 		String channelName = req.getParameter("channel");
 		
-		System.out.println("Channel name " + channelName);
 		if(ses.getAttribute("user") == null){
 			return "No user";
 		}
 		User user = (User)ses.getAttribute("user");
 	
 		String result = ChannelDAO.getInstance().subscribeChannel(user.getUsername(), channelName);
-		System.out.println("USERNAME -"+user.getUsername()+"-" + result);
 		
 		return result;
 	}

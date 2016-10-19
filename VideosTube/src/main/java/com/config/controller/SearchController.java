@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +25,8 @@ import com.config.model.Comment;
 import com.config.model.User;
 import com.config.model.Video;
 
-@RestController
+@Controller
 public class SearchController {
-
-	
 
 	@RequestMapping(value = "/doSearch", method = RequestMethod.GET)
 	public String searchBar(@RequestParam("search") String name, @RequestParam("type") String type, Model model) {
@@ -74,7 +73,6 @@ public class SearchController {
 	@ResponseBody
 	public boolean isUserFree(HttpSession ses,HttpServletRequest req) {
 		String username = req.getParameter("username");
-		System.out.println("RAboti li");
 		return UserDAO.getInstance().isUserExist(username);
 	}
 	
@@ -82,7 +80,6 @@ public class SearchController {
 	@ResponseBody
 	public boolean isVideoNameFree(HttpSession ses,HttpServletRequest req) {
 		String videoName = req.getParameter("videoName");
-		System.out.println("RAboti li");
 		return VideoDAO.getInstance().isFreeVideoName(videoName);
 	}
 	
@@ -91,12 +88,10 @@ public class SearchController {
 	public @ResponseBody String addVideoToPlaylist(HttpSession ses,HttpServletRequest req){
 		String playlistName =req.getParameter("playlist");
 		String videoName =req.getParameter("videoName");
-		System.out.println("playlistName "+playlistName);
 		if(ses.getAttribute("user")==null){
 			return "No user";
 		}
 		User user = (User)ses.getAttribute("user");
-		System.out.println("USERNAME -"+user.getUsername()+"-");
 
 		return PlayListDAO.getInstance().addVideoInPlaylist(user.getUsername(), videoName, playlistName);
 	}

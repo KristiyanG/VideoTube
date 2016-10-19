@@ -44,7 +44,6 @@ public class UploadController {
 			@RequestParam("description") String description, Model model, HttpSession ses) throws IOException {
 
 		if (multiPartFile.getSize() > WebInitializer.MAX_FILE_SIZE) {
-			System.out.println("SAKLASKGNASKFJASKL:FJAKLJ");
 			model.addAttribute("status", "File size is > 500MB");
 			return "upload";
 		}
@@ -100,10 +99,7 @@ public class UploadController {
 		model.addAttribute("status", "Video: " + videoName + " uploaded.");
 		String address = VIDEOS_LOCATION.concat("/").concat(fileFullName);
 		String posterLocation = POSTERS_LOCATION.concat("/").concat(poster); // todo
-																				// set
-																				// in
-																				// DB
-		System.out.println("poster location" + posterLocation);
+																				// set																				// DB
 		VideoDAO.getInstance().uploadVideo(videoName, category, description, user.getUsername(), address,
 				posterLocation);
 		return "upload";

@@ -163,7 +163,6 @@ public class ChannelController {
 		}
 
 		boolean isPlaylistCreated = PlayListDAO.getInstance().createPlaylist(name, user.getUsername());
-		System.out.println("PLAYLIST CREATED? " + isPlaylistCreated);
 		model.addAttribute("playlists", user.getPlayLists());
 		if(isPlaylistCreated){
 			model.addAttribute("message", "Playist " + name + " created.");			
